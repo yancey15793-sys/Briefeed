@@ -466,7 +466,7 @@ body{
 [data-theme="light"] #navSearchResults::before{background:rgba(245,244,238,0.82);}
 
 /* ===========================================================
-   VUE « PARCOURIR » — sections par année, grille 2 colonnes
+   VUE « PARCOURIR » — timeline jour → semaine → mois
    (radius conservés ; titres 2 lignes max ; logique existante intacte)
    =========================================================== */
 .browse{
@@ -478,12 +478,36 @@ body{
   letter-spacing:-0.02em; color:var(--text);
   margin-bottom:8px;
 }
+/* Séparateur générique */
 .browse-year{
-  margin-top:36px; margin-bottom:18px;
-  font-weight:800; font-size:46px; line-height:1.02;
-  letter-spacing:-0.03em; color:var(--text);
+  margin-top:40px; margin-bottom:16px;
+  display:flex; align-items:baseline; gap:12px;
 }
-.browse-year:first-of-type{ margin-top:24px; }
+.browse-year:first-of-type{ margin-top:16px; }
+/* Texte du label */
+.browse-year-label{
+  font-weight:800; letter-spacing:-0.03em; color:var(--text);
+}
+/* Quotidien : grand (même hiérarchie qu'avant) */
+.browse-year[data-period="day"] .browse-year-label{
+  font-size:42px; line-height:1.02;
+}
+/* Hebdomadaire : moyen */
+.browse-year[data-period="week"] .browse-year-label{
+  font-size:28px; line-height:1.1;
+}
+/* Mensuel : compact + mois en accent */
+.browse-year[data-period="month"] .browse-year-label{
+  font-size:22px; line-height:1.2;
+}
+.browse-year[data-period="month"] .browse-year-label .browse-month{
+  color:#ff3c32;
+}
+/* Ligne de séparation pour hebdo et mensuel */
+.browse-year[data-period="week"] .browse-year-line,
+.browse-year[data-period="month"] .browse-year-line{
+  flex:1; height:1px; background:var(--border); border-radius:1px;
+}
 
 .browse-grid{
   display:grid;
@@ -2093,56 +2117,8 @@ body{
 
       <!-- ========== VUE PARCOURIR ========== -->
       <div class="view" data-view="browse" hidden>
-      <!-- =========================================================
-           VUE GRILLE — timeline hebdomadaire
-           ========================================================= -->
-      <section class="browse">
-
-        <h3 class="browse-year">Cette semaine</h3>
-        <div class="browse-grid">
-
-          <a href="#" class="browse-card">
-            <div class="hello-img-wrapper"><div class="img" style="background:linear-gradient(135deg,#2a2a2a,#0d0d0d)"></div><span class="duration"><svg viewBox="0 0 10 10" fill="#fff"><polygon points="2,1 9,5 2,9"/></svg>6min</span></div>
-            <div class="b-title">Découvrir les ressources de design sur Apple Developer</div>
-            <div class="b-cat">Tech Talks</div>
-          </a>
-
-          <a href="#" class="browse-card">
-            <div class="hello-img-wrapper"><div class="img" style="background:linear-gradient(135deg,#3a1f2e,#0d0d0d)"></div></div>
-            <div class="b-title">How Infold Games fashioned an open world for Infinity Nikki</div>
-            <div class="b-cat">Articles</div>
-          </a>
-
-          <a href="#" class="browse-card">
-            <div class="hello-img-wrapper"><div class="img" style="background:linear-gradient(135deg,#1a1a1a,#080808)"></div></div>
-            <div class="b-title">Introducing the 2026 Apple Design Award nominees</div>
-            <div class="b-cat">Actualités &mdash; 18 mai 2026</div>
-          </a>
-
-          <a href="#" class="browse-card">
-            <div class="hello-img-wrapper"><div class="img" style="background:linear-gradient(135deg,#3a2614,#0d0d0d)"></div></div>
-            <div class="b-title">Lykke Studios: In pursuit of puffy perfection</div>
-            <div class="b-cat">Articles</div>
-          </a>
-
-        </div>
-
-        <h3 class="browse-year">La semaine dernière</h3>
-        <div class="browse-grid">
-
-          <a href="#" class="browse-card">
-            <div class="hello-img-wrapper"><div class="img" style="background:linear-gradient(135deg,#2d3038,#0d0d0d)"></div><span class="duration"><svg viewBox="0 0 10 10" fill="#fff"><polygon points="2,1 9,5 2,9"/></svg>16min</span></div>
-            <div class="b-title">Avoir un grand impact avec l'accessibilité</div>
-            <div class="b-cat">WWDC25</div>
-          </a>
-
-          <a href="#" class="browse-card">
-            <div class="hello-img-wrapper"><div class="img" style="background:linear-gradient(135deg,#2a2520,#0d0d0d)"></div><span class="duration"><svg viewBox="0 0 10 10" fill="#fff"><polygon points="2,1 9,5 2,9"/></svg>21min</span></div>
-            <div class="b-title">Concevez des widgets vraiment utiles</div>
-            <div class="b-cat">WWDC25</div>
-          </a>
-
-        </div>
+      <section class="browse" id="browseSection">
+        <!-- généré dynamiquement par renderBrowseTimeline() -->
       </section>
       </div><!-- /vue parcourir -->
 
@@ -2331,8 +2307,155 @@ body{
     views.forEach(v => { if (!v.hidden) current = v.dataset.view; });
     const next = order[(order.indexOf(current) + 1) % order.length];
     views.forEach(v => { v.hidden = v.dataset.view !== next; });
+    if (next === 'browse') renderBrowseTimeline();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
+
+  // =========================================================
+  //  TIMELINE GRILLE — quotidien → hebdomadaire → mensuel
+  //  "Mon édition du jour" couvre le jour en cours.
+  //  La timeline commence à J-1 (hier).
+  // =========================================================
+
+  // Jeu d'articles demo — dates relatives à today (29 mai 2026)
+  const BROWSE_ARTICLES = [
+    // ── Hier (28 mai) ──
+    { title:"Les modèles IA dépassent les experts humains en raisonnement scientifique", cat:"The Verge · 28 mai", grad:"135deg,#1a1040,#080808", daysAgo:1 },
+    { title:"Liquid Glass : six semaines après le lancement, le bilan des développeurs", cat:"9to5Mac · 28 mai", grad:"135deg,#0d1a10,#080808", daysAgo:1 },
+    { title:"Tactique NBA : comment Boston a éteint les Knicks en G7", cat:"The Athletic · 28 mai", grad:"135deg,#1a0a0a,#080808", daysAgo:1 },
+    { title:"Gemini Ultra 2.0 : le benchmark qui change la donne", cat:"Wired · 28 mai", grad:"135deg,#0a0a1a,#080808", daysAgo:1 },
+
+    // ── Lundi 27 mai ──
+    { title:"Mercato : le PSG prêt à casser la tirelire pour Vinicius Jr", cat:"L'Équipe · 27 mai", grad:"135deg,#2a1014,#080808", daysAgo:2 },
+    { title:"Apple finalise sa puce Neural Engine M5 pour l'automne", cat:"Bloomberg · 27 mai", grad:"135deg,#101028,#080808", daysAgo:2 },
+
+    // ── Dimanche 26 mai ──
+    { title:"Typographie variable en 2026 : le nouveau standard du web mobile", cat:"Smashing Mag · 26 mai", grad:"135deg,#1a1006,#080808", daysAgo:3 },
+    { title:"Cannes 2026 : Palme d'Or pour le film qui a divisé la Croisette", cat:"Première · 26 mai", grad:"135deg,#28100a,#080808", daysAgo:3 },
+
+    // ── Samedi 25 mai ──
+    { title:"Open de Roland-Garros : Alcaraz et Sinner en demies, les stats clés", cat:"Eurosport · 25 mai", grad:"135deg,#0a200a,#080808", daysAgo:4 },
+    { title:"ChatGPT Voice atteint 100 millions d'utilisateurs quotidiens", cat:"TechCrunch · 25 mai", grad:"135deg,#200a20,#080808", daysAgo:4 },
+
+    // ── Semaine dernière (19-24 mai) ──
+    { title:"Comment Spotify a reconstruit son moteur de recommandation avec du RL", cat:"Engineering Blog · 23 mai", grad:"135deg,#102018,#080808", daysAgo:6 },
+    { title:"Ligue des champions : Real Madrid champion pour la 16ème fois", cat:"ESPN FC · 22 mai", grad:"135deg,#1c1400,#080808", daysAgo:7 },
+    { title:"Le CNRS annonce une percée sur la fusion nucléaire à température ambiante", cat:"Science & Avenir · 21 mai", grad:"135deg,#001428,#080808", daysAgo:8 },
+    { title:"NBA Draft Lottery 2026 : Sacramento en pole position", cat:"Bleacher Report · 20 mai", grad:"135deg,#200808,#080808", daysAgo:9 },
+    { title:"iOS 20 : les premières captures de la bêta développeurs", cat:"Ars Technica · 19 mai", grad:"135deg,#141428,#080808", daysAgo:10 },
+
+    // ── Il y a 2 semaines (12-18 mai) ──
+    { title:"LeBron James officialise sa retraite avec un message poignant", cat:"ESPN NBA · 17 mai", grad:"135deg,#281410,#080808", daysAgo:12 },
+    { title:"Bauhaus à 100 ans : l'exposition qui redéfinit son héritage numérique", cat:"It's Nice That · 15 mai", grad:"135deg,#0a1820,#080808", daysAgo:14 },
+    { title:"La BCE remonte ses taux face à l'inflation persistante", cat:"Bloomberg · 14 mai", grad:"135deg,#201820,#080808", daysAgo:15 },
+
+    // ── Il y a 3 semaines (5-11 mai) ──
+    { title:"Google I/O 2026 : toutes les annonces en une page", cat:"The Verge · 8 mai", grad:"135deg,#0a200a,#080808", daysAgo:21 },
+    { title:"Anatomy of a modern design system — Apple Human Interface Guidelines 2026", cat:"Smashing Mag · 6 mai", grad:"135deg,#18180a,#080808", daysAgo:23 },
+
+    // ── Avril 2026 ──
+    { title:"Cannes 2026 : la sélection officielle divise déjà la critique", cat:"Cahiers du Cinéma · 28 avr", grad:"135deg,#180a10,#080808", daysAgo:31 },
+    { title:"Deepseek R3 vs GPT-5 : le comparatif définitif", cat:"MIT Tech Review · 22 avr", grad:"135deg,#0a1020,#080808", daysAgo:37 },
+    { title:"Ligue 1 : le PSG champion avec 5 journées d'avance", cat:"L'Équipe · 15 avr", grad:"135deg,#1e1200,#080808", daysAgo:44 },
+    { title:"James Webb capture une nouvelle image de la collision galactique d'Antennae", cat:"NASA · 10 avr", grad:"135deg,#080828,#080808", daysAgo:49 },
+
+    // ── Mars 2026 ──
+    { title:"Arc Browser 3.0 : la refonte complète de l'interface qui fait débat", cat:"The Verge · 28 mars", grad:"135deg,#1c2020,#080808", daysAgo:62 },
+    { title:"Stephen Curry annonce sa saison finale : le bilan d'une légende", cat:"ESPN NBA · 15 mars", grad:"135deg,#280808,#080808", daysAgo:75 },
+  ];
+
+  function _browseGroupLabel(daysAgo) {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const articleDate = new Date(today); articleDate.setDate(today.getDate() - daysAgo);
+
+    if (daysAgo === 0) return null; // aujourd'hui → "Mon édition du jour"
+    if (daysAgo === 1) return { key:'Hier', period:'day', label:'Hier', line:false };
+
+    // Jours nommés dans la semaine courante
+    const startOfWeek = new Date(today);
+    const dow = today.getDay(); // 0=dim
+    startOfWeek.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1));
+    if (articleDate >= startOfWeek) {
+      const JOURS = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+      const nom = JOURS[articleDate.getDay()];
+      return { key: nom, period:'day', label: nom, line:false };
+    }
+
+    // Semaines précédentes
+    const startLastWeek = new Date(startOfWeek); startLastWeek.setDate(startOfWeek.getDate() - 7);
+    if (articleDate >= startLastWeek) return { key:'week1', period:'week', label:'La semaine dernière', line:true };
+
+    const start2W = new Date(startOfWeek); start2W.setDate(startOfWeek.getDate() - 14);
+    if (articleDate >= start2W) return { key:'week2', period:'week', label:'Il y a 2 semaines', line:true };
+
+    const start3W = new Date(startOfWeek); start3W.setDate(startOfWeek.getDate() - 21);
+    if (articleDate >= start3W) return { key:'week3', period:'week', label:'Il y a 3 semaines', line:true };
+
+    // À partir de 4 semaines : basculement mensuel
+    // (on reste en "Il y a 3 semaines" jusqu'à la fin du mois courant moins 28j)
+    const MOIS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+    const key = `${articleDate.getFullYear()}-${articleDate.getMonth()}`;
+    const monthName = MOIS[articleDate.getMonth()];
+    const year = articleDate.getFullYear();
+    const label = year === now.getFullYear() ? monthName : `${monthName} ${year}`;
+    return { key, period:'month', label, line:true };
+  }
+
+  function renderBrowseTimeline() {
+    const section = document.getElementById('browseSection');
+    if (!section || section.dataset.built) return;
+    section.dataset.built = '1';
+
+    // Grouper les articles
+    const groups = new Map();
+    BROWSE_ARTICLES.forEach(art => {
+      const g = _browseGroupLabel(art.daysAgo);
+      if (!g) return; // aujourd'hui ignoré ici
+      if (!groups.has(g.key)) groups.set(g.key, { meta: g, articles: [] });
+      groups.get(g.key).articles.push(art);
+    });
+
+    let html = '';
+    groups.forEach(({ meta, articles }) => {
+      // Séparateur timeline
+      if (meta.period === 'day') {
+        html += `<h3 class="browse-year" data-period="day">
+          <span class="browse-year-label">${meta.label}</span>
+        </h3>`;
+      } else if (meta.period === 'week') {
+        html += `<h3 class="browse-year" data-period="week">
+          <span class="browse-year-label">${meta.label}</span>
+          <span class="browse-year-line"></span>
+        </h3>`;
+      } else {
+        // Mensuel : mois en rouge, année en texte normal
+        const parts = meta.label.split(' ');
+        const monthHtml = parts.length === 2
+          ? `<span class="browse-month">${parts[0]}</span> ${parts[1]}`
+          : `<span class="browse-month">${meta.label}</span>`;
+        html += `<h3 class="browse-year" data-period="month">
+          <span class="browse-year-label">${monthHtml}</span>
+          <span class="browse-year-line"></span>
+        </h3>`;
+      }
+      // Grille d'articles
+      html += `<div class="browse-grid">`;
+      articles.forEach(art => {
+        html += `<a href="#" class="browse-card">
+          <div class="hello-img-wrapper">
+            <div class="img" style="background:linear-gradient(${art.grad})"></div>
+          </div>
+          <div class="b-title">${art.title}</div>
+          <div class="b-cat">${art.cat}</div>
+        </a>`;
+      });
+      html += `</div>`;
+    });
+
+    section.innerHTML = html;
+  }
+
 
   // ---- Nom optionnel de l'utilisateur (éditable + mémorisé) ----
   const nameEl = document.getElementById('userName');
