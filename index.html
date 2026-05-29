@@ -1069,6 +1069,88 @@ body{
 
 /* État vide */
 .pp-empty{ padding:40px 8px; text-align:center; color:var(--text-muted); font-size:14px; line-height:1.6; }
+
+/* ===========================================================
+   PAGE DÉCOUVRIR — ajout de flux par thématique (cartes Apple)
+   =========================================================== */
+.dc-page{ position:fixed; inset:0; z-index:110; background:var(--bg); display:flex; flex-direction:column; opacity:0; visibility:hidden; transform:translateY(16px) scale(.992); transition:opacity .4s ease, transform .55s cubic-bezier(.16,1,.3,1), visibility .4s ease; }
+.dc-page.open{ opacity:1; visibility:visible; transform:none; }
+
+.dc-topbar{ flex:none; display:flex; align-items:center; gap:12px; padding:14px 18px; border-bottom:1px solid var(--border); }
+[data-theme="light"] .dc-topbar{ border-bottom-color:rgba(0,0,0,.08); }
+.dc-back{ width:36px;height:36px;flex:none;border:0;cursor:pointer;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);color:var(--text);transition:background .2s,transform .15s; }
+.dc-back:hover{ background:rgba(255,255,255,.12); }
+.dc-back:active{ transform:scale(.9); }
+[data-theme="light"] .dc-back{ background:rgba(0,0,0,.05); }
+.dc-back svg{ width:18px; height:18px; }
+.dc-topbar-title{ font-family:var(--font-inter); font-size:17px; font-weight:800; letter-spacing:-0.02em; color:var(--text); }
+
+.dc-scroll{ flex:1; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+.dc-scroll::-webkit-scrollbar{ display:none; }
+.dc-inner{ max-width:1100px; margin:0 auto; padding:26px 22px 90px; }
+
+.dc-search{
+  width:100%; padding:14px 16px 14px 44px; margin-bottom:32px;
+  border-radius:14px; border:1px solid var(--border);
+  background:var(--bg-elev) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E") no-repeat 16px center;
+  font-family:var(--font-inter); font-size:15.5px; font-weight:600; color:var(--text); outline:none; transition:border-color .2s;
+}
+.dc-search:focus{ border-color:var(--accent); }
+
+/* Section thématique */
+.dc-theme{ margin-bottom:48px; }
+.dc-theme-title{ font-family:var(--font-inter); font-size:30px; font-weight:800; letter-spacing:-0.03em; color:var(--text); margin:0 0 3px; }
+.dc-theme-sub{ font-size:14px; color:var(--text-muted); margin:0 0 24px; }
+
+/* Bloc flux */
+.dc-feed{ margin-bottom:36px; }
+.dc-feed-head{ display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+.dc-fav{ width:42px; height:42px; flex:none; border-radius:12px; display:flex; align-items:center; justify-content:center; font-family:var(--font-inter); font-weight:800; font-size:17px; color:#fff; }
+.dc-feed-meta{ flex:1; min-width:0; }
+.dc-feed-name{ font-family:var(--font-inter); font-size:17px; font-weight:800; color:var(--text); letter-spacing:-0.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.dc-feed-cat{ font-size:13px; color:var(--text-muted); margin-top:1px; }
+.dc-sub{ flex:none; border:0; cursor:pointer; font-family:var(--font-inter); font-size:13.5px; font-weight:700; letter-spacing:-0.01em; padding:9px 18px; border-radius:999px; background:var(--accent); color:#fff; transition:transform .15s, background .2s; -webkit-tap-highlight-color:transparent; }
+.dc-sub:active{ transform:scale(.94); }
+.dc-sub.subbed{ background:rgba(255,255,255,.1); color:var(--text); }
+[data-theme="light"] .dc-sub.subbed{ background:rgba(0,0,0,.06); }
+
+/* Carrousel d'articles */
+.dc-carousel{ display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory; padding:2px 2px 10px; scrollbar-width:none; }
+.dc-carousel::-webkit-scrollbar{ display:none; }
+
+/* Carte article — design Apple fourni (image + dégradé, pastille, titre, date) */
+.dc-tile{ position:relative; flex:none; width:290px; height:360px; border-radius:24px; overflow:hidden; background:#fff; scroll-snap-align:start; cursor:pointer; transition:transform .45s cubic-bezier(.32,.72,0,1), box-shadow .3s ease; box-shadow:0 6px 22px rgba(0,0,0,.28); }
+.dc-tile:hover{ transform:translateY(-5px); box-shadow:0 16px 40px rgba(0,0,0,.4); }
+.dc-tile-img{ position:absolute; inset:0; background-size:cover; background-position:center top; }
+/* Dégradé Apple : commence exactement à 27.91% depuis le haut */
+.dc-tile::before{ content:""; position:absolute; left:0; right:0; top:27.91%; bottom:0; background:linear-gradient(180deg,rgba(0,0,0,0) 0%,#000 100%); z-index:1; }
+.dc-tile-body{ position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex; flex-direction:column; align-items:flex-start; padding:24px; gap:0; }
+/* Catégorie : texte brut uppercase — pas de pastille (spec Apple Stories) */
+.dc-cat{ font-family:var(--font-inter); font-size:12px; font-weight:700; line-height:16px; letter-spacing:-0.12px; text-transform:uppercase; color:#fff; }
+/* Titre : 21px/700, line-height 25px, letter-spacing +0.231px */
+.dc-tile-title{ font-family:var(--font-inter); font-size:21px; font-weight:700; line-height:25px; letter-spacing:0.231px; color:#fff; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-top:8px; }
+/* Date / source : semibold 14px/18px, letter-spacing -0.224px */
+.dc-tile-date{ font-family:var(--font-inter); font-size:14px; font-weight:590; line-height:18px; letter-spacing:-0.224px; color:#fff; margin-top:12px; }
+
+@media (max-width:860px){
+  .dc-inner{ padding:18px 16px 90px; }
+  .dc-theme-title{ font-size:26px; }
+  .dc-tile{ width:270px; height:342px; }
+  .dc-tile-title{ font-size:20px; line-height:24px; }
+}
+/* En-tête de section thématique */
+.dc-theme-header{ margin-bottom:22px; }
+/* Chips sources abonnement sous le carrousel */
+.dc-sources{ display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; margin-bottom:6px; }
+.dc-subsource{
+  border:1px solid rgba(255,255,255,.14); background:transparent;
+  color:var(--text-muted); font-family:var(--font-inter); font-size:13px; font-weight:700;
+  padding:7px 16px; border-radius:999px; cursor:pointer; letter-spacing:-.01em;
+  transition:border-color .2s, color .2s, background .2s; -webkit-tap-highlight-color:transparent;
+}
+.dc-subsource:hover{ border-color:var(--accent); color:var(--accent); }
+.dc-subsource.subbed{ background:var(--accent); color:#fff; border-color:var(--accent); }
+[data-theme="light"] .dc-subsource{ border-color:rgba(0,0,0,.14); }
 </style>
 </head>
 <body>
@@ -1179,6 +1261,27 @@ body{
   <!-- ===================================================================
        PAGE PRÉFÉRENCES — layout Settings Apple (deux volets)
        =================================================================== -->
+  <!-- ===================================================================
+       PAGE DÉCOUVRIR — ajout de flux par thématique
+       =================================================================== -->
+  <div class="dc-page" id="discoverPage" aria-hidden="true">
+
+    <div class="dc-topbar">
+      <button class="dc-back" id="discoverBack" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <span class="dc-topbar-title">Découvrir</span>
+    </div>
+
+    <div class="dc-scroll">
+      <div class="dc-inner">
+        <input type="text" class="dc-search" id="dcSearch" placeholder="Rechercher des sources…">
+        <div id="dcCatalog"></div>
+      </div>
+    </div>
+
+  </div>
+
   <div class="pp-page" id="prefsPage" aria-hidden="true">
 
     <div class="pp-topbar">
@@ -2427,6 +2530,163 @@ body{
   }
   // Exposer pour appel à l'ouverture
   window.__renderPrefsContent = renderPrefsContent;
+
+  // =========================================================
+  //  PAGE DÉCOUVRIR — galeries thématiques illustrées (SVG)
+  // =========================================================
+
+  // Bibliothèque SVG — une illustration par carte (data URI safe, IDs locaux)
+  const DC_SVG = {
+    // ── Tech & IA ─────────────────────────────────────────
+    neural:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="g" cx="50%" cy="38%" r="58%"><stop offset="0%" stop-color="#2010b0"/><stop offset="100%" stop-color="#04030e"/></radialGradient></defs><rect width="341" height="365" fill="url(#g)"/><g stroke="#3a3aff" stroke-width=".7" opacity=".4"><line x1="50" y1="60" x2="150" y2="40"/><line x1="50" y1="100" x2="150" y2="40"/><line x1="50" y1="140" x2="150" y2="40"/><line x1="50" y1="60" x2="150" y2="100"/><line x1="50" y1="100" x2="150" y2="100"/><line x1="50" y1="140" x2="150" y2="100"/><line x1="50" y1="60" x2="150" y2="160"/><line x1="50" y1="100" x2="150" y2="160"/><line x1="50" y1="140" x2="150" y2="160"/><line x1="150" y1="40" x2="250" y2="70"/><line x1="150" y1="100" x2="250" y2="70"/><line x1="150" y1="160" x2="250" y2="70"/><line x1="150" y1="40" x2="250" y2="130"/><line x1="150" y1="100" x2="250" y2="130"/><line x1="150" y1="160" x2="250" y2="130"/><line x1="250" y1="70" x2="310" y2="100"/><line x1="250" y1="130" x2="310" y2="100"/></g><g fill="white"><circle cx="50" cy="60" r="5"/><circle cx="50" cy="100" r="5"/><circle cx="50" cy="140" r="5"/><circle cx="150" cy="40" r="6"/><circle cx="150" cy="100" r="6"/><circle cx="150" cy="160" r="6"/><circle cx="250" cy="70" r="7"/><circle cx="250" cy="130" r="7"/><circle cx="310" cy="100" r="9"/></g><circle cx="310" cy="100" r="22" fill="none" stroke="#5050ff" stroke-width="1" opacity=".35"/></svg>`,
+    chip:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#040c16"/><rect x="90" y="50" width="161" height="161" rx="12" fill="#081428" stroke="#1a3a6e" stroke-width="2"/><rect x="106" y="66" width="129" height="129" rx="6" fill="#0a1e3e"/><g stroke="#1a3a6e" stroke-width=".7" opacity=".8"><line x1="106" y1="90" x2="235" y2="90"/><line x1="106" y1="114" x2="235" y2="114"/><line x1="106" y1="138" x2="235" y2="138"/><line x1="106" y1="162" x2="235" y2="162"/><line x1="130" y1="66" x2="130" y2="195"/><line x1="154" y1="66" x2="154" y2="195"/><line x1="178" y1="66" x2="178" y2="195"/><line x1="202" y1="66" x2="202" y2="195"/></g><rect x="142" y="98" width="57" height="57" rx="4" fill="#1a3a6e" opacity=".9"/><text x="170" y="133" text-anchor="middle" fill="#4a9eff" font-size="14" font-family="monospace" font-weight="bold" letter-spacing="-1">A18</text><g stroke="#4a9eff" stroke-width="2" stroke-linecap="round"><line x1="90" y1="82" x2="60" y2="82"/><line x1="90" y1="106" x2="60" y2="106"/><line x1="90" y1="130" x2="60" y2="130"/><line x1="90" y1="154" x2="60" y2="154"/><line x1="90" y1="178" x2="60" y2="178"/><line x1="251" y1="82" x2="281" y2="82"/><line x1="251" y1="106" x2="281" y2="106"/><line x1="251" y1="130" x2="281" y2="130"/><line x1="251" y1="154" x2="281" y2="154"/><line x1="251" y1="178" x2="281" y2="178"/><line x1="114" y1="50" x2="114" y2="20"/><line x1="138" y1="50" x2="138" y2="20"/><line x1="162" y1="50" x2="162" y2="20"/><line x1="186" y1="50" x2="186" y2="20"/><line x1="210" y1="50" x2="210" y2="20"/><line x1="114" y1="211" x2="114" y2="241"/><line x1="138" y1="211" x2="138" y2="241"/><line x1="162" y1="211" x2="162" y2="241"/><line x1="186" y1="211" x2="186" y2="241"/><line x1="210" y1="211" x2="210" y2="241"/></g></svg>`,
+    terminal:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#0d1117"/><rect x="20" y="20" width="301" height="200" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1"/><circle cx="42" cy="42" r="6" fill="#ff5f57"/><circle cx="62" cy="42" r="6" fill="#febc2e"/><circle cx="82" cy="42" r="6" fill="#28c840"/><g fill="#00d170" opacity=".75"><rect x="36" y="65" width="190" height="6" rx="2"/><rect x="36" y="81" width="130" height="6" rx="2" opacity=".5"/><rect x="36" y="97" width="220" height="6" rx="2"/><rect x="36" y="113" width="80" height="6" rx="2" opacity=".6"/><rect x="36" y="129" width="170" height="6" rx="2"/><rect x="36" y="145" width="200" height="6" rx="2" opacity=".4"/><rect x="36" y="161" width="60" height="6" rx="2"/><rect x="36" y="177" width="250" height="6" rx="2" opacity=".5"/></g><rect x="36" y="193" width="9" height="15" rx="1" fill="#00d170"/></svg>`,
+    datavis:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="b1" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#003070"/><stop offset="100%" stop-color="#0055ee"/></linearGradient><linearGradient id="b2" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#003070"/><stop offset="100%" stop-color="#00aaff"/></linearGradient></defs><rect width="341" height="365" fill="#03070e"/><line x1="42" y1="25" x2="42" y2="220" stroke="#1a3050" stroke-width="1"/><line x1="42" y1="220" x2="320" y2="220" stroke="#1a3050" stroke-width="1"/><g opacity=".85"><rect x="60" y="120" width="32" height="100" rx="3" fill="url(#b1)"/><rect x="104" y="75" width="32" height="145" rx="3" fill="url(#b2)"/><rect x="148" y="48" width="32" height="172" rx="3" fill="url(#b1)"/><rect x="192" y="90" width="32" height="130" rx="3" fill="url(#b2)"/><rect x="236" y="38" width="32" height="182" rx="3" fill="url(#b1)"/><rect x="280" y="68" width="32" height="152" rx="3" fill="url(#b2)"/></g><polyline points="76,120 120,75 164,48 208,90 252,38 296,68" fill="none" stroke="#00aaff" stroke-width="2" opacity=".7"/><g fill="#00aaff" opacity=".9"><circle cx="76" cy="120" r="4"/><circle cx="120" cy="75" r="4"/><circle cx="164" cy="48" r="4"/><circle cx="208" cy="90" r="4"/><circle cx="252" cy="38" r="4"/><circle cx="296" cy="68" r="4"/></g></svg>`,
+    // ── Design & Créa ─────────────────────────────────────
+    bauhaus:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#f5f0e8"/><circle cx="170" cy="120" r="105" fill="#e63329" opacity=".95"/><rect x="70" y="68" width="130" height="130" fill="#003fa3" opacity=".88"/><polygon points="200,35 300,185 100,185" fill="#f5c800" opacity=".92"/><line x1="0" y1="250" x2="341" y2="250" stroke="#1a1a1a" stroke-width="2.5"/><g fill="#1a1a1a" opacity=".2"><rect x="28" y="262" width="90" height="4" rx="2"/><rect x="28" y="274" width="130" height="4" rx="2"/><rect x="28" y="286" width="70" height="4" rx="2"/></g></svg>`,
+    typo:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#080808"/><text x="-5" y="230" font-size="300" font-family="Georgia,serif" font-weight="700" fill="#fff" opacity=".04">A</text><text x="24" y="130" font-size="100" font-family="Georgia,serif" font-weight="700" fill="#fff" opacity=".92" letter-spacing="-5">Aa</text><g stroke="#2a2a2a" stroke-width=".8"><line x1="24" y1="138" x2="317" y2="138"/><line x1="24" y1="155" x2="317" y2="155"/><line x1="24" y1="36" x2="317" y2="36"/></g><g fill="#fff" opacity=".1"><rect x="24" y="165" width="210" height="5" rx="2"/><rect x="24" y="178" width="160" height="5" rx="2"/><rect x="24" y="191" width="240" height="5" rx="2"/></g></svg>`,
+    palette:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#111"/><rect x="0" y="0" width="341" height="52" fill="#ff3b30"/><rect x="0" y="52" width="341" height="52" fill="#ff9500"/><rect x="0" y="104" width="341" height="52" fill="#ffcc00"/><rect x="0" y="156" width="341" height="52" fill="#34c759"/><rect x="0" y="208" width="341" height="52" fill="#007aff"/><rect x="0" y="260" width="341" height="52" fill="#5856d6"/><rect x="0" y="312" width="341" height="53" fill="#ff2d55"/></svg>`,
+    grid:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#f4f0ea"/><g stroke="#cfc8b4" stroke-width=".6"><line x1="0" y1="20" x2="341" y2="20"/><line x1="0" y1="40" x2="341" y2="40"/><line x1="0" y1="60" x2="341" y2="60"/><line x1="0" y1="80" x2="341" y2="80"/><line x1="0" y1="100" x2="341" y2="100"/><line x1="0" y1="120" x2="341" y2="120"/><line x1="0" y1="140" x2="341" y2="140"/><line x1="0" y1="160" x2="341" y2="160"/><line x1="0" y1="180" x2="341" y2="180"/><line x1="0" y1="200" x2="341" y2="200"/><line x1="20" y1="0" x2="20" y2="365"/><line x1="40" y1="0" x2="40" y2="365"/><line x1="60" y1="0" x2="60" y2="365"/><line x1="80" y1="0" x2="80" y2="365"/><line x1="100" y1="0" x2="100" y2="365"/><line x1="120" y1="0" x2="120" y2="365"/><line x1="140" y1="0" x2="140" y2="365"/><line x1="160" y1="0" x2="160" y2="365"/><line x1="180" y1="0" x2="180" y2="365"/><line x1="200" y1="0" x2="200" y2="365"/><line x1="220" y1="0" x2="220" y2="365"/><line x1="240" y1="0" x2="240" y2="365"/><line x1="260" y1="0" x2="260" y2="365"/><line x1="280" y1="0" x2="280" y2="365"/><line x1="300" y1="0" x2="300" y2="365"/><line x1="320" y1="0" x2="320" y2="365"/></g><rect x="28" y="28" width="218" height="136" fill="none" stroke="#1a1a1a" stroke-width="2"/><rect x="28" y="28" width="136" height="136" fill="none" stroke="#e63329" stroke-width="2"/><path d="M164,28 Q164,164 28,164" fill="none" stroke="#e63329" stroke-width="2.5"/></svg>`,
+    // ── Sport ─────────────────────────────────────────────
+    basketball:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#7a2e00"/><rect x="18" y="25" width="305" height="195" rx="6" fill="#8c3a00" stroke="#e0aa40" stroke-width="2.5"/><line x1="170" y1="25" x2="170" y2="220" stroke="#e0aa40" stroke-width="2.5"/><circle cx="170" cy="122" r="46" fill="none" stroke="#e0aa40" stroke-width="2.5"/><circle cx="170" cy="122" r="7" fill="#e0aa40"/><rect x="138" y="25" width="64" height="35" fill="none" stroke="#e0aa40" stroke-width="2"/><rect x="138" y="185" width="64" height="35" fill="none" stroke="#e0aa40" stroke-width="2"/><rect x="18" y="52" width="68" height="110" fill="none" stroke="#e0aa40" stroke-width="1.5"/><rect x="255" y="52" width="68" height="110" fill="none" stroke="#e0aa40" stroke-width="1.5"/></svg>`,
+    soccer:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#155c15"/><rect x="12" y="12" width="317" height="210" rx="6" fill="#1a6e1a" stroke="#fff" stroke-width="2.5"/><line x1="170" y1="12" x2="170" y2="222" stroke="#fff" stroke-width="2"/><circle cx="170" cy="117" r="40" fill="none" stroke="#fff" stroke-width="2"/><circle cx="170" cy="117" r="5" fill="#fff"/><rect x="12" y="58" width="60" height="118" fill="none" stroke="#fff" stroke-width="2"/><rect x="269" y="58" width="60" height="118" fill="none" stroke="#fff" stroke-width="2"/><rect x="12" y="80" width="28" height="74" fill="none" stroke="#fff" stroke-width="1.5"/><rect x="301" y="80" width="28" height="74" fill="none" stroke="#fff" stroke-width="1.5"/></svg>`,
+    podium:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0a0a18"/><stop offset="100%" stop-color="#18182e"/></linearGradient></defs><rect width="341" height="365" fill="url(#pg)"/><circle cx="170" cy="100" r="130" fill="#ffd700" opacity=".07"/><rect x="116" y="105" width="110" height="130" rx="5" fill="#ffd700"/><rect x="46" y="140" width="80" height="95" rx="5" fill="#c0c0c0" opacity=".95"/><rect x="216" y="158" width="80" height="77" rx="5" fill="#cd7f32" opacity=".95"/><text x="170" y="83" text-anchor="middle" font-size="34" fill="#ffd700">&#9733;</text><text x="86" y="125" text-anchor="middle" font-size="26" fill="#c0c0c0">&#9733;</text><text x="256" y="143" text-anchor="middle" font-size="22" fill="#cd7f32">&#9733;</text><text x="170" y="158" text-anchor="middle" font-size="30" font-weight="900" fill="#0a0a18" font-family="Georgia">1</text><text x="86" y="196" text-anchor="middle" font-size="26" font-weight="900" fill="#1a1a2e" font-family="Georgia">2</text><text x="256" y="210" text-anchor="middle" font-size="22" font-weight="900" fill="#1a1a2e" font-family="Georgia">3</text></svg>`,
+    track:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#0a0200"/><ellipse cx="170" cy="120" rx="150" ry="90" fill="#8b1a00" stroke="#e8c060" stroke-width="3"/><ellipse cx="170" cy="120" rx="120" ry="62" fill="#6e1500" stroke="#e8c060" stroke-width="2"/><ellipse cx="170" cy="120" rx="90" ry="38" fill="#5a1000"/><ellipse cx="170" cy="120" rx="60" ry="20" fill="#4a0c00"/><g stroke="#e8c060" stroke-width="1" opacity=".6"><ellipse cx="170" cy="120" rx="135" ry="76"/><ellipse cx="170" cy="120" rx="105" ry="50"/><ellipse cx="170" cy="120" rx="75" ry="29"/></g></svg>`,
+    // ── Actualités ───────────────────────────────────────
+    globe:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="gg" cx="42%" cy="36%" r="52%"><stop offset="0%" stop-color="#1a4a8a"/><stop offset="100%" stop-color="#050a12"/></radialGradient></defs><rect width="341" height="365" fill="#06080f"/><circle cx="170" cy="115" r="95" fill="url(#gg)" stroke="#1e3a6a" stroke-width="1.5"/><ellipse cx="170" cy="115" rx="95" ry="28" fill="none" stroke="#1e3a6a" stroke-width="1" opacity=".6"/><ellipse cx="170" cy="115" rx="95" ry="65" fill="none" stroke="#1e3a6a" stroke-width="1" opacity=".5"/><ellipse cx="170" cy="115" rx="48" ry="95" fill="none" stroke="#1e3a6a" stroke-width="1" opacity=".5"/><line x1="75" y1="115" x2="265" y2="115" stroke="#1e3a6a" stroke-width="1" opacity=".7"/><g fill="#4a9eff"><circle cx="158" cy="85" r="3.5"/><circle cx="198" cy="100" r="3"/><circle cx="142" cy="112" r="3.5"/><circle cx="188" cy="130" r="3"/><circle cx="172" cy="92" r="4"/></g><g stroke="#4a9eff" stroke-width=".7" opacity=".5"><line x1="158" y1="85" x2="198" y2="100"/><line x1="198" y1="100" x2="188" y2="130"/><line x1="142" y1="112" x2="172" y2="92"/></g></svg>`,
+    press:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#080808"/><rect x="20" y="20" width="301" height="210" rx="5" fill="#0f0f0f" stroke="#1f1f1f" stroke-width="1"/><rect x="30" y="30" width="281" height="35" fill="#e8e8e8" rx="2"/><text x="42" y="54" font-size="20" font-weight="800" fill="#111" font-family="Georgia,serif" letter-spacing="1">BRIEFEED</text><rect x="30" y="75" width="281" height="1.5" fill="#fff" opacity=".1"/><g fill="#fff" opacity=".08"><rect x="30" y="86" width="133" height="120" rx="2"/><rect x="171" y="86" width="140" height="120" rx="2"/></g><g fill="#fff" opacity=".45"><rect x="36" y="92" width="118" height="5" rx="2"/><rect x="36" y="103" width="95" height="3" rx="1"/><rect x="36" y="111" width="110" height="3" rx="1"/><rect x="177" y="92" width="128" height="5" rx="2"/><rect x="177" y="103" width="105" height="3" rx="1"/><rect x="177" y="111" width="120" height="3" rx="1"/></g></svg>`,
+    live:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#090000"/><circle cx="170" cy="100" r="70" fill="#cc0000" opacity=".12"/><circle cx="170" cy="100" r="16" fill="#cc0000"/><circle cx="170" cy="100" r="10" fill="#ff2020"/><g fill="none" stroke="#cc0000"><circle cx="170" cy="100" r="35" stroke-width="1" opacity=".45"/><circle cx="170" cy="100" r="55" stroke-width=".8" opacity=".3"/><circle cx="170" cy="100" r="75" stroke-width=".5" opacity=".15"/></g><text x="170" y="195" text-anchor="middle" font-size="58" font-weight="900" fill="#fff" font-family="Helvetica,Arial" letter-spacing="-2">LIVE</text><rect x="25" y="210" width="291" height="3" rx="1" fill="#cc0000" opacity=".5"/></svg>`,
+    breaking:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#0c0000"/><text x="-10" y="120" font-size="105" font-weight="900" fill="#cc0000" font-family="Helvetica,Arial" opacity=".1" letter-spacing="-4">BREAK</text><text x="-10" y="215" font-size="105" font-weight="900" fill="#cc0000" font-family="Helvetica,Arial" opacity=".1" letter-spacing="-4">ING</text><rect x="0" y="130" width="341" height="52" fill="#cc0000"/><text x="20" y="164" font-size="22" font-weight="900" fill="#fff" font-family="Helvetica,Arial" letter-spacing="1.5">BREAKING NEWS</text><rect x="0" y="187" width="341" height="30" fill="#111"/><rect x="18" y="197" width="270" height="8" rx="4" fill="#333"/></svg>`,
+    // ── Science ───────────────────────────────────────────
+    cosmos:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="cg" cx="50%" cy="42%" r="55%"><stop offset="0%" stop-color="#1a0550"/><stop offset="100%" stop-color="#020009"/></radialGradient><radialGradient id="pg" cx="38%" cy="38%" r="60%"><stop offset="0%" stop-color="#ffe060"/><stop offset="55%" stop-color="#c88a00"/><stop offset="100%" stop-color="#6a4000"/></radialGradient></defs><rect width="341" height="365" fill="url(#cg)"/><g fill="#fff"><circle cx="28" cy="18" r="1.2"/><circle cx="78" cy="42" r="1.5"/><circle cx="52" cy="82" r="1"/><circle cx="290" cy="28" r="1.2"/><circle cx="312" cy="72" r="1.5"/><circle cx="258" cy="52" r="1"/><circle cx="318" cy="118" r="1.2"/><circle cx="102" cy="28" r="1"/><circle cx="198" cy="14" r="1.2"/><circle cx="238" cy="38" r="1.5"/></g><circle cx="170" cy="112" r="55" fill="url(#pg)"/><ellipse cx="170" cy="112" rx="95" ry="20" fill="none" stroke="#e8c060" stroke-width="6" opacity=".45"/><ellipse cx="170" cy="112" rx="115" ry="25" fill="none" stroke="#c8a040" stroke-width="3" opacity=".25"/></svg>`,
+    atom:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#001828"/><circle cx="170" cy="125" r="15" fill="#00aaff" opacity=".85"/><circle cx="170" cy="125" r="9" fill="#60d0ff"/><ellipse cx="170" cy="125" rx="90" ry="32" fill="none" stroke="#0080cc" stroke-width="1.8" opacity=".85"/><ellipse cx="170" cy="125" rx="90" ry="32" transform="rotate(60 170 125)" fill="none" stroke="#0080cc" stroke-width="1.8" opacity=".85"/><ellipse cx="170" cy="125" rx="90" ry="32" transform="rotate(-60 170 125)" fill="none" stroke="#0080cc" stroke-width="1.8" opacity=".85"/><g fill="#00aaff" opacity=".9"><circle cx="260" cy="125" r="7"/><circle cx="125" cy="97" r="7"/><circle cx="215" cy="153" r="7"/></g></svg>`,
+    dna:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#06001a"/><path d="M100,8 C135,55 205,55 240,100 C205,145 135,145 100,190 C135,235 205,235 240,280" fill="none" stroke="#8040ff" stroke-width="3.5"/><path d="M240,8 C205,55 135,55 100,100 C135,145 205,145 240,190 C205,235 135,235 100,280" fill="none" stroke="#4080ff" stroke-width="3.5"/><g stroke="#fff" stroke-width="1.8" opacity=".35"><line x1="112" y1="25" x2="228" y2="25"/><line x1="120" y1="52" x2="220" y2="52"/><line x1="118" y1="78" x2="222" y2="78"/><line x1="108" y1="102" x2="232" y2="102"/><line x1="118" y1="126" x2="222" y2="126"/><line x1="120" y1="152" x2="220" y2="152"/><line x1="112" y1="177" x2="228" y2="177"/><line x1="120" y1="202" x2="220" y2="202"/></g></svg>`,
+    stars:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#010108"/><g fill="#fff"><circle cx="25" cy="18" r="1.5"/><circle cx="70" cy="35" r="1.2"/><circle cx="120" cy="14" r="2"/><circle cx="162" cy="42" r="1.2"/><circle cx="208" cy="20" r="1.5"/><circle cx="254" cy="38" r="2"/><circle cx="300" cy="12" r="1.2"/><circle cx="330" cy="52" r="1.5"/><circle cx="96" cy="82" r="2"/><circle cx="150" cy="70" r="1.2"/><circle cx="196" cy="86" r="1.5"/><circle cx="242" cy="60" r="1.2"/><circle cx="285" cy="76" r="2"/><circle cx="130" cy="104" r="2"/><circle cx="222" cy="115" r="1.5"/><circle cx="268" cy="136" r="1.2"/></g><g stroke="#fff" stroke-width=".6" opacity=".3"><line x1="120" y1="14" x2="96" y2="82"/><line x1="96" y1="82" x2="150" y2="70"/><line x1="150" y1="70" x2="196" y2="86"/><line x1="254" y1="38" x2="285" y2="76"/></g><path d="M170,148 L174,162 L188,162 L177,171 L181,185 L170,176 L159,185 L163,171 L152,162 L166,162 Z" fill="#fff" opacity=".7"/></svg>`,
+    // ── Culture ───────────────────────────────────────────
+    film:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#060606"/><rect x="0" y="18" width="341" height="210" fill="#0e0e0e"/><g fill="#050505"><rect x="8" y="26" width="22" height="28" rx="3"/><rect x="8" y="66" width="22" height="28" rx="3"/><rect x="8" y="106" width="22" height="28" rx="3"/><rect x="8" y="146" width="22" height="28" rx="3"/><rect x="8" y="186" width="22" height="28" rx="3"/><rect x="311" y="26" width="22" height="28" rx="3"/><rect x="311" y="66" width="22" height="28" rx="3"/><rect x="311" y="106" width="22" height="28" rx="3"/><rect x="311" y="146" width="22" height="28" rx="3"/><rect x="311" y="186" width="22" height="28" rx="3"/></g><g stroke="#222" stroke-width="1"><rect x="36" y="28" width="84" height="64" rx="2" fill="#141414"/><rect x="130" y="28" width="80" height="64" rx="2" fill="#141414"/><rect x="220" y="28" width="84" height="64" rx="2" fill="#141414"/><rect x="36" y="100" width="84" height="64" rx="2" fill="#141414"/><rect x="130" y="100" width="80" height="64" rx="2" fill="#141414"/><rect x="220" y="100" width="84" height="64" rx="2" fill="#141414"/></g><rect x="52" y="42" width="52" height="36" rx="2" fill="#ff3b30" opacity=".25"/><rect x="146" y="42" width="48" height="36" rx="2" fill="#007aff" opacity=".25"/><rect x="236" y="42" width="52" height="36" rx="2" fill="#34c759" opacity=".25"/><rect x="52" y="114" width="52" height="36" rx="2" fill="#ffcc00" opacity=".2"/><rect x="236" y="114" width="52" height="36" rx="2" fill="#5856d6" opacity=".2"/></svg>`,
+    vinyl:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="vg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1a0800"/><stop offset="35%" stop-color="#0e0400"/><stop offset="100%" stop-color="#040100"/></radialGradient></defs><rect width="341" height="365" fill="#060200"/><circle cx="170" cy="112" r="102" fill="url(#vg)"/><circle cx="170" cy="112" r="100" fill="none" stroke="#1a0c00" stroke-width="3"/><circle cx="170" cy="112" r="86" fill="none" stroke="#160a00" stroke-width="2.5"/><circle cx="170" cy="112" r="74" fill="none" stroke="#120800" stroke-width="2"/><circle cx="170" cy="112" r="63" fill="none" stroke="#0e0600" stroke-width="1.5"/><circle cx="170" cy="112" r="52" fill="none" stroke="#0c0500" stroke-width="1.5"/><circle cx="170" cy="112" r="36" fill="#c08800"/><circle cx="170" cy="112" r="30" fill="#0e0400"/><circle cx="170" cy="112" r="9" fill="#c08800" opacity=".8"/><circle cx="170" cy="112" r="5" fill="#080200"/></svg>`,
+    stage:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#040005"/><rect x="0" y="155" width="341" height="210" fill="#080010"/><rect x="0" y="150" width="341" height="10" fill="#1a0a20"/><g opacity=".65"><path d="M40,0 L68,150 L12,150 Z" fill="#ff9500" opacity=".15"/><path d="M120,0 L142,150 L98,150 Z" fill="#fff8d0" opacity=".1"/><path d="M200,0 L222,150 L178,150 Z" fill="#fff8d0" opacity=".1"/><path d="M300,0 L328,150 L272,150 Z" fill="#ff9500" opacity=".15"/></g><circle cx="40" cy="8" r="20" fill="#ff9500" opacity=".35"/><circle cx="120" cy="8" r="16" fill="#fff8d0" opacity=".28"/><circle cx="200" cy="8" r="16" fill="#fff8d0" opacity=".28"/><circle cx="300" cy="8" r="20" fill="#ff9500" opacity=".35"/></svg>`,
+    book:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="bg" cx="50%" cy="60%" r="52%"><stop offset="0%" stop-color="#1a1400"/><stop offset="100%" stop-color="#060400"/></radialGradient></defs><rect width="341" height="365" fill="url(#bg)"/><g transform="translate(75,35)"><rect x="0" y="12" width="92" height="138" rx="3" fill="#15100a" stroke="#6a4a10" stroke-width="1.5"/><rect x="92" y="0" width="92" height="138" rx="3" fill="#12100a" stroke="#6a4a10" stroke-width="1.5"/><rect x="88" y="0" width="8" height="138" fill="#3a2a10"/><g fill="#6a4a10" opacity=".55"><rect x="10" y="25" width="72" height="4" rx="1"/><rect x="10" y="35" width="60" height="2.5" rx="1"/><rect x="10" y="43" width="68" height="2.5" rx="1"/><rect x="10" y="51" width="52" height="2.5" rx="1"/><rect x="102" y="15" width="72" height="4" rx="1"/><rect x="102" y="25" width="60" height="2.5" rx="1"/><rect x="102" y="33" width="68" height="2.5" rx="1"/><rect x="102" y="41" width="52" height="2.5" rx="1"/></g></g><g stroke="#ffcc00" stroke-width="1.5" opacity=".55" stroke-linecap="round"><line x1="170" y1="28" x2="170" y2="8"/><line x1="170" y1="28" x2="155" y2="12"/><line x1="170" y1="28" x2="185" y2="12"/></g><circle cx="170" cy="28" r="5" fill="#ffcc00" opacity=".8"/></svg>`,
+  };
+
+  // Catalogue statique : 6 thèmes x 4 cartes illustrées
+  const DC_CARDS = [
+    { theme:'Tech & IA',       sub:"Intelligence artificielle, hardware et culture du code",
+      cards:[
+        { illus:'neural',   cat:'Intelligence artificielle', title:"Comment les LLMs transforment le développement logiciel en 2026",                     source:'The Verge',    date:'28 mai 2026', feedUrl:'https://www.theverge.com/rss/index.xml',                     feedName:'The Verge' },
+        { illus:'chip',     cat:'Hardware',                  title:"A18 Pro : l'architecture interne du processeur le plus rapide d'Apple dévoilée",      source:'Ars Technica', date:'20 mai 2026', feedUrl:'https://feeds.arstechnica.com/arstechnica/index',            feedName:'Ars Technica' },
+        { illus:'terminal', cat:'Développement',             title:"Les 10 outils CLI qui ont changé la façon dont les dev travaillent",                  source:'Wired',        date:'14 mai 2026', feedUrl:'https://www.wired.com/feed/rss',                             feedName:'Wired' },
+        { illus:'datavis',  cat:'Data & IA',                 title:"Visualiser l'invisible : nouvelles interfaces pour explorer les données massives",     source:'MIT Tech Review',date:'8 mai 2026',feedUrl:'https://www.technologyreview.com/topnews.rss',               feedName:'MIT Tech Review' },
+      ]},
+    { theme:'Design & Créa',   sub:'UX, typographie, culture visuelle et outils créatifs',
+      cards:[
+        { illus:'bauhaus',  cat:'Design graphique',          title:"100 ans du Bauhaus : comment le mouvement façonne encore l'interface numérique",       source:"It's Nice That", date:'22 mai 2026', feedUrl:'https://www.itsnicethat.com/rss',               feedName:"It's Nice That" },
+        { illus:'typo',     cat:'Typographie',               title:"Variable fonts en 2026 : les nouvelles polices qui réinventent l'écran mobile",        source:'Smashing Magazine',date:'15 mai 2026',feedUrl:'https://www.smashingmagazine.com/feed/',        feedName:'Smashing Magazine' },
+        { illus:'palette',  cat:'Couleur & UI',              title:"La psychologie des palettes monochromes dans les apps primées de l'année",             source:'Sidebar.io',   date:'10 mai 2026', feedUrl:'https://sidebar.io/feed.xml',                  feedName:'Sidebar.io' },
+        { illus:'grid',     cat:'Layout',                    title:"Grilles de mise en page : de la règle d'or au CSS subgrid en production",              source:'CSS-Tricks',   date:'3 mai 2026',  feedUrl:'https://css-tricks.com/feed/',                 feedName:'CSS-Tricks' },
+      ]},
+    { theme:'Sport',           sub:'NBA, football, athlétisme et coulisses du sport mondial',
+      cards:[
+        { illus:'basketball',cat:'NBA',                      title:"Playoffs 2026 : l'analyse tactique des séries les plus serrées depuis une décennie",   source:'The Athletic', date:'26 mai 2026', feedUrl:'https://theathletic.com/feed/',                 feedName:'The Athletic' },
+        { illus:'soccer',   cat:'Football',                  title:"Champions League : les données qui expliquent la domination du pressing haut",          source:'ESPN FC',      date:'19 mai 2026', feedUrl:'https://www.espn.com/espn/rss/soccer/news',     feedName:'ESPN FC' },
+        { illus:'podium',   cat:'Sport mondial',             title:"Les athlètes les mieux payés de 2026 : sponsoring, image et nouveaux marchés",          source:"L'Équipe",     date:'12 mai 2026', feedUrl:'https://www.lequipe.fr/rss/actu_rss.xml',       feedName:"L'Équipe" },
+        { illus:'track',    cat:'Athlétisme',                title:"Vers des records impossibles : la science derrière les nouvelles limites humaines",      source:'Le Monde',     date:'5 mai 2026',  feedUrl:'https://www.lemonde.fr/rss/une.xml',            feedName:'Le Monde' },
+      ]},
+    { theme:'Actualités',      sub:'Information internationale, politique et décryptages',
+      cards:[
+        { illus:'globe',    cat:'International',             title:"Géopolitique de l'IA : comment les grandes puissances redessinent la carte techno",     source:'Reuters',      date:'27 mai 2026', feedUrl:'https://feeds.reuters.com/reuters/topNews',      feedName:'Reuters' },
+        { illus:'press',    cat:'Presse & Médias',           title:"La presse en 2026 : mort annoncée ou renaissance numérique ?",                          source:'France Info',  date:'21 mai 2026', feedUrl:'https://www.francetvinfo.fr/titres.rss',         feedName:'France Info' },
+        { illus:'breaking', cat:'Breaking',                  title:"Newsrooms : comment les systèmes d'alerte en temps réel ont transformé le workflow",     source:'Bloomberg',    date:'16 mai 2026', feedUrl:'https://feeds.bloomberg.com/markets/news.rss',  feedName:'Bloomberg' },
+        { illus:'live',     cat:'Direct',                    title:"Live journalism : les nouvelles pratiques du reportage en flux continu",                 source:'Le Monde',     date:'9 mai 2026',  feedUrl:'https://www.lemonde.fr/rss/une.xml',            feedName:'Le Monde' },
+      ]},
+    { theme:'Science',         sub:'Espace, physique, biologie et grandes découvertes',
+      cards:[
+        { illus:'cosmos',   cat:'Espace',                    title:"James Webb : les nouvelles données qui changent notre vision du cosmos",                 source:'NASA',         date:'25 mai 2026', feedUrl:'https://www.nasa.gov/rss/dyn/breaking_news.rss',feedName:'NASA' },
+        { illus:'atom',     cat:'Physique',                  title:"Fusion nucléaire : le seuil de rentabilité enfin franchi en conditions réelles",         source:'Nature',       date:'18 mai 2026', feedUrl:'https://www.nature.com/nature.rss',             feedName:'Nature' },
+        { illus:'dna',      cat:'Biologie',                  title:"CRISPR 3.0 : des corrections génomiques sans erreurs hors-cible pour la première fois",  source:'Futura Sciences',date:'11 mai 2026',feedUrl:'https://www.futura-sciences.com/rss/actualites.xml',feedName:'Futura Sciences' },
+        { illus:'stars',    cat:'Astronomie',                title:"2 milliards d'étoiles cartographiées : la Voie lactée comme vous ne l'avez jamais vue",   source:'Nature',       date:'4 mai 2026',  feedUrl:'https://www.nature.com/nature.rss',            feedName:'Nature' },
+      ]},
+    { theme:'Culture',         sub:'Cinéma, musique, littérature et art de vivre',
+      cards:[
+        { illus:'film',     cat:'Cinéma',                    title:"Cannes 2026 : les films qui ont défié les frontières entre auteur et blockbuster",       source:'Criterion',    date:'24 mai 2026', feedUrl:'https://www.criterion.com/updates.xml',         feedName:'Criterion' },
+        { illus:'vinyl',    cat:'Musique',                   title:"Le vinyle dépasse le streaming pour la première fois depuis 40 ans",                     source:'Pitchfork',    date:'17 mai 2026', feedUrl:'https://pitchfork.com/rss/news/',               feedName:'Pitchfork' },
+        { illus:'book',     cat:'Littérature',               title:"Le retour du roman-essai : quand les auteurs brouillent fiction et réalité",             source:'Brain Pickings',date:'13 mai 2026',feedUrl:'https://www.themarginalian.org/feed/',          feedName:'Brain Pickings' },
+        { illus:'stage',    cat:'Spectacle vivant',          title:"Les scènes immersives qui redéfinissent l'expérience concert en 2026",                   source:'Kottke',       date:'6 mai 2026',  feedUrl:'https://feeds.kottke.org/main',                feedName:'Kottke' },
+      ]},
+  ];
+
+  function dcSvgUrl(key){
+    return 'data:image/svg+xml,' + encodeURIComponent(DC_SVG[key] || DC_SVG.neural);
+  }
+
+  function dcRenderCard(card){
+    return `<div class="dc-tile" onclick="window.open('${escapeHtml(card.feedUrl)}','_blank')">
+      <div class="dc-tile-img" style="background-image:url('${dcSvgUrl(card.illus)}');"></div>
+      <div class="dc-tile-body">
+        <span class="dc-cat">${escapeHtml(card.cat)}</span>
+        <div class="dc-tile-title">${escapeHtml(card.title)}</div>
+        <div class="dc-tile-date">${escapeHtml(card.source)} &middot; ${escapeHtml(card.date)}</div>
+      </div>
+    </div>`;
+  }
+
+  function dcBuildCatalog(){
+    const catalog = document.getElementById('dcCatalog');
+    if(!catalog || catalog.dataset.built) return;
+    catalog.dataset.built = '1';
+    catalog.innerHTML = DC_CARDS.map(theme => {
+      const sources = [...new Map(theme.cards.map(c=>[c.feedName,c])).values()];
+      const subsHtml = sources.map(card => {
+        const subKey = 'dc.sub.' + encodeURIComponent(card.feedUrl);
+        let subbed = false; try{ subbed = localStorage.getItem(subKey)==='1'; }catch(e){}
+        return `<button class="dc-subsource${subbed?' subbed':''}" data-feed-url="${escapeHtml(card.feedUrl)}" data-feed-name="${escapeHtml(card.feedName)}" data-theme="${escapeHtml(theme.theme)}" onclick="dcToggleSub(this)">${escapeHtml(card.feedName)}${subbed?' ✓':' +'}</button>`;
+      }).join('');
+      return `<section class="dc-theme" data-theme="${escapeHtml(theme.theme).toLowerCase()}">
+        <div class="dc-theme-header">
+          <h2 class="dc-theme-title">${escapeHtml(theme.theme)}</h2>
+          <p class="dc-theme-sub">${escapeHtml(theme.sub)}</p>
+        </div>
+        <div class="dc-carousel">${theme.cards.map(dcRenderCard).join('')}</div>
+        <div class="dc-sources">${subsHtml}</div>
+      </section>`;
+    }).join('');
+  }
+
+  window.dcToggleSub = function(btn){
+    const subKey = 'dc.sub.' + encodeURIComponent(btn.dataset.feedUrl);
+    const subbed = btn.classList.contains('subbed');
+    if(!subbed){
+      btn.classList.add('subbed'); btn.textContent = btn.dataset.feedName + ' \u2713';
+      try{ localStorage.setItem(subKey,'1'); }catch(e){}
+      let folder = folders.find(f=>f.name===btn.dataset.theme);
+      if(!folder){ folder={name:btn.dataset.theme,feeds:[],open:true}; folders.push(folder); }
+      if(!folder.feeds.includes(btn.dataset.feedName)){ folder.feeds.push(btn.dataset.feedName); persist(); render(); }
+    } else {
+      btn.classList.remove('subbed'); btn.textContent = btn.dataset.feedName + ' +';
+      try{ localStorage.removeItem(subKey); }catch(e){}
+      folders.forEach(f=>{ const i=f.feeds.indexOf(btn.dataset.feedName); if(i>-1) f.feeds.splice(i,1); });
+      persist(); render();
+    }
+  };
+
+  document.getElementById('dcSearch').addEventListener('input', function(){
+    const q = this.value.trim().toLowerCase();
+    document.querySelectorAll('.dc-theme').forEach(sec=>{
+      sec.style.display = !q || sec.dataset.theme.includes(q) || [...sec.querySelectorAll('.dc-tile-title,.dc-cat,.dc-tile-date')].some(el=>el.textContent.toLowerCase().includes(q)) ? '' : 'none';
+    });
+  });
+
+  const dcPage = document.getElementById('discoverPage');
+  function openDiscover(){
+    dcPage.classList.add('open'); dcPage.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+    dcBuildCatalog();
+  }
+  function closeDiscover(){
+    dcPage.classList.remove('open'); dcPage.setAttribute('aria-hidden','true'); document.body.style.overflow='';
+  }
+  document.getElementById('discoverBack').addEventListener('click', closeDiscover);
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && dcPage.classList.contains('open')) closeDiscover(); });
+  document.getElementById('navDiscover').addEventListener('click', openDiscover, true);
 </script>
 </body>
 </html>
