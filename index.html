@@ -2574,28 +2574,38 @@ body{
   const views = document.querySelectorAll('.view');
   const order = ['editions', 'liste', 'grille', 'sequential', 'browse'];
   let _currentView = 'editions';
+  // Déclarés tôt pour éviter reference-before-declaration dans _switchView
+  let _feedPageArts = [];
+  let _folderPageArts = [];
 
   function _switchView(target){
     _currentView = target;
-    views.forEach(v => { v.hidden = v.dataset.view !== target; });
-    if(target === 'browse')    renderBrowseTimeline();
-    if(target === 'grille')    _renderGrille();
-    if(target === 'sequential')_renderSequential();
-    if(target === 'liste')     _renderListe();
-    // Rafraîchir la sous-page active si elle est ouverte
+
+    // Si une sous-page est ouverte, re-rendre uniquement celle-ci
     const fp = document.getElementById('feedPage');
-    if(fp && fp.classList.contains('open')){
-      _renderSubpageArts(_feedPageArts, _currentView, document.getElementById('feedPageContent'), '_feedPageArt');
-    }
     const dp = document.getElementById('folderPage');
-    if(dp && dp.classList.contains('open')){
-      _renderSubpageArts(_folderPageArts, _currentView, document.getElementById('folderPageContent'), '_folderArt');
+    const feedOpen   = fp && fp.classList.contains('open');
+    const folderOpen = dp && dp.classList.contains('open');
+
+    if(feedOpen){
+      if(typeof _feedPageArts !== 'undefined' && _feedPageArts.length)
+        _renderSubpageArts(_feedPageArts, target, document.getElementById('feedPageContent'), '_feedPageArt');
+    } else if(folderOpen){
+      if(typeof _folderPageArts !== 'undefined' && _folderPageArts.length)
+        _renderSubpageArts(_folderPageArts, target, document.getElementById('folderPageContent'), '_folderArt');
+    } else {
+      // Pas de sous-page : changer la vue accueil normalement
+      views.forEach(v => { v.hidden = v.dataset.view !== target; });
+      if(target === 'browse')    renderBrowseTimeline();
+      if(target === 'grille')    _renderGrille();
+      if(target === 'sequential')_renderSequential();
+      if(target === 'liste')     _renderListe();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    // Sync chips du menu
+
+    // Sync UI toujours
     document.querySelectorAll('.menu3-chip').forEach(c => c.classList.toggle('active', c.dataset.view === target));
-    // Sync view picker si ouvert
     document.querySelectorAll('.vp-item').forEach(el => el.classList.toggle('active', el.dataset.vpview === target));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   const _viewToggleEl = document.getElementById('viewToggle');
@@ -4455,7 +4465,6 @@ body{
   window._folderArtOpen = function(i){ const a=_folderPageArts[i]; if(a) _showArtModal(a); };
   window._feedPageArtOpen = function(i){ const a=_feedPageArts[i]; if(a) _showArtModal(a); };
 
-  let _feedPageArts = [];
 
   window.openFeedPage = function(feedUrl, feedName){
     // Remplir en-tête
@@ -4509,7 +4518,6 @@ body{
   });
 
   // ── PAGE DOSSIER ──────────────────────────────────────────────
-  let _folderPageArts = [];
   function openFolderPage(folderIdx){
     const folder = folders[folderIdx];
     if(!folder) return;
