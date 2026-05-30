@@ -142,12 +142,12 @@ body{
   box-sizing:border-box;
   display:flex; justify-content:center; align-items:center;
   height:192.83px;
-  border:1px solid var(--border); border-radius:12px;
+  border:1px solid var(--border); border-radius:20px;
   overflow:hidden;
 }
 .hello-img-wrapper > .img{
   width:339.25px; height:190.83px;
-  border-radius:8px;
+  border-radius:16px;
   background:linear-gradient(135deg,#1a1a1a,#0d0d0d);
   background-size:cover; background-position:center;
 }
@@ -1059,7 +1059,7 @@ body{
 .dc-search-wrap{ padding:16px 18px 4px; }
 .dc-search{
   width:100%; padding:13px 16px 13px 44px; box-sizing:border-box;
-  border-radius:14px; border:1px solid var(--border);
+  border-radius:18px; border:1px solid var(--border);
   background:var(--bg-elev) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E") no-repeat 16px center;
   font-family:var(--font-inter); font-size:15px; font-weight:600; color:var(--text); outline:none; transition:border-color .2s;
 }
@@ -1160,7 +1160,7 @@ body{
 @keyframes af-spin{to{transform:rotate(360deg)}}
 /* Fields card */
 .af-fields{
-  margin:10px 16px 0;border-radius:16px;overflow:hidden;
+  margin:10px 16px 0;border-radius:20px;overflow:hidden;
   background:rgba(255,255,255,.04);
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);
 }
@@ -1256,7 +1256,7 @@ body{
 /* ── VUE GRILLE 2 colonnes ──────────────────────── */
 .grid2-wrap{ display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:12px 0 80px; }
 .grid2-card{ display:flex; flex-direction:column; cursor:pointer; -webkit-tap-highlight-color:transparent; }
-.grid2-img{ border-radius:12px; overflow:hidden; aspect-ratio:4/3; background:#111; margin-bottom:8px; }
+.grid2-img{ border-radius:20px; overflow:hidden; aspect-ratio:4/3; background:#111; margin-bottom:8px; }
 .grid2-img img{ width:100%; height:100%; object-fit:cover; display:block; }
 .grid2-title{ font-family:var(--font-inter); font-size:13px; font-weight:700; line-height:1.3; color:var(--text); display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:5px; }
 .grid2-meta{ font-family:var(--font-inter); font-size:10.5px; color:var(--text-muted); font-weight:600; display:flex; align-items:center; gap:4px; }
@@ -1276,7 +1276,7 @@ body{
 .seq-fav{ width:12px; height:12px; border-radius:2px; overflow:hidden; }
 .seq-fav img{ width:100%; height:100%; object-fit:contain; }
 .seq-title{ font-family:var(--font-dm); font-size:17px; font-weight:700; line-height:1.28; color:var(--text); letter-spacing:-.01em; }
-.seq-thumb{ width:72px; height:72px; flex-shrink:0; border-radius:10px; overflow:hidden; background:#111; align-self:center; }
+.seq-thumb{ width:72px; height:72px; flex-shrink:0; border-radius:14px; overflow:hidden; background:#111; align-self:center; }
 .seq-thumb img{ width:100%; height:100%; object-fit:cover; }
 
 /* ── PAGE DOSSIER ────────────────────────────────── */
@@ -1395,7 +1395,7 @@ body{
 
 /* Carte article réelle — reprend .hello-card, ajoute source+time */
 .art-card{ display:flex; flex-direction:column; text-decoration:none; color:var(--text); cursor:pointer; -webkit-tap-highlight-color:transparent; }
-.art-card .hello-img-wrapper{ position:relative; border-radius:16px; overflow:hidden; aspect-ratio:16/9; background:#111; margin-bottom:0; }
+.art-card .hello-img-wrapper{ position:relative; border-radius:20px; overflow:hidden; aspect-ratio:16/9; background:#111; margin-bottom:0; }
 .art-card .hello-img-wrapper img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
 .art-card .art-source-row{ display:flex; align-items:center; gap:5px; margin:10px 0 4px; }
 .art-card .art-fav{ width:14px; height:14px; border-radius:3px; overflow:hidden; flex-shrink:0; }
@@ -1423,7 +1423,7 @@ body{
 .fav-item:active{ background:rgba(255,255,255,.04); }
 [data-theme="light"] .fav-item:active{ background:rgba(0,0,0,.04); }
 .fav-item:last-child{ border-bottom:none; }
-.fav-thumb{ width:72px; height:54px; flex-shrink:0; border-radius:10px; overflow:hidden; background:rgba(255,255,255,.07); }
+.fav-thumb{ width:72px; height:54px; flex-shrink:0; border-radius:14px; overflow:hidden; background:rgba(255,255,255,.07); }
 .fav-thumb img{ width:100%; height:100%; object-fit:cover; }
 .fav-thumb-empty{ width:72px; height:54px; flex-shrink:0; border-radius:10px; background:linear-gradient(135deg,rgba(255,60,50,.15),rgba(0,0,0,.3)); }
 .fav-meta{ flex:1; min-width:0; }
@@ -1545,7 +1545,54 @@ body{
   background:rgba(255,255,255,.07);
   margin:2px 0;
 }
-[data-theme="light"] .vp-divider{ background:rgba(0,0,0,.06); }/* ── PAGE FLUX INDIVIDUEL ─────────────────────────── */
+[data-theme="light"] .vp-divider{ background:rgba(0,0,0,.06); }/* ── VUE PARCOURIR PAR DOSSIERS ──────────────────── */
+.browse-folder-sep{ border:none; border-top:1px solid var(--border); margin:36px 0 28px; }
+[data-theme="light"] .browse-folder-sep{ border-color:rgba(0,0,0,.08); }
+.browse-folder-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+.browse-folder-name{ font-family:var(--font-inter); font-size:24px; font-weight:800; letter-spacing:-.03em; color:var(--text); }
+.browse-folder-actions{ display:flex; gap:8px; }
+.browse-folder-btn{ width:32px; height:32px; border:none; border-radius:50%; background:rgba(255,255,255,.07); color:var(--text-muted); cursor:pointer; display:flex; align-items:center; justify-content:center; -webkit-tap-highlight-color:transparent; transition:background .15s; }
+.browse-folder-btn:hover{ background:rgba(255,255,255,.12); color:var(--text); }
+[data-theme="light"] .browse-folder-btn{ background:rgba(0,0,0,.05); }
+/* Carte hero — même ratio que hello-card magazine */
+.browse-hero-card{ position:relative; border-radius:20px; overflow:hidden; aspect-ratio:16/9; cursor:pointer; margin-bottom:12px; -webkit-tap-highlight-color:transparent; transition:transform .3s cubic-bezier(.32,.72,0,1); }
+.browse-hero-card:hover{ transform:scale(1.015); }
+.browse-hero-img{ position:absolute; inset:0; background-size:cover; background-position:center; }
+.browse-hero-card::before{ content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.85) 100%); z-index:1; }
+.browse-hero-body{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:18px 20px; }
+.browse-hero-source{ display:flex; align-items:center; font-family:var(--font-inter); font-size:10.5px; font-weight:700; color:rgba(255,255,255,.7); text-transform:uppercase; letter-spacing:.04em; margin-bottom:7px; }
+.browse-hero-title{ font-family:var(--font-inter); font-size:19px; font-weight:700; line-height:1.25; letter-spacing:-.01em; color:#fff; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+/* Grille 2 colonnes sous le hero */
+.browse-folder-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:4px; }
+/* grid2-img déjà défini — on réutilise */
+
+/* Bouton vue dans les topbars de sous-pages */
+.subpage-view-btn{
+  width:34px; height:34px; flex-shrink:0; border:none;
+  background:rgba(255,255,255,.07); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--text-muted); cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  transition:background .15s;
+}
+.subpage-view-btn:active{ background:rgba(255,255,255,.14); transform:scale(.9); }
+[data-theme="light"] .subpage-view-btn{ background:rgba(0,0,0,.06); }
+/* Vue liste (défaut des sous-pages) */
+.list-view{ display:flex; flex-direction:column; padding-bottom:80px; }
+.list-item{ display:flex; align-items:center; gap:14px; padding:14px 0; border-bottom:1px solid var(--border); cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.list-item:last-child{ border-bottom:none; }
+.list-item:active{ opacity:.7; }
+[data-theme="light"] .list-item{ border-color:rgba(0,0,0,.08); }
+.list-thumb{ width:56px; height:56px; flex-shrink:0; border-radius:14px; overflow:hidden; background:#111; }
+.list-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+.list-thumb-empty{ width:56px; height:56px; flex-shrink:0; border-radius:14px; background:linear-gradient(135deg,rgba(255,60,50,.15),#0a0a0a); }
+.list-body{ flex:1; min-width:0; }
+.list-source{ font-family:var(--font-inter); font-size:10.5px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.04em; margin-bottom:4px; display:flex; align-items:center; gap:4px; }
+.list-fav{ width:12px; height:12px; border-radius:3px; overflow:hidden; }
+.list-fav img{ width:100%; height:100%; object-fit:contain; }
+.list-title{ font-family:var(--font-inter); font-size:15px; font-weight:700; line-height:1.3; color:var(--text); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+
+/* ── PAGE FLUX INDIVIDUEL ─────────────────────────── */
 .feed-page{
   position:fixed; inset:0; z-index:450;
   background:var(--bg); display:flex; flex-direction:column;
@@ -2528,78 +2575,103 @@ body{
   function renderBrowseTimeline() {
     const section = document.getElementById('browseSection');
     if (!section) return;
-    section.dataset.built = ''; // toujours re-render pour refléter les vrais articles
-    _browseArts = []; // reset tableau global
+    section.dataset.built = '';
+    _browseArts = [];
 
-    // Source : vrais articles depuis le moteur RSS
-    const arts = (typeof _allArticles !== 'undefined' && _allArticles.length)
-      ? _allArticles : [];
-
-    if (!arts.length) {
-      section.innerHTML = '<div style="padding:60px 20px;text-align:center;color:var(--text-muted);font-family:var(--font-inter);font-size:14px">Aucun article disponible.<br>Ajoutez des flux pour voir votre historique.</div>';
+    if (!folders || !folders.length) {
+      section.innerHTML = '<div style="padding:60px 20px;text-align:center;color:var(--text-muted);font-family:var(--font-inter);font-size:14px">Aucun dossier configuré.<br>Ajoutez des sources depuis la sidebar.</div>';
       return;
     }
 
-    // Calculer daysAgo pour chaque article réel
-    const now   = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const mapped = [...arts]
-      .sort((a, b) => b.pubDate - a.pubDate)
-      .map(a => {
-        const pd = a.pubDate instanceof Date ? a.pubDate : new Date(a.pubDate);
-        const artDay = new Date(pd.getFullYear(), pd.getMonth(), pd.getDate());
-        const daysAgo = Math.round((today - artDay) / 86400000);
-        return { _art: a, title: a.title, source: a.source, feedUrl: a.feedUrl || a.link || '',
-                 imageUrl: a.imageUrl || null, pubDate: pd, daysAgo: Math.max(0, daysAgo) };
-      })
-      .filter(a => a.daysAgo > 0); // aujourd'hui → édition du jour
-
-    if (!mapped.length) {
-      section.innerHTML = '<div style="padding:60px 20px;text-align:center;color:var(--text-muted);font-family:var(--font-inter);font-size:14px">Tous vos articles sont d’aujourd’hui.<br>Revenez demain pour la timeline.</div>';
-      return;
-    }
-
-    // Grouper par période
-    const groups = new Map();
-    mapped.forEach(art => {
-      const g = _browseGroupLabel(art.daysAgo);
-      if (!g) return;
-      if (!groups.has(g.key)) groups.set(g.key, { meta: g, articles: [] });
-      groups.get(g.key).articles.push(art);
-    });
+    const allArts = (typeof _allArticles !== 'undefined') ? _allArticles : [];
 
     let html = '';
-    groups.forEach(({ meta, articles }) => {
-      if (meta.period === 'day') {
-        html += `<h3 class="browse-year" data-period="day"><span class="browse-year-label">${meta.label}</span></h3>`;
-      } else if (meta.period === 'week') {
-        html += `<h3 class="browse-year" data-period="week"><span class="browse-year-label">${meta.label}</span><span class="browse-year-line"></span></h3>`;
-      } else {
-        const parts = meta.label.split(' ');
-        const monthHtml = parts.length === 2
-          ? `<span class="browse-month">${parts[0]}</span> ${parts[1]}`
-          : `<span class="browse-month">${meta.label}</span>`;
-        html += `<h3 class="browse-year" data-period="month"><span class="browse-year-label">${monthHtml}</span><span class="browse-year-line"></span></h3>`;
+    folders.forEach((folder, fi) => {
+      const feedUrls = new Set(folder.feeds || []);
+      const arts = _dedup([...allArts]
+        .filter(a => feedUrls.size ? feedUrls.has(a.feedUrl || '') : false)
+        .sort((a, b) => b.pubDate - a.pubDate)
+      ).slice(0, 13); // hero + 12 grille (2×6)
+
+      if (!arts.length) return; // dossier vide → skip
+
+      const baseIdx = _browseArts.length;
+      arts.forEach(a => _browseArts.push(a));
+
+      // ── Séparateur inter-dossiers ──
+      if (fi > 0) html += '<hr class="browse-folder-sep">';
+
+      // ── En-tête dossier ──
+      html += `<div class="browse-folder-head">
+        <span class="browse-folder-name">${escapeHtml(folder.name)}</span>
+        <div class="browse-folder-actions">
+          <button class="browse-folder-btn" onclick="_browseEditFolder(${fi})" aria-label="Modifier">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button class="browse-folder-btn" onclick="_browseDeleteFolder(${fi})" aria-label="Supprimer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+          </button>
+        </div>
+      </div>`;
+
+      // ── Carte hero (première, pleine largeur) ──
+      const hero = arts[0];
+      const hFav = typeof getFavicon === 'function' ? getFavicon(hero.feedUrl || hero.link || '') : '';
+      const hTime = typeof relTime === 'function' ? relTime(hero.pubDate) : '';
+      const hImgStyle = hero.imageUrl
+        ? `background:url('${hero.imageUrl.replace(/'/g,"\\'")}') center/cover no-repeat`
+        : 'background:linear-gradient(135deg,rgba(255,60,50,.18),#0a0a0a)';
+      html += `<div class="browse-hero-card" onclick="_openBrowseArt(${baseIdx})">
+        <div class="browse-hero-img" style="${hImgStyle}"></div>
+        <div class="browse-hero-body">
+          <div class="browse-hero-source">
+            <img src="${hFav}" onerror="this.style.opacity='.3'" style="width:12px;height:12px;border-radius:3px;margin-right:5px">
+            ${escapeHtml(hero.source)} · ${hTime}
+          </div>
+          <div class="browse-hero-title">${escapeHtml(hero.title)}</div>
+        </div>
+      </div>`;
+
+      // ── Grille 2 colonnes (articles 1–12) ──
+      const grid = arts.slice(1, 13);
+      if (grid.length) {
+        html += '<div class="browse-folder-grid">';
+        grid.forEach((a, gi) => {
+          const fav  = typeof getFavicon === 'function' ? getFavicon(a.feedUrl || a.link || '') : '';
+          const time = typeof relTime === 'function' ? relTime(a.pubDate) : '';
+          const imgStyle = a.imageUrl
+            ? `background:url('${a.imageUrl.replace(/'/g,"\\'")}') center/cover no-repeat`
+            : 'background:linear-gradient(135deg,rgba(255,60,50,.12),#0a0a0a)';
+          html += `<div class="grid2-card" onclick="_openBrowseArt(${baseIdx + 1 + gi})">
+            <div class="grid2-img" style="${imgStyle}"></div>
+            <div class="grid2-title">${escapeHtml(a.title)}</div>
+            <div class="grid2-meta">
+              <div class="grid2-fav"><img src="${fav}" onerror="this.style.opacity='.3'"></div>
+              <span>${escapeHtml(a.source)}</span>
+              <span style="margin-left:auto">${time}</span>
+            </div>
+          </div>`;
+        });
+        html += '</div>';
       }
-      html += '<div class="browse-grid">';
-      articles.forEach((art, bi) => {
-        const imgStyle = art.imageUrl
-          ? `background:url('${art.imageUrl.replace(/'/g,"\\'")}') center/cover no-repeat`
-          : 'background:linear-gradient(135deg,#1a1a22,#080808)';
-        html += `<div class="browse-card" onclick="_openBrowseArt(${_browseArts.length})">
-          <div class="hello-img-wrapper"><div class="img" style="${imgStyle}"></div></div>
-          <div class="b-title">${escapeHtml(art.title)}</div>
-          <div class="b-cat">${escapeHtml(art.source)} · ${typeof relTime === 'function' ? relTime(art.pubDate) : ''}</div>
-        </div>`;
-        _browseArts.push(art._art || art);
-      });
-      html += '</div>';
     });
 
+    if (!html) {
+      section.innerHTML = '<div style="padding:60px 20px;text-align:center;color:var(--text-muted);font-family:var(--font-inter);font-size:14px">Aucun article chargé.<br>Actualisez les flux depuis le menu.</div>';
+      return;
+    }
     section.innerHTML = html;
   }
 
-  // ---- Nom optionnel de l'utilisateur (éditable + mémorisé) ----
+  window._browseEditFolder = function(i){
+    const name = prompt('Renommer le dossier :', folders[i]?.name || '');
+    if(name && name.trim()){ folders[i].name = name.trim(); persist(); render(); renderBrowseTimeline(); }
+  };
+  window._browseDeleteFolder = function(i){
+    if(!confirm('Supprimer « ' + folders[i]?.name + ' » et tous ses flux ?')) return;
+    folders.splice(i, 1); persist(); render(); renderBrowseTimeline();
+  };
+
   const nameEl = document.getElementById('userName');
   const KEY = 'reader.userName';
   let saved = null; try { saved = localStorage.getItem(KEY); } catch(e){}
@@ -3813,7 +3885,7 @@ body{
   function _artCardHtml(a, idx, isHero){
     const fav  = getFavicon(a.feedUrl||a.link||'');
     const time = relTime(a.pubDate);
-    const r    = isHero?'18px':'14px';
+    const r    = isHero?'20px':'20px';
     const mb   = isHero?'14':'10';
     const imgH = a.imageUrl
       ? `<div class="art-img-wrap" style="border-radius:${r};overflow:hidden;aspect-ratio:16/9;background:#111;margin-bottom:${mb}px"><img src="${escAttr(a.imageUrl)}" alt="" decoding="async" onerror="this.parentNode.style.display='none'" style="width:100%;height:100%;object-fit:cover"></div>`
@@ -4164,7 +4236,61 @@ body{
     if(_currentView==='sequential') _renderSequential();
   };
 
-  // ── PAGE FLUX INDIVIDUEL ──────────────────────────────────────
+  // ── Cycle de vues sur les pages Dossier et Flux ───────────────
+  const SUBPAGE_VIEWS = ['list', 'grille', 'sequential'];
+  let _folderPageView = 'list';
+  let _feedPageView   = 'list';
+
+  window._cycleSubpageView = function(page){
+    if(page === 'folder'){
+      _folderPageView = SUBPAGE_VIEWS[(SUBPAGE_VIEWS.indexOf(_folderPageView)+1) % SUBPAGE_VIEWS.length];
+      _reRenderFolderPage();
+    } else {
+      _feedPageView = SUBPAGE_VIEWS[(SUBPAGE_VIEWS.indexOf(_feedPageView)+1) % SUBPAGE_VIEWS.length];
+      _reRenderFeedPage();
+    }
+  };
+
+  function _renderSubpageArts(arts, view, container, arrName){
+    if(!container || !arts.length){
+      if(container) container.innerHTML = '<div style="padding:60px 0;text-align:center;color:var(--text-muted);font-size:14px;font-family:var(--font-inter)">Aucun article disponible.</div>';
+      return;
+    }
+    if(view === 'grille'){
+      container.innerHTML = `<div class="grid2-wrap">${arts.map((a,i)=>{
+        const fav=getFavicon(a.feedUrl||a.link||'');
+        const imgStyle=a.imageUrl?`background:url('${a.imageUrl.replace(/'/g,"\\'")}') center/cover no-repeat`:'background:linear-gradient(135deg,rgba(255,60,50,.15),#0a0a0a)';
+        return `<div class="grid2-card" onclick="${arrName}Open(${i})"><div class="grid2-img" style="${imgStyle}"></div><div class="grid2-title">${escapeHtml(a.title)}</div><div class="grid2-meta"><div class="grid2-fav"><img src="${fav}" onerror="this.style.opacity='.3'"></div><span>${escapeHtml(a.source)}</span><span style="margin-left:auto">${relTime(a.pubDate)}</span></div></div>`;
+      }).join('')}</div>`;
+    } else if(view === 'sequential'){
+      container.innerHTML = `<div class="seq-list">${arts.map((a,i)=>{
+        const fav=getFavicon(a.feedUrl||a.link||'');
+        const thumb=a.imageUrl?`<div class="seq-thumb"><img src="${a.imageUrl}" decoding="async" onerror="this.parentNode.style.display='none'"></div>`:'';
+        return `<div class="seq-item" onclick="${arrName}Open(${i})"><span class="seq-num">${String(i+1).padStart(2,'0')}</span><div class="seq-body"><div class="seq-source"><div class="seq-fav"><img src="${fav}" onerror="this.style.opacity='.3'"></div>${escapeHtml(a.source)} · ${relTime(a.pubDate)}</div><div class="seq-title">${escapeHtml(a.title)}</div></div>${thumb}</div>`;
+      }).join('')}</div>`;
+    } else {
+      // liste (défaut)
+      container.innerHTML = `<div class="list-view">${arts.map((a,i)=>{
+        const fav=getFavicon(a.feedUrl||a.link||'');
+        const thumb=a.imageUrl?`<div class="list-thumb"><img src="${a.imageUrl}" decoding="async" onerror="this.parentNode.className='list-thumb-empty'"></div>`:`<div class="list-thumb-empty"></div>`;
+        return `<div class="list-item" onclick="${arrName}Open(${i})">${thumb}<div class="list-body"><div class="list-source"><div class="list-fav"><img src="${fav}" onerror="this.style.opacity='.3'"></div>${escapeHtml(a.source)} · ${relTime(a.pubDate)}</div><div class="list-title">${escapeHtml(a.title)}</div></div></div>`;
+      }).join('')}</div>`;
+    }
+  }
+
+  function _reRenderFolderPage(){
+    const c = document.getElementById('folderPageContent');
+    _renderSubpageArts(_folderPageArts, _folderPageView, c, '_folderArt');
+  }
+  function _reRenderFeedPage(){
+    const c = document.getElementById('feedPageContent');
+    _renderSubpageArts(_feedPageArts, _feedPageView, c, '_feedPageArt');
+  }
+
+  // Réutiliser les openers existants (déjà définis)
+  window._folderArtOpen = function(i){ const a=_folderPageArts[i]; if(a) _showArtModal(a); };
+  window._feedPageArtOpen = function(i){ const a=_feedPageArts[i]; if(a) _showArtModal(a); };
+
   let _feedPageArts = [];
 
   window.openFeedPage = function(feedUrl, feedName){
@@ -4185,22 +4311,8 @@ body{
     _feedPageArts = arts;
 
     if(!content) return;
-    if(!arts.length){
-      content.innerHTML = `<div style="padding:60px 0;text-align:center;color:var(--text-muted);font-size:14px;font-family:var(--font-inter)">Aucun article chargé.<br><span style="font-size:12px;opacity:.6">Actualisez les flux depuis le menu.</span></div>`;
-    } else {
-      content.innerHTML = arts.map((a,i)=>{
-        const fav  = typeof getFavicon==='function' ? getFavicon(a.feedUrl||a.link||'') : '';
-        const time = typeof relTime==='function' ? relTime(a.pubDate) : '';
-        const thumb = a.imageUrl ? `<div class="seq-thumb"><img src="${escAttr(a.imageUrl)}" alt="" decoding="async" onerror="this.parentNode.style.display='none'"></div>` : '';
-        return `<div class="seq-item" onclick="_feedPageArtOpen(${i})">
-          <div class="seq-body">
-            <div class="seq-source"><div class="seq-fav"><img src="${escAttr(fav)}" onerror="this.style.opacity='.3'"></div>${escHtml(a.source||feedName)} · ${time}</div>
-            <div class="seq-title">${escHtml(a.title)}</div>
-          </div>
-          ${thumb}
-        </div>`;
-      }).join('');
-    }
+    _renderSubpageArts(_feedPageArts, _feedPageView, content, '_feedPageArt');
+
 
     // Ouvrir + fermer sidebar
     const sb = document.getElementById('sidebar');
@@ -4244,21 +4356,7 @@ body{
       : [];
     _folderPageArts = arts;
     const content = document.getElementById('folderPageContent');
-    if(!arts.length){
-      content.innerHTML = '<div style="padding:60px 0;text-align:center;color:var(--text-muted);font-size:14px;font-family:var(--font-inter)">Aucun article dans ce dossier.<br>Ajoutez des flux ou attendez le chargement.</div>';
-    } else {
-      content.innerHTML = arts.map((a,i)=>{
-        const fav = getFavicon(a.feedUrl||a.link||'');
-        const thumb = a.imageUrl ? `<div class="seq-thumb"><img src="${escAttr(a.imageUrl)}" alt="" decoding="async" onerror="this.parentNode.style.display='none'"></div>` : '';
-        return `<div class="seq-item" onclick="_folderArtOpen(${i})">
-          <div class="seq-body">
-            <div class="seq-source"><div class="seq-fav"><img src="${escAttr(fav)}" onerror="this.style.opacity='.3'"></div>${escHtml(a.source)} · ${relTime(a.pubDate)}</div>
-            <div class="seq-title">${escHtml(a.title)}</div>
-          </div>
-          ${thumb}
-        </div>`;
-      }).join('');
-    }
+    _renderSubpageArts(_folderPageArts, _folderPageView, content, '_folderArt');
     const page = document.getElementById('folderPage');
     page.style.display='flex';
     requestAnimationFrame(()=>page.classList.add('open'));
@@ -4466,6 +4564,9 @@ body{
         </div>
         <span class="feed-page-title" id="feedPageTitle"></span>
       </div>
+      <button class="subpage-view-btn" onclick="_cycleSubpageView('feed')" aria-label="Changer de vue">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="19" height="19"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
     </div>
     <div class="feed-page-scroll">
       <div class="feed-page-inner" id="feedPageContent"></div>
@@ -4478,6 +4579,9 @@ body{
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
       <span class="folder-page-title" id="folderPageTitle"></span>
+      <button class="subpage-view-btn" onclick="_cycleSubpageView('folder')" aria-label="Changer de vue" style="margin-left:auto">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="19" height="19"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
     </div>
     <div class="folder-page-scroll">
       <div class="folder-page-inner" id="folderPageContent"></div>
