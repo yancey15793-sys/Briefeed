@@ -84,7 +84,7 @@ body{
   display:flex; flex-direction:column; align-items:flex-start;
   gap:9.5px;
   width:341.25px;
-  padding:48px 0 140px;          /* espace pour la navbar flottante */
+  padding:148px 0 140px; /* 148px = welcome header height approx */
 }
 
 /* h1.typography-hero-headline — « Hello Developer » */
@@ -105,10 +105,16 @@ body{
    HEADER « Bonjour, [Nom]. » + date / météo / lieu
    =========================================================== */
 .welcome{
+  position:fixed; top:0; left:0; right:0; z-index:55;
+  background:var(--bg);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  backdrop-filter:blur(20px) saturate(180%);
   align-self:stretch;
   text-align:center;
-  padding-bottom:14px;
+  padding:max(env(safe-area-inset-top,0px),16px) 24px 14px;
+  border-bottom:1px solid rgba(255,255,255,.06);
 }
+[data-theme="light"] .welcome{ border-bottom-color:rgba(0,0,0,.06); }
 .welcome-title{
   font-weight:800; font-size:46px; line-height:1.02;
   letter-spacing:-0.03em; color:var(--text);
@@ -142,12 +148,12 @@ body{
   box-sizing:border-box;
   display:flex; justify-content:center; align-items:center;
   height:192.83px;
-  border:1px solid var(--border); border-radius:20px;
+  border:1px solid var(--border); border-radius:12px;
   overflow:hidden;
 }
 .hello-img-wrapper > .img{
   width:339.25px; height:190.83px;
-  border-radius:16px;
+  border-radius:8px;
   background:linear-gradient(135deg,#1a1a1a,#0d0d0d);
   background-size:cover; background-position:center;
 }
@@ -387,7 +393,8 @@ body{
 .feed-add svg{ width:13px; height:13px; }
 
 .sb-footer{
-  border-top:1px solid rgba(255,255,255,.05); padding:12px 14px 16px;
+  border-top:1px solid rgba(255,255,255,.05);
+  padding:12px 14px max(calc(env(safe-area-inset-bottom,0px) + 88px), 96px);
   display:flex; flex-direction:column; gap:4px;
 }
 .sb-foot-btn{
@@ -1059,7 +1066,7 @@ body{
 .dc-search-wrap{ padding:16px 18px 4px; }
 .dc-search{
   width:100%; padding:13px 16px 13px 44px; box-sizing:border-box;
-  border-radius:18px; border:1px solid var(--border);
+  border-radius:14px; border:1px solid var(--border);
   background:var(--bg-elev) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E") no-repeat 16px center;
   font-family:var(--font-inter); font-size:15px; font-weight:600; color:var(--text); outline:none; transition:border-color .2s;
 }
@@ -1160,7 +1167,7 @@ body{
 @keyframes af-spin{to{transform:rotate(360deg)}}
 /* Fields card */
 .af-fields{
-  margin:10px 16px 0;border-radius:20px;overflow:hidden;
+  margin:10px 16px 0;border-radius:16px;overflow:hidden;
   background:rgba(255,255,255,.04);
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);
 }
@@ -1256,7 +1263,7 @@ body{
 /* ── VUE GRILLE 2 colonnes ──────────────────────── */
 .grid2-wrap{ display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:12px 0 80px; }
 .grid2-card{ display:flex; flex-direction:column; cursor:pointer; -webkit-tap-highlight-color:transparent; }
-.grid2-img{ border-radius:20px; overflow:hidden; aspect-ratio:4/3; background:#111; margin-bottom:8px; }
+.grid2-img{ border-radius:12px; overflow:hidden; aspect-ratio:4/3; background:#111; margin-bottom:8px; }
 .grid2-img img{ width:100%; height:100%; object-fit:cover; display:block; }
 .grid2-title{ font-family:var(--font-inter); font-size:13px; font-weight:700; line-height:1.3; color:var(--text); display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:5px; }
 .grid2-meta{ font-family:var(--font-inter); font-size:10.5px; color:var(--text-muted); font-weight:600; display:flex; align-items:center; gap:4px; }
@@ -1276,7 +1283,7 @@ body{
 .seq-fav{ width:12px; height:12px; border-radius:2px; overflow:hidden; }
 .seq-fav img{ width:100%; height:100%; object-fit:contain; }
 .seq-title{ font-family:var(--font-dm); font-size:17px; font-weight:700; line-height:1.28; color:var(--text); letter-spacing:-.01em; }
-.seq-thumb{ width:72px; height:72px; flex-shrink:0; border-radius:14px; overflow:hidden; background:#111; align-self:center; }
+.seq-thumb{ width:72px; height:72px; flex-shrink:0; border-radius:10px; overflow:hidden; background:#111; align-self:center; }
 .seq-thumb img{ width:100%; height:100%; object-fit:cover; }
 
 /* ── PAGE DOSSIER ────────────────────────────────── */
@@ -1395,7 +1402,7 @@ body{
 
 /* Carte article réelle — reprend .hello-card, ajoute source+time */
 .art-card{ display:flex; flex-direction:column; text-decoration:none; color:var(--text); cursor:pointer; -webkit-tap-highlight-color:transparent; }
-.art-card .hello-img-wrapper{ position:relative; border-radius:20px; overflow:hidden; aspect-ratio:16/9; background:#111; margin-bottom:0; }
+.art-card .hello-img-wrapper{ position:relative; border-radius:16px; overflow:hidden; aspect-ratio:16/9; background:#111; margin-bottom:0; }
 .art-card .hello-img-wrapper img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
 .art-card .art-source-row{ display:flex; align-items:center; gap:5px; margin:10px 0 4px; }
 .art-card .art-fav{ width:14px; height:14px; border-radius:3px; overflow:hidden; flex-shrink:0; }
@@ -1423,7 +1430,7 @@ body{
 .fav-item:active{ background:rgba(255,255,255,.04); }
 [data-theme="light"] .fav-item:active{ background:rgba(0,0,0,.04); }
 .fav-item:last-child{ border-bottom:none; }
-.fav-thumb{ width:72px; height:54px; flex-shrink:0; border-radius:14px; overflow:hidden; background:rgba(255,255,255,.07); }
+.fav-thumb{ width:72px; height:54px; flex-shrink:0; border-radius:10px; overflow:hidden; background:rgba(255,255,255,.07); }
 .fav-thumb img{ width:100%; height:100%; object-fit:cover; }
 .fav-thumb-empty{ width:72px; height:54px; flex-shrink:0; border-radius:10px; background:linear-gradient(135deg,rgba(255,60,50,.15),rgba(0,0,0,.3)); }
 .fav-meta{ flex:1; min-width:0; }
@@ -2342,6 +2349,11 @@ body{
 
       </div><!-- /vue éditions -->
 
+      <!-- ========== VUE LISTE ========== -->
+      <div class="view" data-view="liste" hidden>
+        <div class="list-view" id="listeList"></div>
+      </div><!-- /vue liste -->
+
       <!-- ========== VUE GRILLE ========== -->
       <div class="view" data-view="grille" hidden>
         <div class="grid2-wrap" id="grilleGrid"></div>
@@ -2543,7 +2555,7 @@ body{
 
   // ---- Bouton œil : cycle éditions → grille → séquentiel → parcourir ----
   const views = document.querySelectorAll('.view');
-  const order = ['editions', 'grille', 'sequential', 'browse'];
+  const order = ['editions', 'liste', 'grille', 'sequential', 'browse'];
   let _currentView = 'editions';
 
   function _switchView(target){
@@ -2552,6 +2564,7 @@ body{
     if(target === 'browse')    renderBrowseTimeline();
     if(target === 'grille')    _renderGrille();
     if(target === 'sequential')_renderSequential();
+    if(target === 'liste')     _renderListe();
     // Mettre à jour les chips du menu
     document.querySelectorAll('.menu3-chip').forEach(c => c.classList.toggle('active', c.dataset.view === target));
     // Sync view picker si ouvert
@@ -2591,7 +2604,7 @@ body{
       const arts = _dedup([...allArts]
         .filter(a => feedUrls.size ? feedUrls.has(a.feedUrl || '') : false)
         .sort((a, b) => b.pubDate - a.pubDate)
-      ).slice(0, 13); // hero + 12 grille (2×6)
+      ).slice(0, 7); // hero + 6 grille (2×3)
 
       if (!arts.length) return; // dossier vide → skip
 
@@ -2633,7 +2646,7 @@ body{
       </div>`;
 
       // ── Grille 2 colonnes (articles 1–12) ──
-      const grid = arts.slice(1, 13);
+      const grid = arts.slice(1, 7);
       if (grid.length) {
         html += '<div class="browse-folder-grid">';
         grid.forEach((a, gi) => {
@@ -3340,41 +3353,109 @@ body{
     const fl = document.getElementById('prefsFeedList');
     const dl = document.getElementById('prefsFolderList2');
     if(!fl || !dl) return;
+
+    // ── Liste des flux avec suppression ──────────────────────────
     const rows = [];
-    (folders || []).forEach(f => (f.feeds || []).forEach(fd => rows.push({ name: fd, folder: f.name })));
+    (folders || []).forEach((f,fi) => (f.feeds || []).forEach((fd,fdi) => {
+      const meta = JSON.parse(localStorage.getItem('reader.feedMeta')||'{}');
+      const name = meta[fd]?.name || (()=>{ try{ return new URL(fd).hostname.replace(/^www\./,''); }catch(e){ return fd; } })();
+      rows.push({ url:fd, name, folder:f.name, fi, fdi });
+    }));
     const cnt = document.getElementById('feedCount'); if(cnt) cnt.textContent = rows.length;
-    const fcnt = document.getElementById('folderCount'); if(fcnt) fcnt.textContent = (folders || []).length;
+    const fcnt = document.getElementById('folderCount'); if(fcnt) fcnt.textContent = (folders||[]).length;
 
     if(!rows.length){
-      fl.innerHTML = '<div class="pp-empty">Aucun flux pour l\'instant.<br>Ajoutez des flux depuis la barre latérale pour les gérer ici.</div>';
+      fl.innerHTML = '<div class="pp-empty">Aucun flux.<br>Ajoutez des sources depuis la sidebar.</div>';
     } else {
-      fl.innerHTML = rows.map(r => {
-        const initial = (r.name || '?').trim().charAt(0).toUpperCase();
-        return `<div class="pp-feed-row">
-          <label class="sp-toggle"><input type="checkbox" checked><span class="sp-track"><span class="sp-thumb"></span></span></label>
-          <div class="pp-feed-ic">${escapeHtml(initial)}</div>
+      fl.innerHTML = rows.map((r,i) => {
+        const initial = r.name.trim()[0]?.toUpperCase()||'?';
+        const fav = `https://www.google.com/s2/favicons?domain=${encodeURIComponent((()=>{try{return new URL(r.url).hostname;}catch(e){return r.url;}})())}&sz=32`;
+        return `<div class="pp-feed-row" data-fi="${r.fi}" data-fdi="${r.fdi}">
+          <div class="pp-feed-ic" style="background:#1c1c1e;overflow:hidden;position:relative">
+            <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">${escapeHtml(initial)}</span>
+            <img src="${fav}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:4px;box-sizing:border-box" onerror="this.style.display='none'">
+          </div>
           <div class="pp-feed-main">
             <div class="pp-feed-name">${escapeHtml(r.name)}</div>
             <div class="pp-feed-folder">${A_FOLDER}${escapeHtml(r.folder)}</div>
           </div>
-          <span class="pp-feed-meta">&gt;6 h</span>
-          <div class="pp-feed-actions"><button aria-label="Modifier">${A_EDIT}</button><button aria-label="Supprimer">${A_DEL}</button></div>
+          <div class="pp-feed-actions">
+            <button aria-label="Supprimer" onclick="_prefsDeleteFeed(${r.fi},${r.fdi})" style="color:#ff3c32">${A_DEL}</button>
+          </div>
         </div>`;
       }).join('');
     }
 
-    if(!(folders || []).length){
-      dl.innerHTML = '<div class="pp-empty">Aucun dossier pour l\'instant.</div>';
+    // ── Liste des dossiers avec déplacement + suppression ────────
+    if(!(folders||[]).length){
+      dl.innerHTML = '<div class="pp-empty">Aucun dossier.</div>';
     } else {
-      dl.innerHTML = folders.map(f => `<div class="pp-feed-row">
-        <div class="pp-feed-ic">${A_FOLDER}</div>
-        <div class="pp-feed-main"><div class="pp-feed-name">${escapeHtml(f.name)}</div></div>
-        <span class="pp-feed-meta">${(f.feeds||[]).length} flux</span>
-      </div>`).join('');
+      dl.innerHTML = `<div class="pp-folder-mgr" id="ppFolderMgr">${folders.map((f,i) => `
+        <div class="pp-folder-row" draggable="true" data-fi="${i}">
+          <span class="pp-folder-drag">⠿</span>
+          <div class="pp-feed-ic">${A_FOLDER}</div>
+          <div class="pp-feed-main">
+            <div class="pp-feed-name">${escapeHtml(f.name)}</div>
+            <div class="pp-feed-folder">${(f.feeds||[]).length} flux</div>
+          </div>
+          <div class="pp-feed-actions">
+            <button aria-label="Renommer" onclick="_prefsRenameFolder(${i})">${A_EDIT}</button>
+            <button aria-label="Supprimer" onclick="_prefsDeleteFolder(${i})" style="color:#ff3c32">${A_DEL}</button>
+          </div>
+        </div>`).join('')}</div>`;
+      _initFolderDrag();
     }
   }
+
+  // Actions dossiers
+  window._prefsRenameFolder = function(i){
+    const name = prompt('Renommer :', folders[i]?.name||'');
+    if(name?.trim()){ folders[i].name = name.trim(); persist(); render(); renderPrefsContent(); }
+  };
+  window._prefsDeleteFolder = function(i){
+    if(!confirm(`Supprimer « ${folders[i]?.name} » et tous ses flux ?`)) return;
+    folders.splice(i,1); persist(); render(); renderPrefsContent();
+  };
+  window._prefsDeleteFeed = function(fi, fdi){
+    if(!folders[fi]?.feeds) return;
+    const name = folders[fi].feeds[fdi];
+    if(!confirm(`Retirer ce flux ?`)) return;
+    folders[fi].feeds.splice(fdi,1); persist(); render(); renderPrefsContent();
+  };
+
+  // Drag & drop pour réorganiser les dossiers
+  function _initFolderDrag(){
+    const mgr = document.getElementById('ppFolderMgr');
+    if(!mgr) return;
+    let dragIdx = null;
+    mgr.querySelectorAll('.pp-folder-row').forEach(row => {
+      row.addEventListener('dragstart', e => { dragIdx = +row.dataset.fi; row.style.opacity='.4'; });
+      row.addEventListener('dragend',   e => { row.style.opacity='1'; dragIdx=null; });
+      row.addEventListener('dragover',  e => { e.preventDefault(); });
+      row.addEventListener('drop',      e => {
+        e.preventDefault();
+        const targetIdx = +row.dataset.fi;
+        if(dragIdx===null || dragIdx===targetIdx) return;
+        const moved = folders.splice(dragIdx,1)[0];
+        folders.splice(targetIdx,0,moved);
+        persist(); render(); renderPrefsContent();
+      });
+    });
+  }
+
+  // CSS supplémentaire pour la gestion
+  const _prefsMgrStyle = document.createElement('style');
+  _prefsMgrStyle.textContent = `
+    .pp-folder-row{ display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); cursor:default; }
+    [data-theme="light"] .pp-folder-row{ border-color:rgba(0,0,0,.08); }
+    .pp-folder-drag{ font-size:18px; color:var(--text-muted); cursor:grab; padding:0 4px; }
+    .pp-folder-drag:active{ cursor:grabbing; }
+  `;
+  document.head.appendChild(_prefsMgrStyle);
+
   // Exposer pour appel à l'ouverture
   window.__renderPrefsContent = renderPrefsContent;
+
 
   // =========================================================
   //  PAGE DÉCOUVRIR — thèmes illustrés + flux avec logos
@@ -3885,7 +3966,7 @@ body{
   function _artCardHtml(a, idx, isHero){
     const fav  = getFavicon(a.feedUrl||a.link||'');
     const time = relTime(a.pubDate);
-    const r    = isHero?'20px':'20px';
+    const r    = isHero?'18px':'14px';
     const mb   = isHero?'14':'10';
     const imgH = a.imageUrl
       ? `<div class="art-img-wrap" style="border-radius:${r};overflow:hidden;aspect-ratio:16/9;background:#111;margin-bottom:${mb}px"><img src="${escAttr(a.imageUrl)}" alt="" decoding="async" onerror="this.parentNode.style.display='none'" style="width:100%;height:100%;object-fit:cover"></div>`
@@ -4228,18 +4309,46 @@ body{
   }
   window._seqOpen = function(i){ const a=_seqArts[i]; if(a) _showArtModal(a); };
 
-  // Rafraîchir grille/séquentiel après loadAllFeeds
+  // ── VUE LISTE ─────────────────────────────────────────────────
+  let _listeArts = [];
+  function _renderListe(){
+    const wrap = document.getElementById('listeList');
+    if(!wrap) return;
+    const arts = typeof _allArticles !== 'undefined' ? _dedup([..._allArticles].sort((a,b)=>b.pubDate-a.pubDate)) : [];
+    _listeArts = arts.slice(0, 100);
+    if(!_listeArts.length){
+      wrap.innerHTML = '<div style="padding:60px 0;text-align:center;color:var(--text-muted);font-size:14px;font-family:var(--font-inter)">Aucun article disponible</div>';
+      return;
+    }
+    wrap.innerHTML = _listeArts.map((a,i)=>{
+      const fav = getFavicon(a.feedUrl||a.link||'');
+      const thumb = a.imageUrl
+        ? `<div class="list-thumb"><img src="${escAttr(a.imageUrl)}" alt="" decoding="async" onerror="this.parentNode.className='list-thumb-empty'"></div>`
+        : `<div class="list-thumb-empty"></div>`;
+      return `<div class="list-item" onclick="_listeOpen(${i})">
+        ${thumb}
+        <div class="list-body">
+          <div class="list-source"><div class="list-fav"><img src="${escAttr(fav)}" onerror="this.style.opacity='.3'"></div>${escHtml(a.source)} · ${relTime(a.pubDate)}</div>
+          <div class="list-title">${escHtml(a.title)}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  window._listeOpen = function(i){ const a=_listeArts[i]; if(a) _showArtModal(a); };
+
+  // Rafraîchir grille/séquentiel/liste après loadAllFeeds
   const _origRenderEditions = _renderEditions;
   _renderEditions = function(){
     _origRenderEditions();
     if(_currentView==='grille') _renderGrille();
     if(_currentView==='sequential') _renderSequential();
+    if(_currentView==='liste') _renderListe();
   };
 
   // ── Cycle de vues sur les pages Dossier et Flux ───────────────
-  const SUBPAGE_VIEWS = ['list', 'grille', 'sequential'];
-  let _folderPageView = 'list';
-  let _feedPageView   = 'list';
+  const SUBPAGE_VIEWS = ['liste', 'grille', 'sequential'];
+  let _folderPageView = 'liste';
+  let _feedPageView   = 'liste';
 
   window._cycleSubpageView = function(page){
     if(page === 'folder'){
@@ -4269,12 +4378,22 @@ body{
         return `<div class="seq-item" onclick="${arrName}Open(${i})"><span class="seq-num">${String(i+1).padStart(2,'0')}</span><div class="seq-body"><div class="seq-source"><div class="seq-fav"><img src="${fav}" onerror="this.style.opacity='.3'"></div>${escapeHtml(a.source)} · ${relTime(a.pubDate)}</div><div class="seq-title">${escapeHtml(a.title)}</div></div>${thumb}</div>`;
       }).join('')}</div>`;
     } else {
-      // liste (défaut)
-      container.innerHTML = `<div class="list-view">${arts.map((a,i)=>{
-        const fav=getFavicon(a.feedUrl||a.link||'');
-        const thumb=a.imageUrl?`<div class="list-thumb"><img src="${a.imageUrl}" decoding="async" onerror="this.parentNode.className='list-thumb-empty'"></div>`:`<div class="list-thumb-empty"></div>`;
-        return `<div class="list-item" onclick="${arrName}Open(${i})">${thumb}<div class="list-body"><div class="list-source"><div class="list-fav"><img src="${fav}" onerror="this.style.opacity='.3'"></div>${escapeHtml(a.source)} · ${relTime(a.pubDate)}</div><div class="list-title">${escapeHtml(a.title)}</div></div></div>`;
-      }).join('')}</div>`;
+      // liste (vue par défaut)
+      container.innerHTML = '<div class="list-view">' + arts.map(function(a,i){
+        var fav = getFavicon(a.feedUrl||a.link||'');
+        var thumb = a.imageUrl
+          ? '<div class="list-thumb"><img src="' + escAttr(a.imageUrl) + '" decoding="async" loading="lazy"></div>'
+          : '<div class="list-thumb-empty"></div>';
+        return '<div class="list-item" onclick="' + arrName + 'Open(' + i + ')">' +
+          thumb +
+          '<div class="list-body">' +
+            '<div class="list-source">' +
+              '<div class="list-fav"><img src="' + escAttr(fav) + '"></div>' +
+              escapeHtml(a.source) + ' · ' + relTime(a.pubDate) +
+            '</div>' +
+            '<div class="list-title">' + escapeHtml(a.title) + '</div>' +
+          '</div></div>';
+      }).join('') + '</div>';
     }
   }
 
