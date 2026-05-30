@@ -15,7 +15,7 @@
 <!-- Polices par option : Inter (≈ SF Pro, bien grasse) + Geist -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;590;700;800&family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;590;700;800&family=Geist:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
 
 <style>
 /* ===========================================================
@@ -31,6 +31,7 @@
 
   --font-inter:'Inter', -apple-system, system-ui, sans-serif;
   --font-geist:'Geist', -apple-system, system-ui, sans-serif;
+  --font-dm:'DM Serif Display', Georgia, 'Times New Roman', serif;
   --font-ui: var(--font-inter);
 }
 html[data-font="inter"]{ --font-ui:var(--font-inter); }
@@ -206,6 +207,11 @@ body{
 /* ===========================================================
    BOUTON MENU (grille 3×3, style block.xyz) — haut gauche, sans cadre
    =========================================================== */
+
+
+/* ===========================================================
+   BOUTON MENU (grille 3×3) — haut gauche, ouvre la sidebar
+   =========================================================== */
 .menu-btn{
   position:fixed; top:16px; left:16px; z-index:70;
   width:40px; height:40px;
@@ -215,23 +221,17 @@ body{
   -webkit-backdrop-filter:blur(20px) saturate(180%);
   backdrop-filter:blur(20px) saturate(180%);
   border-radius:50%;
-  box-shadow:
-    0 6px 18px rgba(0,0,0,.35),
-    0 1px 3px rgba(0,0,0,.25);
+  box-shadow:0 6px 18px rgba(0,0,0,.35),0 1px 3px rgba(0,0,0,.25);
   color:var(--text); cursor:pointer;
   -webkit-tap-highlight-color:transparent;
-  transition:transform .3s cubic-bezier(.34,1.56,.64,1), background .2s ease, box-shadow .2s ease;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1), background .2s ease;
 }
 .menu-btn:hover{ transform:scale(1.1); background:rgba(255,255,255,.12); }
 .menu-btn:active{ transform:scale(.88); }
 .menu-btn svg{ width:22px; height:22px; }
-
-/* Mode clair */
 [data-theme="light"] .menu-btn{
   background:rgba(255,255,255,.7);
-  box-shadow:
-    0 10px 28px rgba(0,0,0,.1),
-    0 2px 6px rgba(0,0,0,.06);
+  box-shadow:0 10px 28px rgba(0,0,0,.1),0 2px 6px rgba(0,0,0,.06);
 }
 [data-theme="light"] .menu-btn:hover{ background:rgba(255,255,255,.85); }
 
@@ -560,6 +560,8 @@ body{
   font-size:13.5px; font-weight:500; line-height:1.38;
   color:var(--text-muted);
 }
+
+.edition-label{
   align-self:stretch;
   text-align:center;
   margin:32px 0 16px;
@@ -629,23 +631,12 @@ body{
 
 /* Panneau accordéon */
 .sb-prefs-panel{
-  display:grid;
-  grid-template-rows:0fr;
-  transition:grid-template-rows .45s cubic-bezier(.32,.72,0,1);
-  overflow:hidden;
-}
-.sb-prefs-panel.open{
-  grid-template-rows:1fr;
-}
-.sb-prefs-panel > *:first-child{ overflow:hidden; }
-
-/* Wrapper interne pour éviter le clipping du grid trick */
-.sb-prefs-panel {
   overflow:hidden;
   max-height:0;
-  transition:max-height .45s cubic-bezier(.32,.72,0,1), opacity .3s ease;
   opacity:0;
+  transition:max-height .45s cubic-bezier(.32,.72,0,1), opacity .3s ease;
 }
+.sb-prefs-panel > *:first-child{ overflow:hidden; }
 .sb-prefs-panel.open{
   max-height:700px;
   opacity:1;
@@ -1305,49 +1296,79 @@ body{
 .menu3-btn{ display:none; }
 
 /* ── PILL GLISSANTE — top right ──────────────────── */
+/* ===========================================================
+   QPILL — pill droite : ••• trigger fixe, s'élargit vers la gauche
+   Forme : inspirée du tab-bar HTML fourni (pill indicator glissant)
+   =========================================================== */
 .qpill{
   position:fixed; top:16px; right:16px; z-index:200;
-  display:flex; align-items:center; flex-direction:row;
+  display:flex; align-items:center; flex-direction:row-reverse; /* ••• reste à droite */
   height:40px; width:40px;
   border-radius:999px; overflow:hidden;
   background:rgba(255,255,255,.07);
   -webkit-backdrop-filter:blur(20px) saturate(180%);
   backdrop-filter:blur(20px) saturate(180%);
   box-shadow:0 6px 18px rgba(0,0,0,.35),0 1px 3px rgba(0,0,0,.25);
-  transition:width .38s cubic-bezier(.32,.72,0,1);
+  transition:width .4s cubic-bezier(0.4,0,0.2,1);
 }
 .qpill.open{ width:128px; }
 [data-theme="light"] .qpill{
   background:rgba(255,255,255,.72);
   box-shadow:0 6px 18px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.06);
 }
-/* Boutons œil + thème — cachés en état replié */
+
+/* Trigger ••• — toujours visible à droite grâce à flex-direction:row-reverse */
+.qpill-trigger{
+  width:40px; height:40px; flex-shrink:0;
+  border:none; background:transparent; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--text);
+  -webkit-tap-highlight-color:transparent;
+  z-index:3; position:relative;
+  transition:transform .15s;
+}
+.qpill-trigger:active{ transform:scale(.88); }
+
+/* Active pill — indicateur glissant (comme le HTML fourni) */
+.qpill-active-pill{
+  position:absolute;
+  right:3px; top:3px; bottom:3px;
+  width:34px;
+  background:rgba(255,255,255,.15);
+  border-radius:999px;
+  z-index:1;
+  transition:transform .4s cubic-bezier(0.4,0,0.2,1), width .4s cubic-bezier(0.4,0,0.2,1), opacity .2s;
+  pointer-events:none;
+  opacity:0;
+}
+.qpill.open .qpill-active-pill{ opacity:1; }
+
+/* Séparateur */
+.qpill-sep{
+  width:1px; height:16px; flex-shrink:0;
+  background:rgba(255,255,255,.18);
+  opacity:0; transition:opacity .2s .1s;
+  z-index:2; position:relative;
+}
+[data-theme="light"] .qpill-sep{ background:rgba(0,0,0,.15); }
+.qpill.open .qpill-sep{ opacity:1; }
+
+/* Boutons œil + thème — révélés à gauche */
 .qpill-btn{
   width:40px; height:40px; flex-shrink:0;
   border:none; background:transparent; cursor:pointer;
   display:flex; align-items:center; justify-content:center;
   color:var(--text); opacity:0; pointer-events:none;
-  transition:opacity .2s;
+  transition:opacity .2s .05s;
   -webkit-tap-highlight-color:transparent;
+  z-index:2; position:relative;
 }
 .qpill.open .qpill-btn{ opacity:1; pointer-events:auto; }
 .qpill-btn:active{ opacity:.6; }
+/* Icônes soleil/lune */
 .qpill-btn .ic-moon{ display:none; }
 [data-theme="light"] .qpill-btn .ic-sun{ display:none; }
 [data-theme="light"] .qpill-btn .ic-moon{ display:block; }
-/* Séparateur */
-.qpill-sep{ width:1px; height:16px; flex-shrink:0; background:rgba(255,255,255,.18); opacity:0; transition:opacity .2s; }
-[data-theme="light"] .qpill-sep{ background:rgba(0,0,0,.12); }
-.qpill.open .qpill-sep{ opacity:1; }
-/* Trigger ••• — toujours visible, à droite */
-.qpill-trigger{
-  width:40px; height:40px; flex-shrink:0;
-  border:none; background:transparent; cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
-  color:var(--text); margin-left:auto;
-  -webkit-tap-highlight-color:transparent;
-}
-.qpill-trigger:active{ transform:scale(.88); }
 .menu3-overlay{ position:fixed; inset:0; z-index:6000; display:none; background:rgba(0,0,0,0); transition:background .25s; align-items:flex-end; justify-content:center; }
 .menu3-overlay.open{ background:rgba(0,0,0,.55); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
 .menu3-sheet{ width:100%; max-width:520px; background:#111; border-radius:22px 22px 0 0; transform:translateY(110%); transition:transform .38s cubic-bezier(.32,.72,0,1); padding-bottom:max(env(safe-area-inset-bottom,0px),20px); }
@@ -1418,32 +1439,36 @@ body{
 <body>
 
   <!-- Bouton menu (grille 3×3, style block.xyz) -->
+  <!-- Bouton menu sidebar (grille 3×3) — haut gauche -->
   <button class="menu-btn" id="menuBtn" aria-label="Ouvrir le menu">
     <svg viewBox="0 0 24 24" fill="currentColor">
-      <rect x="3"    y="3"    width="5" height="5" rx="1.3"/>
-      <rect x="9.5"  y="3"    width="5" height="5" rx="1.3"/>
-      <rect x="16"   y="3"    width="5" height="5" rx="1.3"/>
-      <rect x="3"    y="9.5"  width="5" height="5" rx="1.3"/>
-      <rect x="9.5"  y="9.5"  width="5" height="5" rx="1.3"/>
-      <rect x="16"   y="9.5"  width="5" height="5" rx="1.3"/>
-      <rect x="3"    y="16"   width="5" height="5" rx="1.3"/>
-      <rect x="9.5"  y="16"   width="5" height="5" rx="1.3"/>
-      <rect x="16"   y="16"   width="5" height="5" rx="1.3"/>
+      <rect x="3"   y="3"   width="5" height="5" rx="1.3"/>
+      <rect x="9.5" y="3"   width="5" height="5" rx="1.3"/>
+      <rect x="16"  y="3"   width="5" height="5" rx="1.3"/>
+      <rect x="3"   y="9.5" width="5" height="5" rx="1.3"/>
+      <rect x="9.5" y="9.5" width="5" height="5" rx="1.3"/>
+      <rect x="16"  y="9.5" width="5" height="5" rx="1.3"/>
+      <rect x="3"   y="16"  width="5" height="5" rx="1.3"/>
+      <rect x="9.5" y="16"  width="5" height="5" rx="1.3"/>
+      <rect x="16"  y="16"  width="5" height="5" rx="1.3"/>
     </svg>
   </button>
 
-  <!-- Bouton œil : bascule rapide magazine ↔ grille ↔ parcourir ↔ séquentiel -->
-  <!-- Pill expansible •••  : slide vers la gauche → vue + thème -->
+  <!-- Pill droite : ••• fixe → s'élargit gauche avec œil + thème -->
   <div class="qpill" id="qpill">
-    <!-- Boutons révélés à gauche (cachés par défaut) -->
-    <button class="qpill-btn" onclick="qpillToggleView()" aria-label="Changer de vue">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
-        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/>
-        <circle cx="12" cy="12" r="3"/>
+    <!-- Active pill indicator (glisse sur l'élément actif) -->
+    <div class="qpill-active-pill" id="qpillPill"></div>
+    <!-- Trigger ••• — toujours visible à droite (flex-direction:row-reverse) -->
+    <button class="qpill-trigger" onclick="qpillToggle()" aria-label="Options rapides">
+      <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
+        <circle cx="4"  cy="10" r="2"/>
+        <circle cx="10" cy="10" r="2"/>
+        <circle cx="16" cy="10" r="2"/>
       </svg>
     </button>
     <div class="qpill-sep"></div>
-    <button class="qpill-btn" onclick="qpillToggleTheme()" aria-label="Changer de thème">
+    <!-- Bouton thème (juste à gauche du séparateur) -->
+    <button class="qpill-btn" id="qpillThemeBtn" onclick="qpillToggleTheme()" aria-label="Changer de thème">
       <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="20" height="20">
         <circle cx="12" cy="12" r="4"/>
         <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
@@ -1453,12 +1478,11 @@ body{
       </svg>
     </button>
     <div class="qpill-sep"></div>
-    <!-- Trigger ••• toujours visible à droite -->
-    <button class="qpill-trigger" onclick="qpillToggle()" aria-label="Options rapides">
-      <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
-        <circle cx="4"  cy="10" r="2"/>
-        <circle cx="10" cy="10" r="2"/>
-        <circle cx="16" cy="10" r="2"/>
+    <!-- Bouton œil (le plus à gauche) -->
+    <button class="qpill-btn" id="qpillViewBtn" onclick="qpillToggleView()" aria-label="Changer de vue">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/>
+        <circle cx="12" cy="12" r="3"/>
       </svg>
     </button>
   </div>
@@ -2074,7 +2098,7 @@ body{
       <section class="browse" id="browseSection">
         <!-- généré dynamiquement par renderBrowseTimeline() -->
       </section>
-      </div><!-- /vue parcourir -->\
+      </div><!-- /vue parcourir -->
 
       <!-- ========== VUE FAVORIS ========== -->
       <div class="view" data-view="favoris" hidden>
@@ -2274,7 +2298,8 @@ body{
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  document.getElementById('viewToggle').addEventListener('click', () => {
+  const _viewToggleEl = document.getElementById('viewToggle');
+  if(_viewToggleEl) _viewToggleEl.addEventListener('click', () => {
     const idx = order.indexOf(_currentView);
     _switchView(order[(idx + 1) % order.length]);
   });
@@ -3776,6 +3801,7 @@ body{
     container.innerHTML = header + items;
   }
 
+  window._openFavArt = function(i){ const a=_favArts[i]; if(a) _showArtModal(a); };
   window._removeFavori = function(link){
     let list = _getReadLater().filter(a=>a.link!==link);
     _saveReadLater(list);
@@ -3986,6 +4012,7 @@ body{
         .catch(() => {});
     });
   }
+
 </script>
   <!-- ═══════════════════════════════════════════════════════════
        ADD FEED MODAL — bottom sheet RSS auto-détection
