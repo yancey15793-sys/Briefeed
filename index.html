@@ -560,74 +560,6 @@ body{
   font-size:13.5px; font-weight:500; line-height:1.38;
   color:var(--text-muted);
 }
-
-/* ===========================================================
-   BOUTON ŒIL — bascule rapide entre magazine et grille
-   =========================================================== */
-.view-toggle{
-  position:fixed; top:16px; right:16px; z-index:70;
-  width:40px; height:40px;
-  display:inline-flex; align-items:center; justify-content:center;
-  border:0;
-  background:rgba(255,255,255,.07);
-  -webkit-backdrop-filter:blur(20px) saturate(180%);
-  backdrop-filter:blur(20px) saturate(180%);
-  border-radius:50%;
-  box-shadow:
-    0 6px 18px rgba(0,0,0,.35),
-    0 1px 3px rgba(0,0,0,.25);
-  color:var(--text); cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
-  transition:transform .3s cubic-bezier(.34,1.56,.64,1), background .2s ease, box-shadow .2s ease;
-}
-.view-toggle:hover{ transform:scale(1.1); background:rgba(255,255,255,.12); }
-.view-toggle:active{ transform:scale(.88); }
-.view-toggle svg{ width:22px; height:22px; }
-
-[data-theme="light"] .view-toggle{
-  background:rgba(255,255,255,.7);
-  box-shadow:
-    0 10px 28px rgba(0,0,0,.1),
-    0 2px 6px rgba(0,0,0,.06);
-}
-[data-theme="light"] .view-toggle:hover{ background:rgba(255,255,255,.85); }
-
-/* ===========================================================
-   BOUTON THÈME — bascule clair / sombre, sous l'œil
-   =========================================================== */
-.theme-toggle{
-  position:fixed; top:62px; right:16px; z-index:70;
-  width:40px; height:40px;
-  display:inline-flex; align-items:center; justify-content:center;
-  border:0;
-  background:rgba(255,255,255,.07);
-  -webkit-backdrop-filter:blur(20px) saturate(180%);
-  backdrop-filter:blur(20px) saturate(180%);
-  border-radius:50%;
-  box-shadow:
-    0 6px 18px rgba(0,0,0,.35),
-    0 1px 3px rgba(0,0,0,.25);
-  color:var(--text); cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
-  transition:transform .3s cubic-bezier(.34,1.56,.64,1), background .2s ease, box-shadow .2s ease;
-}
-.theme-toggle:hover{ transform:scale(1.1); background:rgba(255,255,255,.12); }
-.theme-toggle:active{ transform:scale(.88); }
-.theme-toggle svg{ width:20px; height:20px; }
-.theme-toggle .ic-moon{ display:none; }
-[data-theme="light"] .theme-toggle .ic-sun{ display:none; }
-[data-theme="light"] .theme-toggle .ic-moon{ display:block; }
-
-[data-theme="light"] .theme-toggle{
-  background:rgba(255,255,255,.7);
-  box-shadow:
-    0 10px 28px rgba(0,0,0,.1),
-    0 2px 6px rgba(0,0,0,.06);
-}
-[data-theme="light"] .theme-toggle:hover{ background:rgba(255,255,255,.85); }
-
-/* Label centré « Mon édition du jour » */
-.edition-label{
   align-self:stretch;
   text-align:center;
   margin:32px 0 16px;
@@ -1329,6 +1261,117 @@ body{
 .af-cat-done:active{background:rgba(255,255,255,.14);}@keyframes sk{from{opacity:.06}to{opacity:.14}}
 .sk-card{ background:rgba(255,255,255,.08); pointer-events:none; min-height:220px; }
 [data-theme="light"] .sk-card{ background:rgba(0,0,0,.06); }
+
+/* ── VUE GRILLE 2 colonnes ──────────────────────── */
+.grid2-wrap{ display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:12px 0 80px; }
+.grid2-card{ display:flex; flex-direction:column; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.grid2-img{ border-radius:12px; overflow:hidden; aspect-ratio:4/3; background:#111; margin-bottom:8px; }
+.grid2-img img{ width:100%; height:100%; object-fit:cover; display:block; }
+.grid2-title{ font-family:var(--font-inter); font-size:13px; font-weight:700; line-height:1.3; color:var(--text); display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:5px; }
+.grid2-meta{ font-family:var(--font-inter); font-size:10.5px; color:var(--text-muted); font-weight:600; display:flex; align-items:center; gap:4px; }
+.grid2-fav{ width:12px; height:12px; border-radius:2px; overflow:hidden; flex-shrink:0; }
+.grid2-fav img{ width:100%; height:100%; object-fit:contain; }
+
+/* ── VUE SÉQUENTIELLE ────────────────────────────── */
+.seq-list{ display:flex; flex-direction:column; gap:0; padding-bottom:80px; }
+.seq-item{ display:flex; gap:14px; align-items:flex-start; padding:16px 0; border-bottom:1px solid var(--border); cursor:pointer; -webkit-tap-highlight-color:transparent; transition:background .15s; }
+.seq-item:active{ background:rgba(255,255,255,.03); }
+[data-theme="light"] .seq-item{ border-color:rgba(0,0,0,.08); }
+.seq-item:last-child{ border-bottom:none; }
+.seq-num{ font-family:var(--font-inter); font-size:22px; font-weight:800; color:rgba(255,255,255,.1); min-width:32px; text-align:right; flex-shrink:0; line-height:1; padding-top:3px; letter-spacing:-.03em; }
+[data-theme="light"] .seq-num{ color:rgba(0,0,0,.1); }
+.seq-body{ flex:1; min-width:0; }
+.seq-source{ font-family:var(--font-inter); font-size:10.5px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.04em; margin-bottom:5px; display:flex; align-items:center; gap:4px; }
+.seq-fav{ width:12px; height:12px; border-radius:2px; overflow:hidden; }
+.seq-fav img{ width:100%; height:100%; object-fit:contain; }
+.seq-title{ font-family:var(--font-dm); font-size:17px; font-weight:700; line-height:1.28; color:var(--text); letter-spacing:-.01em; }
+.seq-thumb{ width:72px; height:72px; flex-shrink:0; border-radius:10px; overflow:hidden; background:#111; align-self:center; }
+.seq-thumb img{ width:100%; height:100%; object-fit:cover; }
+
+/* ── PAGE DOSSIER ────────────────────────────────── */
+.folder-page{ position:fixed; inset:0; z-index:200; background:var(--bg); display:flex; flex-direction:column; transform:translateX(100%); transition:transform .38s cubic-bezier(.32,.72,0,1); }
+.folder-page.open{ transform:none; }
+.folder-page-bar{ display:flex; align-items:center; gap:12px; padding:14px 18px; border-bottom:1px solid var(--border); flex-shrink:0; }
+[data-theme="light"] .folder-page-bar{ border-color:rgba(0,0,0,.08); }
+.folder-page-back{ width:36px; height:36px; border:none; background:rgba(255,255,255,.08); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text); transition:background .15s; flex-shrink:0; }
+[data-theme="light"] .folder-page-back{ background:rgba(0,0,0,.06); }
+.folder-page-back svg{ width:17px; height:17px; }
+.folder-page-title{ font-family:var(--font-inter); font-size:17px; font-weight:800; letter-spacing:-.02em; color:var(--text); }
+.folder-page-scroll{ flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+.folder-page-scroll::-webkit-scrollbar{ display:none; }
+.folder-page-inner{ padding:16px 18px 90px; }
+
+/* ── MENU 3 POINTS ───────────────────────────────── */
+.menu3-btn{ display:none; }
+
+/* ── PILL GLISSANTE — top right ──────────────────── */
+.qpill{
+  position:fixed; top:16px; right:16px; z-index:200;
+  display:flex; align-items:center; flex-direction:row;
+  height:40px; width:40px;
+  border-radius:999px; overflow:hidden;
+  background:rgba(255,255,255,.07);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  backdrop-filter:blur(20px) saturate(180%);
+  box-shadow:0 6px 18px rgba(0,0,0,.35),0 1px 3px rgba(0,0,0,.25);
+  transition:width .38s cubic-bezier(.32,.72,0,1);
+}
+.qpill.open{ width:128px; }
+[data-theme="light"] .qpill{
+  background:rgba(255,255,255,.72);
+  box-shadow:0 6px 18px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.06);
+}
+/* Boutons œil + thème — cachés en état replié */
+.qpill-btn{
+  width:40px; height:40px; flex-shrink:0;
+  border:none; background:transparent; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--text); opacity:0; pointer-events:none;
+  transition:opacity .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.qpill.open .qpill-btn{ opacity:1; pointer-events:auto; }
+.qpill-btn:active{ opacity:.6; }
+.qpill-btn .ic-moon{ display:none; }
+[data-theme="light"] .qpill-btn .ic-sun{ display:none; }
+[data-theme="light"] .qpill-btn .ic-moon{ display:block; }
+/* Séparateur */
+.qpill-sep{ width:1px; height:16px; flex-shrink:0; background:rgba(255,255,255,.18); opacity:0; transition:opacity .2s; }
+[data-theme="light"] .qpill-sep{ background:rgba(0,0,0,.12); }
+.qpill.open .qpill-sep{ opacity:1; }
+/* Trigger ••• — toujours visible, à droite */
+.qpill-trigger{
+  width:40px; height:40px; flex-shrink:0;
+  border:none; background:transparent; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--text); margin-left:auto;
+  -webkit-tap-highlight-color:transparent;
+}
+.qpill-trigger:active{ transform:scale(.88); }
+.menu3-overlay{ position:fixed; inset:0; z-index:6000; display:none; background:rgba(0,0,0,0); transition:background .25s; align-items:flex-end; justify-content:center; }
+.menu3-overlay.open{ background:rgba(0,0,0,.55); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
+.menu3-sheet{ width:100%; max-width:520px; background:#111; border-radius:22px 22px 0 0; transform:translateY(110%); transition:transform .38s cubic-bezier(.32,.72,0,1); padding-bottom:max(env(safe-area-inset-bottom,0px),20px); }
+[data-theme="light"] .menu3-sheet{ background:#fff; }
+.menu3-overlay.open .menu3-sheet{ transform:none; }
+.menu3-handle{ width:36px; height:4px; border-radius:2px; background:rgba(255,255,255,.2); margin:10px auto; }
+[data-theme="light"] .menu3-handle{ background:rgba(0,0,0,.15); }
+.menu3-section{ padding:4px 14px 10px; }
+.menu3-label{ font-family:var(--font-inter); font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.06em; padding:0 4px 8px; }
+.menu3-row{ display:flex; align-items:center; gap:14px; padding:13px 4px; border-radius:12px; cursor:pointer; transition:background .15s; -webkit-tap-highlight-color:transparent; }
+.menu3-row:hover{ background:rgba(255,255,255,.05); }
+[data-theme="light"] .menu3-row:hover{ background:rgba(0,0,0,.04); }
+.menu3-icon{ width:38px; height:38px; border-radius:10px; background:rgba(255,255,255,.08); display:flex; align-items:center; justify-content:center; color:var(--text); flex-shrink:0; }
+[data-theme="light"] .menu3-icon{ background:rgba(0,0,0,.06); }
+.menu3-icon svg{ width:17px; height:17px; }
+.menu3-row-label{ font-family:var(--font-inter); font-size:15px; font-weight:600; color:var(--text); }
+.menu3-row-sub{ font-family:var(--font-inter); font-size:12px; color:var(--text-muted); margin-top:1px; }
+.menu3-divider{ height:1px; background:rgba(255,255,255,.07); margin:2px 14px; }
+[data-theme="light"] .menu3-divider{ background:rgba(0,0,0,.07); }
+.menu3-chips{ display:flex; gap:8px; flex-wrap:wrap; padding:4px 4px 10px; }
+.menu3-chip{ padding:8px 16px; border-radius:999px; border:1.5px solid rgba(255,255,255,.12); font-family:var(--font-inter); font-size:13px; font-weight:700; color:var(--text-muted); cursor:pointer; transition:all .2s; -webkit-tap-highlight-color:transparent; }
+[data-theme="light"] .menu3-chip{ border-color:rgba(0,0,0,.12); }
+.menu3-chip.active{ border-color:#ff3c32; background:rgba(255,60,50,.12); color:#ff3c32; }
+
 /* Carte article réelle — reprend .hello-card, ajoute source+time */
 .art-card{ display:flex; flex-direction:column; text-decoration:none; color:var(--text); cursor:pointer; -webkit-tap-highlight-color:transparent; }
 .art-card .hello-img-wrapper{ position:relative; border-radius:16px; overflow:hidden; aspect-ratio:16/9; background:#111; margin-bottom:0; }
@@ -1389,24 +1432,36 @@ body{
     </svg>
   </button>
 
-  <!-- Bouton œil : bascule rapide magazine ↔ grille -->
-  <button class="view-toggle" id="viewToggle" aria-label="Changer de vue" title="Changer de vue">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/>
-      <circle cx="12" cy="12" r="3"/>
-    </svg>
-  </button>
-
-  <!-- Bouton thème : sombre ↔ clair -->
-  <button class="theme-toggle" id="themeToggle" aria-label="Changer de thème" title="Changer de thème">
-    <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="4"/>
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-    </svg>
-    <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/>
-    </svg>
-  </button>
+  <!-- Bouton œil : bascule rapide magazine ↔ grille ↔ parcourir ↔ séquentiel -->
+  <!-- Pill expansible •••  : slide vers la gauche → vue + thème -->
+  <div class="qpill" id="qpill">
+    <!-- Boutons révélés à gauche (cachés par défaut) -->
+    <button class="qpill-btn" onclick="qpillToggleView()" aria-label="Changer de vue">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+    </button>
+    <div class="qpill-sep"></div>
+    <button class="qpill-btn" onclick="qpillToggleTheme()" aria-label="Changer de thème">
+      <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="20" height="20">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+      </svg>
+      <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="20" height="20">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/>
+      </svg>
+    </button>
+    <div class="qpill-sep"></div>
+    <!-- Trigger ••• toujours visible à droite -->
+    <button class="qpill-trigger" onclick="qpillToggle()" aria-label="Options rapides">
+      <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
+        <circle cx="4"  cy="10" r="2"/>
+        <circle cx="10" cy="10" r="2"/>
+        <circle cx="16" cy="10" r="2"/>
+      </svg>
+    </button>
+  </div>
 
   <!-- Sidebar -->
   <div class="sidebar-overlay" id="sbOverlay"></div>
@@ -2004,6 +2059,16 @@ body{
 
       </div><!-- /vue éditions -->
 
+      <!-- ========== VUE GRILLE ========== -->
+      <div class="view" data-view="grille" hidden>
+        <div class="grid2-wrap" id="grilleGrid"></div>
+      </div><!-- /vue grille -->
+
+      <!-- ========== VUE SÉQUENTIELLE ========== -->
+      <div class="view" data-view="sequential" hidden>
+        <div class="seq-list" id="seqList"></div>
+      </div><!-- /vue séquentielle -->
+
       <!-- ========== VUE PARCOURIR ========== -->
       <div class="view" data-view="browse" hidden>
       <section class="browse" id="browseSection">
@@ -2193,16 +2258,25 @@ body{
     btns.forEach(x => x.setAttribute('aria-pressed', x === b));
   }));
 
-  // ---- Bouton œil : cycle magazine → grille → thématiques ----
+  // ---- Bouton œil : cycle éditions → grille → séquentiel → parcourir ----
   const views = document.querySelectorAll('.view');
-  const order = ['editions', 'browse', 'themes'];
-  document.getElementById('viewToggle').addEventListener('click', () => {
-    let current = 'editions';
-    views.forEach(v => { if (!v.hidden) current = v.dataset.view; });
-    const next = order[(order.indexOf(current) + 1) % order.length];
-    views.forEach(v => { v.hidden = v.dataset.view !== next; });
-    if (next === 'browse') renderBrowseTimeline();
+  const order = ['editions', 'grille', 'sequential', 'browse'];
+  let _currentView = 'editions';
+
+  function _switchView(target){
+    _currentView = target;
+    views.forEach(v => { v.hidden = v.dataset.view !== target; });
+    if(target === 'browse')    renderBrowseTimeline();
+    if(target === 'grille')    _renderGrille();
+    if(target === 'sequential')_renderSequential();
+    // Mettre à jour les chips du menu
+    document.querySelectorAll('.menu3-chip').forEach(c => c.classList.toggle('active', c.dataset.view === target));
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.getElementById('viewToggle').addEventListener('click', () => {
+    const idx = order.indexOf(_currentView);
+    _switchView(order[(idx + 1) % order.length]);
   });
 
   // =========================================================
@@ -2714,16 +2788,58 @@ body{
   document.getElementById('navFavorites').addEventListener('click', () => { updateNavPill(2); _openFavoris(); });
   updateNavPill(0);
 
-  // ---- Bouton thème : sombre ↔ clair (persistant) ----
+  // ---- Pill expansible ••• : vue + thème ----
   const THEME_KEY = 'reader.theme';
   let theme = 'dark';
   try { theme = localStorage.getItem(THEME_KEY) || 'dark'; } catch(e){}
   document.documentElement.dataset.theme = theme;
-  document.getElementById('themeToggle').addEventListener('click', () => {
+
+  const _qpill = document.getElementById('qpill');
+  let _qpillOpen = false;
+
+  function _qpillBindOutside(){
+    document.addEventListener('click', _qpillOutside, {once:true, capture:true});
+  }
+  function _qpillOutside(e){
+    if(_qpill.contains(e.target)){
+      // Clic à l'intérieur → réinstaller pour capter le prochain clic extérieur
+      _qpillBindOutside();
+    } else {
+      _qpillOpen = false;
+      _qpill.classList.remove('open');
+    }
+  }
+
+  function qpillToggle(){
+    _qpillOpen = !_qpillOpen;
+    _qpill.classList.toggle('open', _qpillOpen);
+    if(_qpillOpen) setTimeout(_qpillBindOutside, 10);
+  }
+
+  window.qpillToggle = qpillToggle;
+
+  window.qpillToggleTheme = function(){
     theme = (document.documentElement.dataset.theme === 'light') ? 'dark' : 'light';
     document.documentElement.dataset.theme = theme;
     try { localStorage.setItem(THEME_KEY, theme); } catch(e){}
-  });
+    // Sync menu3 checks si ouverts
+    const cd = document.getElementById('menu3CheckDark');
+    const cl = document.getElementById('menu3CheckLight');
+    if(cd) cd.style.display = theme==='dark'  ? '' : 'none';
+    if(cl) cl.style.display = theme==='light' ? '' : 'none';
+  };
+
+  window.qpillToggleView = function(){
+    const idx = order.indexOf(_currentView);
+    _switchView(order[(idx + 1) % order.length]);
+  };
+
+  // Compatibilité : l'ancien themeToggle est supprimé, rebinder au cas où
+  const _oldThemeBtn = document.getElementById('themeToggle');
+  if(_oldThemeBtn) _oldThemeBtn.addEventListener('click', qpillToggleTheme);
+  const _oldMenu3Btn = document.getElementById('menu3Btn');
+  if(_oldMenu3Btn) _oldMenu3Btn.addEventListener('click', openMenu3);
+
 
   // =========================================================
   //  PAGE PRÉFÉRENCES — ouverture / navigation / onglets / recherche
@@ -3687,6 +3803,169 @@ body{
   document.addEventListener('touchend', e=>{
     if(window.scrollY<5 && e.changedTouches[0].clientY - _ptStart > 70) loadAllFeeds(true);
   }, {passive:true});
+
+  // ── VUE GRILLE ────────────────────────────────────────────────
+  let _grilleArts = [];
+  function _renderGrille(){
+    const wrap = document.getElementById('grilleGrid');
+    if(!wrap) return;
+    const arts = typeof _allArticles !== 'undefined' ? _dedup([..._allArticles].sort((a,b)=>b.pubDate-a.pubDate)) : [];
+    _grilleArts = arts.slice(0,60);
+    if(!_grilleArts.length){
+      wrap.innerHTML = '<div style="grid-column:1/-1;padding:60px 0;text-align:center;color:var(--text-muted);font-size:14px;font-family:var(--font-inter)">Aucun article disponible</div>';
+      return;
+    }
+    wrap.innerHTML = _grilleArts.map((a,i)=>{
+      const fav = getFavicon(a.feedUrl||a.link||'');
+      const imgH = a.imageUrl
+        ? `<div class="grid2-img"><img src="${escAttr(a.imageUrl)}" alt="" decoding="async" onerror="this.parentNode.style.background='#1a1a1a'"></div>`
+        : `<div class="grid2-img" style="background:linear-gradient(135deg,rgba(255,60,50,.15),#0a0a0a)"></div>`;
+      return `<div class="grid2-card" onclick="_grilleOpen(${i})">
+        ${imgH}
+        <div class="grid2-title">${escHtml(a.title)}</div>
+        <div class="grid2-meta">
+          <div class="grid2-fav"><img src="${escAttr(fav)}" onerror="this.style.opacity='.3'"></div>
+          <span>${escHtml(a.source)}</span>
+          <span style="margin-left:auto">${relTime(a.pubDate)}</span>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  window._grilleOpen = function(i){ const a=_grilleArts[i]; if(a) _showArtModal(a); };
+
+  // ── VUE SÉQUENTIELLE ─────────────────────────────────────────
+  let _seqArts = [];
+  function _renderSequential(){
+    const list = document.getElementById('seqList');
+    if(!list) return;
+    const arts = typeof _allArticles !== 'undefined' ? _dedup([..._allArticles].sort((a,b)=>b.pubDate-a.pubDate)) : [];
+    _seqArts = arts.slice(0,80);
+    if(!_seqArts.length){
+      list.innerHTML = '<div style="padding:60px 0;text-align:center;color:var(--text-muted);font-size:14px;font-family:var(--font-inter)">Aucun article disponible</div>';
+      return;
+    }
+    list.innerHTML = _seqArts.map((a,i)=>{
+      const fav = getFavicon(a.feedUrl||a.link||'');
+      const thumb = a.imageUrl
+        ? `<div class="seq-thumb"><img src="${escAttr(a.imageUrl)}" alt="" decoding="async" onerror="this.parentNode.style.display='none'"></div>`
+        : '';
+      return `<div class="seq-item" onclick="_seqOpen(${i})">
+        <span class="seq-num">${String(i+1).padStart(2,'0')}</span>
+        <div class="seq-body">
+          <div class="seq-source">
+            <div class="seq-fav"><img src="${escAttr(fav)}" onerror="this.style.opacity='.3'"></div>
+            ${escHtml(a.source)} · ${relTime(a.pubDate)}
+          </div>
+          <div class="seq-title">${escHtml(a.title)}</div>
+        </div>
+        ${thumb}
+      </div>`;
+    }).join('');
+  }
+  window._seqOpen = function(i){ const a=_seqArts[i]; if(a) _showArtModal(a); };
+
+  // Rafraîchir grille/séquentiel après loadAllFeeds
+  const _origRenderEditions = _renderEditions;
+  _renderEditions = function(){
+    _origRenderEditions();
+    if(_currentView==='grille') _renderGrille();
+    if(_currentView==='sequential') _renderSequential();
+  };
+
+  // ── PAGE DOSSIER ──────────────────────────────────────────────
+  let _folderPageArts = [];
+  function openFolderPage(folderIdx){
+    const folder = folders[folderIdx];
+    if(!folder) return;
+    document.getElementById('folderPageTitle').textContent = folder.name;
+    const feedUrls = new Set(folder.feeds||[]);
+    const arts = typeof _allArticles !== 'undefined'
+      ? _dedup([..._allArticles].filter(a=>feedUrls.has(a.feedUrl||'')).sort((a,b)=>b.pubDate-a.pubDate))
+      : [];
+    _folderPageArts = arts;
+    const content = document.getElementById('folderPageContent');
+    if(!arts.length){
+      content.innerHTML = '<div style="padding:60px 0;text-align:center;color:var(--text-muted);font-size:14px;font-family:var(--font-inter)">Aucun article dans ce dossier.<br>Ajoutez des flux ou attendez le chargement.</div>';
+    } else {
+      content.innerHTML = arts.map((a,i)=>{
+        const fav = getFavicon(a.feedUrl||a.link||'');
+        const thumb = a.imageUrl ? `<div class="seq-thumb"><img src="${escAttr(a.imageUrl)}" alt="" decoding="async" onerror="this.parentNode.style.display='none'"></div>` : '';
+        return `<div class="seq-item" onclick="_folderArtOpen(${i})">
+          <div class="seq-body">
+            <div class="seq-source"><div class="seq-fav"><img src="${escAttr(fav)}" onerror="this.style.opacity='.3'"></div>${escHtml(a.source)} · ${relTime(a.pubDate)}</div>
+            <div class="seq-title">${escHtml(a.title)}</div>
+          </div>
+          ${thumb}
+        </div>`;
+      }).join('');
+    }
+    const page = document.getElementById('folderPage');
+    page.style.display='flex';
+    requestAnimationFrame(()=>page.classList.add('open'));
+    document.body.style.overflow='hidden';
+  }
+  window._folderArtOpen = function(i){ const a=_folderPageArts[i]; if(a) _showArtModal(a); };
+  window.closeFolderPage = function(){
+    const page = document.getElementById('folderPage');
+    page.classList.remove('open');
+    setTimeout(()=>{ page.style.display='none'; document.body.style.overflow=''; },400);
+  };
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ const p=document.getElementById('folderPage'); if(p&&p.classList.contains('open')) closeFolderPage(); }});
+
+  // Brancher clic sur les noms de dossiers dans la sidebar
+  // (override de la délégation d'événement existante)
+  document.getElementById('folderList').addEventListener('click', e=>{
+    const head = e.target.closest('.folder-head');
+    if(!head || e.target.closest('.f-edit')) return;
+    const i = +head.dataset.i;
+    if(!isNaN(i)){
+      // Petit délai pour laisser l'accordéon se fermer si besoin
+      setTimeout(()=>openFolderPage(i), 50);
+    }
+  }, true); // capture pour priorité sur le listener existant
+
+  // ── MENU 3 POINTS ─────────────────────────────────────────────
+  function openMenu3(){
+    // Sync état thème
+    const t = document.documentElement.dataset.theme||'dark';
+    document.getElementById('menu3CheckDark').style.display  = t==='dark'  ? '' : 'none';
+    document.getElementById('menu3CheckLight').style.display = t==='light' ? '' : 'none';
+    // Sync vue active
+    document.querySelectorAll('.menu3-chip').forEach(c=>c.classList.toggle('active', c.dataset.view===_currentView));
+    const ov = document.getElementById('menu3Overlay');
+    ov.style.display='flex';
+    requestAnimationFrame(()=>ov.classList.add('open'));
+  }
+  function closeMenu3(){
+    const ov = document.getElementById('menu3Overlay');
+    ov.classList.remove('open');
+    setTimeout(()=>{ ov.style.display='none'; },380);
+  }
+  // (menu3Btn retiré du topbar — pill qpill le remplace)
+
+  window.menu3SetTheme = function(t){
+    document.documentElement.dataset.theme = t;
+    try{ localStorage.setItem('reader.theme', t); }catch(e){}
+    document.getElementById('menu3CheckDark').style.display  = t==='dark'  ? '' : 'none';
+    document.getElementById('menu3CheckLight').style.display = t==='light' ? '' : 'none';
+  };
+  window.menu3SetView = function(v){
+    closeMenu3();
+    setTimeout(()=>_switchView(v), 200);
+  };
+  window.menu3Refresh = function(){
+    closeMenu3();
+    if(typeof loadAllFeeds==='function') loadAllFeeds(true);
+  };
+  window.menu3OpenDiscover = function(){
+    closeMenu3();
+    setTimeout(()=>{ if(typeof openDiscover==='function') openDiscover(); }, 200);
+  };
+  window.menu3OpenPrefs = function(){
+    closeMenu3();
+    setTimeout(()=>{ if(typeof window.openPrefsPage==='function') window.openPrefsPage(); }, 200);
+  };
+
   // ── Service Worker ────────────────────────────────────────────
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -3810,6 +4089,69 @@ body{
     </div>
     <div id="artModalBody" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:0 0 env(safe-area-inset-bottom,20px)">
       <!-- image + titre + contenu / iframe -->
+    </div>
+  </div>
+  <!-- ═══════════════ PAGE DOSSIER ═══════════════ -->
+  <div class="folder-page" id="folderPage">
+    <div class="folder-page-bar">
+      <button class="folder-page-back" onclick="closeFolderPage()" aria-label="Retour">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <span class="folder-page-title" id="folderPageTitle"></span>
+    </div>
+    <div class="folder-page-scroll">
+      <div class="folder-page-inner" id="folderPageContent"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ MENU 3 POINTS ═══════════════ -->
+  <div class="menu3-overlay" id="menu3Overlay" onclick="if(event.target===this)closeMenu3()">
+    <div class="menu3-sheet">
+      <div class="menu3-handle"></div>
+
+      <div class="menu3-section">
+        <div class="menu3-label">Thème</div>
+        <div class="menu3-row" onclick="menu3SetTheme('dark')">
+          <div class="menu3-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg></div>
+          <div><div class="menu3-row-label">Sombre</div></div>
+          <svg id="menu3CheckDark" viewBox="0 0 24 24" fill="none" stroke="#ff3c32" stroke-width="2.5" stroke-linecap="round" style="margin-left:auto;width:18px;height:18px;flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="menu3-row" onclick="menu3SetTheme('light')">
+          <div class="menu3-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></div>
+          <div><div class="menu3-row-label">Clair</div></div>
+          <svg id="menu3CheckLight" viewBox="0 0 24 24" fill="none" stroke="#ff3c32" stroke-width="2.5" stroke-linecap="round" style="margin-left:auto;width:18px;height:18px;flex-shrink:0;display:none"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+      </div>
+
+      <div class="menu3-divider"></div>
+
+      <div class="menu3-section">
+        <div class="menu3-label">Vue</div>
+        <div class="menu3-chips" id="menu3ViewChips">
+          <div class="menu3-chip active" data-view="editions" onclick="menu3SetView('editions')">Éditions</div>
+          <div class="menu3-chip" data-view="grille" onclick="menu3SetView('grille')">Grille</div>
+          <div class="menu3-chip" data-view="sequential" onclick="menu3SetView('sequential')">Séquentiel</div>
+          <div class="menu3-chip" data-view="browse" onclick="menu3SetView('browse')">Parcourir</div>
+        </div>
+      </div>
+
+      <div class="menu3-divider"></div>
+
+      <div class="menu3-section">
+        <div class="menu3-row" onclick="menu3Refresh()">
+          <div class="menu3-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.08-5"/></svg></div>
+          <div><div class="menu3-row-label">Actualiser les flux</div><div class="menu3-row-sub">Forcer le rechargement</div></div>
+        </div>
+        <div class="menu3-row" onclick="menu3OpenDiscover()">
+          <div class="menu3-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polygon points="15.5 8.5 13.5 13.5 8.5 15.5 10.5 10.5"/></svg></div>
+          <div><div class="menu3-row-label">Découvrir des sources</div><div class="menu3-row-sub">Parcourir le catalogue</div></div>
+        </div>
+        <div class="menu3-row" onclick="menu3OpenPrefs()">
+          <div class="menu3-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+          <div><div class="menu3-row-label">Préférences</div><div class="menu3-row-sub">Paramètres de l'application</div></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
