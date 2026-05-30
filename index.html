@@ -409,7 +409,7 @@ body{
   display:flex;flex-direction:row;gap:8px;
   width:320px;max-width:calc(100vw - 28px);height:54px;
   position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
-  z-index:60;
+  z-index:500;
 }
 
 /* Capsules */
@@ -790,7 +790,7 @@ body{
    PAGE PRÉFÉRENCES — plein écran, layout Settings Apple
    =========================================================== */
 .pp-page{
-  position:fixed; inset:0; z-index:120;
+  position:fixed; inset:0; z-index:400;
   background:var(--bg);
   display:flex; flex-direction:column;
   opacity:0; visibility:hidden;
@@ -1027,7 +1027,7 @@ body{
 /* ===========================================================
    PAGE DÉCOUVRIR — ajout de flux par thématique (cartes Apple)
    =========================================================== */
-.dc-page{ position:fixed; inset:0; z-index:110; background:var(--bg); display:flex; flex-direction:column; opacity:0; visibility:hidden; transform:translateY(16px) scale(.992); transition:opacity .4s ease, transform .55s cubic-bezier(.16,1,.3,1), visibility .4s ease; }
+.dc-page{ position:fixed; inset:0; z-index:300; background:var(--bg); display:flex; flex-direction:column; opacity:0; visibility:hidden; transform:translateY(16px) scale(.992); transition:opacity .4s ease, transform .55s cubic-bezier(.16,1,.3,1), visibility .4s ease; }
 .dc-page.open{ opacity:1; visibility:visible; transform:none; }
 
 .dc-topbar{ flex:none; display:flex; align-items:center; gap:12px; padding:14px 18px; border-bottom:1px solid var(--border); }
@@ -1280,7 +1280,7 @@ body{
 .seq-thumb img{ width:100%; height:100%; object-fit:cover; }
 
 /* ── PAGE DOSSIER ────────────────────────────────── */
-.folder-page{ position:fixed; inset:0; z-index:200; background:var(--bg); display:flex; flex-direction:column; transform:translateX(100%); transition:transform .38s cubic-bezier(.32,.72,0,1); }
+.folder-page{ position:fixed; inset:0; z-index:450; background:var(--bg); display:flex; flex-direction:column; transform:translateX(100%); transition:transform .38s cubic-bezier(.32,.72,0,1); }
 .folder-page.open{ transform:none; }
 .folder-page-bar{ display:flex; align-items:center; gap:12px; padding:14px 18px; border-bottom:1px solid var(--border); flex-shrink:0; }
 [data-theme="light"] .folder-page-bar{ border-color:rgba(0,0,0,.08); }
@@ -1301,7 +1301,7 @@ body{
    Forme : inspirée du tab-bar HTML fourni (pill indicator glissant)
    =========================================================== */
 .qpill{
-  position:fixed; top:16px; right:16px; z-index:200;
+  position:fixed; top:16px; right:16px; z-index:510;
   display:flex; align-items:center; flex-direction:row-reverse; /* ••• reste à droite */
   height:40px; width:40px;
   border-radius:999px; overflow:hidden;
@@ -1545,7 +1545,37 @@ body{
   background:rgba(255,255,255,.07);
   margin:2px 0;
 }
-[data-theme="light"] .vp-divider{ background:rgba(0,0,0,.06); }
+[data-theme="light"] .vp-divider{ background:rgba(0,0,0,.06); }/* ── PAGE FLUX INDIVIDUEL ─────────────────────────── */
+.feed-page{
+  position:fixed; inset:0; z-index:450;
+  background:var(--bg); display:flex; flex-direction:column;
+  transform:translateX(100%);
+  transition:transform .38s cubic-bezier(.32,.72,0,1);
+}
+.feed-page.open{ transform:none; }
+.feed-page-bar{
+  display:flex; align-items:center; gap:12px;
+  padding:14px 18px; border-bottom:1px solid var(--border); flex-shrink:0;
+}
+[data-theme="light"] .feed-page-bar{ border-color:rgba(0,0,0,.08); }
+.feed-page-back{
+  width:36px; height:36px; border:none; background:rgba(255,255,255,.08);
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; color:var(--text); flex-shrink:0;
+}
+[data-theme="light"] .feed-page-back{ background:rgba(0,0,0,.06); }
+.feed-page-back svg{ width:17px; height:17px; }
+.feed-page-header{ display:flex; align-items:center; gap:10px; flex:1; min-width:0; }
+.feed-page-fav{ width:28px; height:28px; border-radius:50%; overflow:hidden; flex-shrink:0; background:#1c1c1e; display:flex; align-items:center; justify-content:center; font-family:var(--font-inter); font-size:12px; font-weight:700; color:#fff; }
+.feed-page-fav img{ width:100%; height:100%; object-fit:contain; }
+.feed-page-title{ font-family:var(--font-inter); font-size:17px; font-weight:800; letter-spacing:-.02em; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.feed-page-scroll{ flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+.feed-page-scroll::-webkit-scrollbar{ display:none; }
+.feed-page-inner{ padding:12px 18px 120px; }
+/* Flux cliquable dans la sidebar */
+.feed-item{ cursor:pointer; }
+.feed-item:active{ background:rgba(255,255,255,.06); }
+[data-theme="light"] .feed-item:active{ background:rgba(0,0,0,.04); }
 </style>
 </head>
 <body>
@@ -2661,7 +2691,7 @@ body{
           const meta = JSON.parse(localStorage.getItem('reader.feedMeta') || '{}');
           displayName = meta[fd]?.name || new URL(fd).hostname.replace(/^www\./, '');
         } catch(e) {}
-        return `<div class="feed-item"><span class="dot"></span>${escapeHtml(displayName)}</div>`;
+        return `<div class="feed-item" data-url="${escapeHtml(fd)}" data-name="${escapeHtml(displayName)}"><span class="dot"></span>${escapeHtml(displayName)}</div>`;
       }).join('');
       el.innerHTML = `
         <div class="folder-head" data-i="${i}">
@@ -2685,6 +2715,12 @@ body{
       e.stopPropagation(); renameFolder(+b.dataset.edit);
     }));
     list.querySelectorAll('[data-feed]').forEach(b => b.addEventListener('click', () => addFeed(+b.dataset.feed)));
+    list.querySelectorAll('.feed-item[data-url]').forEach(item => {
+      item.addEventListener('click', e => {
+        e.stopPropagation();
+        openFeedPage(item.dataset.url, item.dataset.name);
+      });
+    });
   }
   function escapeHtml(s){ return s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
@@ -4128,6 +4164,74 @@ body{
     if(_currentView==='sequential') _renderSequential();
   };
 
+  // ── PAGE FLUX INDIVIDUEL ──────────────────────────────────────
+  let _feedPageArts = [];
+
+  window.openFeedPage = function(feedUrl, feedName){
+    // Remplir en-tête
+    const title  = document.getElementById('feedPageTitle');
+    const favImg = document.getElementById('feedPageFavImg');
+    const favLet = document.getElementById('feedPageFavLetter');
+    if(title) title.textContent = feedName || feedUrl;
+    const domain = (()=>{ try{ return new URL(feedUrl).hostname.replace(/^www\./,''); }catch(e){ return ''; } })();
+    if(favImg){ favImg.src = domain ? 'https://www.google.com/s2/favicons?domain='+domain+'&sz=64' : ''; }
+    if(favLet){ favLet.textContent = (feedName||feedUrl).trim()[0]?.toUpperCase()||'?'; }
+
+    // Articles de ce flux
+    const content = document.getElementById('feedPageContent');
+    const arts = (typeof _allArticles!=='undefined' && _allArticles.length)
+      ? _dedup([..._allArticles].filter(a=>a.feedUrl===feedUrl || a.slug===domain.replace(/[^a-z0-9]/gi,'-').slice(0,32)).sort((a,b)=>b.pubDate-a.pubDate))
+      : [];
+    _feedPageArts = arts;
+
+    if(!content) return;
+    if(!arts.length){
+      content.innerHTML = `<div style="padding:60px 0;text-align:center;color:var(--text-muted);font-size:14px;font-family:var(--font-inter)">Aucun article chargé.<br><span style="font-size:12px;opacity:.6">Actualisez les flux depuis le menu.</span></div>`;
+    } else {
+      content.innerHTML = arts.map((a,i)=>{
+        const fav  = typeof getFavicon==='function' ? getFavicon(a.feedUrl||a.link||'') : '';
+        const time = typeof relTime==='function' ? relTime(a.pubDate) : '';
+        const thumb = a.imageUrl ? `<div class="seq-thumb"><img src="${escAttr(a.imageUrl)}" alt="" decoding="async" onerror="this.parentNode.style.display='none'"></div>` : '';
+        return `<div class="seq-item" onclick="_feedPageArtOpen(${i})">
+          <div class="seq-body">
+            <div class="seq-source"><div class="seq-fav"><img src="${escAttr(fav)}" onerror="this.style.opacity='.3'"></div>${escHtml(a.source||feedName)} · ${time}</div>
+            <div class="seq-title">${escHtml(a.title)}</div>
+          </div>
+          ${thumb}
+        </div>`;
+      }).join('');
+    }
+
+    // Ouvrir + fermer sidebar
+    const sb = document.getElementById('sidebar');
+    if(sb) sb.classList.remove('open');
+    const ov = document.getElementById('sbOverlay');
+    if(ov) ov.classList.remove('open');
+
+    const page = document.getElementById('feedPage');
+    if(!page) return;
+    page.style.display = 'flex';
+    requestAnimationFrame(()=> page.classList.add('open'));
+    document.body.style.overflow = 'hidden';
+  };
+
+  window._feedPageArtOpen = function(i){ const a=_feedPageArts[i]; if(a) _showArtModal(a); };
+
+  window.closeFeedPage = function(){
+    const page = document.getElementById('feedPage');
+    if(!page) return;
+    page.classList.remove('open');
+    setTimeout(()=>{ page.style.display='none'; document.body.style.overflow=''; }, 400);
+  };
+
+  // Escape ferme feed-page
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape'){
+      const fp = document.getElementById('feedPage');
+      if(fp && fp.classList.contains('open')){ closeFeedPage(); return; }
+    }
+  });
+
   // ── PAGE DOSSIER ──────────────────────────────────────────────
   let _folderPageArts = [];
   function openFolderPage(folderIdx){
@@ -4349,6 +4453,25 @@ body{
     </div>
   </div>
   <!-- ═══════════════ PAGE DOSSIER ═══════════════ -->
+  <!-- ═══════════════ PAGE FLUX INDIVIDUEL ═══════════════ -->
+  <div class="feed-page" id="feedPage">
+    <div class="feed-page-bar">
+      <button class="feed-page-back" onclick="closeFeedPage()" aria-label="Retour">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="feed-page-header">
+        <div class="feed-page-fav" id="feedPageFav">
+          <img id="feedPageFavImg" src="" alt="" onerror="this.style.display='none'">
+          <span id="feedPageFavLetter"></span>
+        </div>
+        <span class="feed-page-title" id="feedPageTitle"></span>
+      </div>
+    </div>
+    <div class="feed-page-scroll">
+      <div class="feed-page-inner" id="feedPageContent"></div>
+    </div>
+  </div>
+
   <div class="folder-page" id="folderPage">
     <div class="folder-page-bar">
       <button class="folder-page-back" onclick="closeFolderPage()" aria-label="Retour">
