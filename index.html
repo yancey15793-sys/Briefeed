@@ -2565,7 +2565,16 @@ body{
     if(target === 'grille')    _renderGrille();
     if(target === 'sequential')_renderSequential();
     if(target === 'liste')     _renderListe();
-    // Mettre à jour les chips du menu
+    // Rafraîchir la sous-page active si elle est ouverte
+    const fp = document.getElementById('feedPage');
+    if(fp && fp.classList.contains('open')){
+      _renderSubpageArts(_feedPageArts, _currentView, document.getElementById('feedPageContent'), '_feedPageArt');
+    }
+    const dp = document.getElementById('folderPage');
+    if(dp && dp.classList.contains('open')){
+      _renderSubpageArts(_folderPageArts, _currentView, document.getElementById('folderPageContent'), '_folderArt');
+    }
+    // Sync chips du menu
     document.querySelectorAll('.menu3-chip').forEach(c => c.classList.toggle('active', c.dataset.view === target));
     // Sync view picker si ouvert
     document.querySelectorAll('.vp-item').forEach(el => el.classList.toggle('active', el.dataset.vpview === target));
@@ -4345,20 +4354,7 @@ body{
     if(_currentView==='liste') _renderListe();
   };
 
-  // ── Cycle de vues sur les pages Dossier et Flux ───────────────
-  const SUBPAGE_VIEWS = ['liste', 'grille', 'sequential'];
-  let _folderPageView = 'liste';
-  let _feedPageView   = 'liste';
-
-  window._cycleSubpageView = function(page){
-    if(page === 'folder'){
-      _folderPageView = SUBPAGE_VIEWS[(SUBPAGE_VIEWS.indexOf(_folderPageView)+1) % SUBPAGE_VIEWS.length];
-      _reRenderFolderPage();
-    } else {
-      _feedPageView = SUBPAGE_VIEWS[(SUBPAGE_VIEWS.indexOf(_feedPageView)+1) % SUBPAGE_VIEWS.length];
-      _reRenderFeedPage();
-    }
-  };
+  // ── Vues sous-pages : partagent _currentView du système global ──
 
   function _renderSubpageArts(arts, view, container, arrName){
     if(!container || !arts.length){
@@ -4397,14 +4393,7 @@ body{
     }
   }
 
-  function _reRenderFolderPage(){
-    const c = document.getElementById('folderPageContent');
-    _renderSubpageArts(_folderPageArts, _folderPageView, c, '_folderArt');
-  }
-  function _reRenderFeedPage(){
-    const c = document.getElementById('feedPageContent');
-    _renderSubpageArts(_feedPageArts, _feedPageView, c, '_feedPageArt');
-  }
+
 
   // Réutiliser les openers existants (déjà définis)
   window._folderArtOpen = function(i){ const a=_folderPageArts[i]; if(a) _showArtModal(a); };
@@ -4430,7 +4419,7 @@ body{
     _feedPageArts = arts;
 
     if(!content) return;
-    _renderSubpageArts(_feedPageArts, _feedPageView, content, '_feedPageArt');
+    _renderSubpageArts(_feedPageArts, _currentView, content, '_feedPageArt');
 
 
     // Ouvrir + fermer sidebar
@@ -4475,7 +4464,7 @@ body{
       : [];
     _folderPageArts = arts;
     const content = document.getElementById('folderPageContent');
-    _renderSubpageArts(_folderPageArts, _folderPageView, content, '_folderArt');
+    _renderSubpageArts(_folderPageArts, _currentView, content, '_folderArt');
     const page = document.getElementById('folderPage');
     page.style.display='flex';
     requestAnimationFrame(()=>page.classList.add('open'));
@@ -4683,9 +4672,6 @@ body{
         </div>
         <span class="feed-page-title" id="feedPageTitle"></span>
       </div>
-      <button class="subpage-view-btn" onclick="_cycleSubpageView('feed')" aria-label="Changer de vue">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="19" height="19"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
-      </button>
     </div>
     <div class="feed-page-scroll">
       <div class="feed-page-inner" id="feedPageContent"></div>
@@ -4698,9 +4684,6 @@ body{
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
       <span class="folder-page-title" id="folderPageTitle"></span>
-      <button class="subpage-view-btn" onclick="_cycleSubpageView('folder')" aria-label="Changer de vue" style="margin-left:auto">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="19" height="19"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
-      </button>
     </div>
     <div class="folder-page-scroll">
       <div class="folder-page-inner" id="folderPageContent"></div>
