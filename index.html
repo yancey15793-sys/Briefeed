@@ -1633,7 +1633,74 @@ body{
 /* Flux cliquable dans la sidebar */
 .feed-item{ cursor:pointer; }
 .feed-item:active{ background:rgba(255,255,255,.06); }
-[data-theme="light"] .feed-item:active{ background:rgba(0,0,0,.04); }
+[data-theme="light"] .feed-item:active{ background:rgba(0,0,0,.04); }/* ── MODAL ARTICLE — watermark date + reader interne ─── */
+.art-modal-date-watermark{
+  position:absolute; top:12px; left:18px;
+  font-family:var(--font-dm),Georgia,serif;
+  font-weight:900; font-size:68px; line-height:1;
+  color:var(--text); opacity:.06;
+  letter-spacing:-.04em; pointer-events:none;
+  user-select:none; z-index:0;
+  font-variant-numeric:tabular-nums;
+}
+.art-modal-date{
+  position:relative; z-index:1;
+  font-family:var(--font-inter); font-size:11px; font-weight:700;
+  color:var(--text-muted); letter-spacing:.1em; text-transform:uppercase;
+  margin-bottom:10px;
+}
+.art-modal-title{
+  position:relative; z-index:1;
+  font-family:var(--font-dm); font-size:26px; font-weight:700;
+  line-height:1.25; letter-spacing:-.015em; color:var(--text);
+  margin-bottom:16px;
+}
+.art-modal-source-row{
+  position:relative; z-index:1;
+  display:flex; align-items:center; justify-content:space-between;
+  padding-bottom:16px; margin-bottom:16px;
+  border-bottom:1px solid var(--border);
+}
+[data-theme="light"] .art-modal-source-row{ border-color:rgba(0,0,0,.08); }
+.art-modal-source-pill{
+  display:flex; align-items:center; gap:7px;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
+  border-radius:999px; padding:5px 12px 5px 6px;
+}
+[data-theme="light"] .art-modal-source-pill{ background:rgba(0,0,0,.04); border-color:rgba(0,0,0,.09); }
+.art-modal-source-fav{ width:22px; height:22px; border-radius:50%; overflow:hidden; background:#1c1c1e; flex-shrink:0; }
+.art-modal-source-fav img{ width:100%; height:100%; object-fit:contain; }
+.art-modal-source-name{ font-family:var(--font-inter); font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:.04em; }
+/* Reader content */
+.art-reader-section{ position:relative; z-index:1; padding:4px 0 20px; }
+.art-reader-text{
+  font-family:var(--font-dm),Georgia,serif;
+  font-size:17px; line-height:1.72; color:var(--text);
+  letter-spacing:.008em;
+}
+[data-theme="light"] .art-reader-text{ color:#1a1a1a; }
+.art-reader-text p{ margin-bottom:20px; }
+.art-reader-text h2{ font-size:21px; font-weight:700; color:var(--text); margin:28px 0 12px; }
+.art-reader-text h3{ font-size:18px; font-weight:600; color:var(--text); margin:22px 0 10px; }
+.art-reader-text a{ color:#ff3c32; text-decoration:none; border-bottom:1px solid rgba(255,60,50,.3); }
+.art-reader-text ul,.art-reader-text ol{ margin:0 0 20px 20px; }
+.art-reader-text li{ margin-bottom:8px; }
+.art-reader-text blockquote{ border-left:3px solid #ff3c32; padding-left:16px; margin:24px 0; font-style:italic; color:var(--text-muted); }
+.art-reader-text img{ max-width:100%; height:auto; border-radius:12px; margin:12px 0; display:block; }
+.art-reader-loading{ display:flex; align-items:center; gap:10px; padding:24px 0; color:var(--text-muted); font-family:var(--font-inter); font-size:13px; }
+.art-reader-spinner{ width:16px; height:16px; border-radius:50%; border:2px solid rgba(255,255,255,.15); border-top-color:#ff3c32; animation:af-spin 1s linear infinite; flex-shrink:0; }
+[data-theme="light"] .art-reader-spinner{ border-color:rgba(0,0,0,.1); border-top-color:#ff3c32; }
+.art-reader-partial{ display:inline-flex; align-items:center; gap:5px; font-family:var(--font-inter); font-size:11px; color:var(--text-muted); background:rgba(255,255,255,.05); padding:5px 10px; border-radius:999px; margin-bottom:14px; }
+.art-reader-partial-spin{ width:9px; height:9px; border-radius:50%; border:1.5px solid rgba(255,255,255,.12); border-top-color:#ff3c32; animation:af-spin .8s linear infinite; }
+/* Toolbar bas */
+.art-modal-toolbar{ position:sticky; bottom:0; left:0; right:0; z-index:5; display:flex; align-items:center; justify-content:flex-end; padding:10px 20px 14px; background:linear-gradient(transparent,var(--bg) 40%); }
+.art-toolbar-pill{ display:flex; align-items:center; gap:2px; background:rgba(255,255,255,.08); border-radius:999px; padding:4px; }
+[data-theme="light"] .art-toolbar-pill{ background:rgba(0,0,0,.07); }
+.art-toolbar-btn{ width:36px; height:36px; border:none; background:transparent; color:var(--text-muted); cursor:pointer; display:flex; align-items:center; justify-content:center; border-radius:50%; transition:background .15s,color .15s; -webkit-tap-highlight-color:transparent; }
+.art-toolbar-btn:active{ transform:scale(.88); }
+.art-toolbar-btn:hover{ background:rgba(255,255,255,.1); color:var(--text); }
+.art-toolbar-btn.active{ color:#ff3c32; }
+[data-theme="light"] .art-toolbar-btn:hover{ background:rgba(0,0,0,.07); }
 </style>
 </head>
 <body>
@@ -4213,38 +4280,208 @@ body{
   }
 
   // ── 16. Modal article ─────────────────────────────────────────
+  // ── Constantes reader ─────────────────────────────────────────
+  const _READER_TTL = 24 * 3600000;
+  const _RC_OPTS = {
+    ALLOWED_TAGS:['p','h2','h3','h4','h5','h6','strong','em','b','i','u','a','ul','ol','li','blockquote','pre','code','br','hr','figure','figcaption','img'],
+    ALLOWED_ATTR:['href','target','rel','src','alt'],
+    FORBID_TAGS:['video','audio','svg','canvas','iframe','script','style'],
+    ADD_ATTR:['target'],
+  };
+  function _simpleHash(str){ let h=0; for(let i=0;i<Math.min(str.length,200);i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0;} return Math.abs(h).toString(36); }
+  function _getReaderCache(url){ try{ const raw=localStorage.getItem('bf_rd_'+_simpleHash(url)); if(!raw)return null; const {content,ts}=JSON.parse(raw); if(Date.now()-ts>_READER_TTL)return null; return content; }catch(e){ return null; } }
+  function _setReaderCache(url,content){ if(!content||content.length<50)return; try{ localStorage.setItem('bf_rd_'+_simpleHash(url),JSON.stringify({content:content.length>60000?content.slice(0,60000):content,ts:Date.now()})); }catch(e){} }
+
+  // Nettoyage contenu RSS
+  function _cleanRssContent(html){
+    if(!html||html.length<80)return null;
+    const div=document.createElement('div'); div.innerHTML=html;
+    div.querySelectorAll('script,style,noscript,iframe,form,button,input').forEach(el=>el.remove());
+    const bl=[];
+    div.querySelectorAll('p,h2,h3,h4,li,blockquote').forEach(el=>{
+      const tx=el.textContent.trim(); if(tx.length<5)return;
+      if(/^H[2-4]$/.test(el.tagName)) bl.push('<'+el.tagName.toLowerCase()+'>'+tx+'</'+el.tagName.toLowerCase()+'>');
+      else if(el.tagName==='BLOCKQUOTE') bl.push('<blockquote>'+tx+'</blockquote>');
+      else if(el.tagName==='LI') bl.push('<li>'+tx+'</li>');
+      else bl.push('<p>'+tx+'</p>');
+    });
+    return bl.length>=1 ? bl.join('') : null;
+  }
+
+  // Parser Readability si disponible
+  const _KILL_SEL=['[id*="cookie"]','[class*="cookie"]','nav','header:not(article header)','footer','[role="navigation"]','.breadcrumb','[class*="share"]','[class*="social"]','[class*="ad-"]','.sponsored','[class*="related"]','[class*="newsletter"]','script','style','noscript'];
+  function _parseReadability(html,url){
+    try{
+      const doc=new DOMParser().parseFromString(html,'text/html');
+      const b=doc.createElement('base'); b.setAttribute('href',url); doc.head.appendChild(b);
+      _KILL_SEL.forEach(s=>{try{doc.querySelectorAll(s).forEach(el=>el.remove());}catch(e){}});
+      if(typeof Readability !== 'undefined'){
+        const r=new Readability(doc,{charThreshold:50,keepClasses:false,nbTopCandidates:5});
+        const p=r.parse();
+        if(p?.content&&p.content.length>100) return p.content;
+      }
+      return null;
+    }catch(e){ return null; }
+  }
+
+  // Render reader content
+  function _renderReaderContent(content, container){
+    let clean;
+    if(typeof DOMPurify !== 'undefined'){
+      clean = DOMPurify.sanitize(content, _RC_OPTS);
+    } else {
+      const tmp=document.createElement('div'); tmp.innerHTML=content;
+      tmp.querySelectorAll('script,iframe,style').forEach(el=>el.remove());
+      clean=tmp.innerHTML;
+    }
+    const div=document.createElement('div'); div.innerHTML=clean;
+    div.querySelectorAll('p,li').forEach(el=>{ if(el.textContent.trim().length<3)el.remove(); });
+    div.querySelectorAll('img').forEach(img=>{
+      const src=img.getAttribute('src')||'';
+      if(!src||src.startsWith('data:')||src.length<12){ img.remove(); }
+      else { img.style.cssText='max-width:100%;height:auto;border-radius:10px;margin:10px 0;display:block'; }
+    });
+    div.querySelectorAll('a').forEach(a=>{ a.setAttribute('target','_blank'); a.setAttribute('rel','noopener noreferrer'); });
+    container.innerHTML='<div class="art-reader-text">'+div.innerHTML+'</div>';
+  }
+
+  // Fetch via proxies
+  async function _artFetchViaProxies(url, abortSignal){
+    const U=encodeURIComponent(url);
+    const proxies=[
+      async()=>{ const r=await fetch('https://api.allorigins.win/raw?url='+U,{signal:AbortSignal.timeout(7000)}); return r.ok?await r.text():null; },
+      async()=>{ const r=await fetch('https://corsproxy.io/?'+U,{signal:AbortSignal.timeout(7000)}); return r.ok?await r.text():null; },
+      async()=>{ const r=await fetch('https://api.codetabs.com/v1/proxy?quest='+U,{signal:AbortSignal.timeout(7000)}); return r.ok?await r.text():null; },
+      async()=>{ const r=await fetch('https://thingproxy.freeboard.io/fetch/'+U,{signal:AbortSignal.timeout(6000)}); return r.ok?await r.text():null; },
+      async()=>{ const r=await fetch('https://corsproxy.org/?'+U,{signal:AbortSignal.timeout(6000)}); return r.ok?await r.text():null; },
+    ];
+    const winner=await new Promise(resolve=>{
+      let done=false,pending=proxies.length;
+      proxies.forEach(fn=>{
+        fn().then(txt=>{
+          if(txt&&txt.length>200&&!done){
+            const parsed=_parseReadability(txt,url);
+            if(parsed){done=true;resolve(parsed);}
+          }
+        }).catch(()=>{}).finally(()=>{ pending--; if(pending===0&&!done)resolve(null); });
+      });
+    });
+    return winner;
+  }
+
+  // Charger le reader (stratégie : cache → RSS → proxy)
+  let _artAbort = null;
+  async function _loadArtReader(a, container){
+    if(_artAbort){ try{_artAbort.abort();}catch(e){} }
+    _artAbort = new AbortController();
+    const signal = _artAbort.signal;
+
+    // 1. Cache
+    const cached = _getReaderCache(a.link);
+    if(cached){ _renderReaderContent(cached, container); return; }
+
+    // 2. RSS contentEncoded quasi-instantané
+    const rssContent = a.contentEncoded && a.contentEncoded.length>200 ? _cleanRssContent(a.contentEncoded) : null;
+    if(rssContent && rssContent.length>100){
+      container.innerHTML = '<div class="art-reader-partial"><div class="art-reader-partial-spin"></div>Enrichissement en cours…</div><div class="art-reader-text" id="_rssBase">'+rssContent+'</div>';
+      // Enrichir en arrière-plan
+      _artFetchViaProxies(a.link, signal).then(full=>{
+        if(signal.aborted||!full)return;
+        const base=container.querySelector('#_rssBase');
+        if(full.length>(base?.textContent?.length||0)*1.3){
+          _setReaderCache(a.link,full); _renderReaderContent(full,container);
+        } else {
+          container.querySelector('.art-reader-partial')?.remove();
+          _setReaderCache(a.link,base?.innerHTML||'');
+        }
+      }).catch(()=>{});
+      return;
+    }
+
+    // 3. Proxy complet avec spinner
+    container.innerHTML='<div class="art-reader-loading"><div class="art-reader-spinner"></div>Chargement du contenu…</div>';
+    const full = await _artFetchViaProxies(a.link, signal);
+    if(signal.aborted) return;
+    if(full){ _setReaderCache(a.link,full); _renderReaderContent(full,container); }
+    else {
+      // Fallback description
+      const desc = a.description||a.contentEncoded||'';
+      if(desc.length>80){
+        container.innerHTML='<div class="art-reader-text"><p>'+escHtml(desc)+'</p></div>';
+      } else {
+        container.innerHTML='<div style="padding:32px 0;text-align:center;color:var(--text-muted);font-family:var(--font-inter);font-size:14px">Contenu non disponible hors ligne.<br><button onclick="artModalOpenExternal()" style="margin-top:14px;padding:9px 20px;border:none;border-radius:999px;background:#ff3c32;color:#fff;font-family:var(--font-inter);font-size:13px;font-weight:700;cursor:pointer">Ouvrir dans le navigateur</button></div>';
+      }
+    }
+  }
+
+  // ── _showArtModal complet ─────────────────────────────────────
   let _artCurrent = null;
 
-  // _showArtModal reçoit directement un objet article (pas de JSON dans onclick)
   function _showArtModal(a){
-    if(!a || !a.link) return;
+    if(!a||!a.link) return;
     _artCurrent = a;
     const modal = document.getElementById('artModal');
-    const body  = document.getElementById('artModalBody');
-    const srcEl = document.getElementById('artModalSource');
-    if(!modal||!body||!srcEl) return;
+    if(!modal) return;
+
+    // Image hero
+    const heroWrap = document.getElementById('artModalHeroWrap');
+    const heroImg  = document.getElementById('artModalHeroImg');
+    if(heroWrap && heroImg){
+      if(a.imageUrl){ heroWrap.style.display='block'; heroImg.src=a.imageUrl; }
+      else { heroWrap.style.display='none'; heroImg.src=''; }
+    }
+
+    // Watermark date
     const pd = a.pubDate instanceof Date ? a.pubDate : new Date(a.pubDate||0);
-    srcEl.textContent = a.source || '';
-    const imgH  = a.imageUrl ? `<div style="aspect-ratio:16/9;overflow:hidden;background:#111"><img src="${escAttr(a.imageUrl)}" alt="" decoding="async" onerror="this.parentNode.style.display='none'" style="width:100%;height:100%;object-fit:cover"></div>` : '';
-    const descH = a.description ? `<p style="font-size:15px;line-height:1.65;color:var(--text-muted);font-family:var(--font-inter)">${escHtml(a.description)}</p>` : '';
-    body.innerHTML = `${imgH}<div style="padding:20px 18px 24px">
-      <div style="font-family:var(--font-inter);font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">${escHtml(a.source||'')} · ${relTime(pd)}</div>
-      <div style="font-family:var(--font-dm);font-size:22px;font-weight:700;line-height:1.22;letter-spacing:-.015em;color:var(--text);margin-bottom:16px">${escHtml(a.title||'')}</div>
-      ${descH}
-      <button onclick="artModalOpenExternal()" style="margin-top:20px;width:100%;height:50px;border-radius:999px;border:none;background:#ff3c32;color:#fff;font-family:var(--font-inter);font-size:15px;font-weight:700;cursor:pointer;letter-spacing:-.01em">Lire l\u2019article complet \u2192</button>
-    </div>`;
+    const wm = document.getElementById('artModalDateWM');
+    if(wm && !isNaN(pd)){
+      wm.textContent = String(pd.getMonth()+1).padStart(2,'0') + '.' + String(pd.getDate()).padStart(2,'0');
+    }
+
+    // Date lisible
+    const dateEl = document.getElementById('artModalDate');
+    if(dateEl && !isNaN(pd)){
+      dateEl.textContent = pd.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    }
+
+    // Titre
+    const titleEl = document.getElementById('artModalTitle');
+    if(titleEl) titleEl.textContent = a.title||'';
+
+    // Source + favicon
+    const srcEl  = document.getElementById('artModalSourceName');
+    const favEl  = document.getElementById('artModalFav');
+    if(srcEl) srcEl.textContent = a.source||'';
+    if(favEl){ try{ favEl.src='https://www.google.com/s2/favicons?domain='+new URL(a.link).hostname+'&sz=32'; }catch(e){} }
+
+    // Bouton save
     const saveBtn = document.getElementById('artModalSaveBtn');
     if(saveBtn) _updateSaveBtn(saveBtn, a.link);
-    modal.style.display='flex';
-    document.body.style.overflow='hidden';
+
+    // Scroll top
+    const body = document.getElementById('artModalBody');
+    if(body) body.scrollTop = 0;
+
+    // Charger le reader
+    const readerSection = document.getElementById('artReaderSection');
+    if(readerSection) _loadArtReader(a, readerSection);
+
+    // Ouvrir
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
   }
-  // Alias global pour compatibilité avec l'HTML existant
+
   window.openArtModal = _showArtModal;
+
+  window.artSwitchView = function(view){
+    // Pour l'instant une seule vue "reader" — extensible
+    document.getElementById('artBtnReader')?.classList.toggle('active', view==='reader');
+  };
 
   window.closeArtModal = function(){
     const modal = document.getElementById('artModal');
     if(modal){ modal.style.display='none'; document.body.style.overflow=''; }
-    // Re-render favoris si la vue est active
+    if(_artAbort){ try{_artAbort.abort();}catch(e){} _artAbort=null; }
     const fv = document.querySelector('.view[data-view="favoris"]');
     if(fv && !fv.hidden) _renderFavoris();
   };
@@ -4260,11 +4497,10 @@ body{
   };
   function _updateSaveBtn(btn, link){
     const saved = _isReadLater(link);
-    btn.style.background = saved ? '#ff3c32' : 'rgba(255,255,255,.08)';
-    btn.querySelector('svg path').setAttribute('fill', saved ? '#fff' : 'none');
+    btn.style.background = saved ? '#ff3c32' : 'rgba(255,255,255,.07)';
+    btn.querySelector('svg path')?.setAttribute('fill', saved ? '#fff' : 'none');
   }
   document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeArtModal(); });
-
 
   // ── Tableau global browse ─────────────────────────────────────
   let _browseArts = [];
@@ -4852,23 +5088,61 @@ body{
   <div id="refreshBadge"></div>
 
   <!-- ═══════════════ MODAL ARTICLE ═══════════════ -->
-  <div id="artModal" style="display:none;position:fixed;inset:0;z-index:7000;flex-direction:column;background:var(--bg)" onclick="">
-    <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);flex-shrink:0">
-      <button onclick="closeArtModal()" style="width:34px;height:34px;border:none;border-radius:50%;background:rgba(255,255,255,.08);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+  <div id="artModal" style="display:none;position:fixed;inset:0;z-index:7000;flex-direction:column;background:var(--bg)">
+    <!-- Topbar -->
+    <div style="display:flex;align-items:center;gap:10px;padding:14px 16px;flex-shrink:0;position:relative;z-index:2">
+      <button onclick="closeArtModal()" style="width:34px;height:34px;border:none;border-radius:50%;background:rgba(255,255,255,.07);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-      <div style="flex:1;min-width:0">
-        <div id="artModalSource" style="font-family:var(--font-inter);font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em"></div>
-      </div>
-      <button id="artModalSaveBtn" onclick="artModalToggleSave()" style="width:34px;height:34px;border:none;border-radius:50%;background:rgba(255,255,255,.08);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer">
+      <div style="flex:1"></div>
+      <button id="artModalSaveBtn" onclick="artModalToggleSave()" style="width:34px;height:34px;border:none;border-radius:50%;background:rgba(255,255,255,.07);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
       </button>
-      <button onclick="artModalOpenExternal()" style="width:34px;height:34px;border:none;border-radius:50%;background:rgba(255,255,255,.08);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      </button>
     </div>
-    <div id="artModalBody" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:0 0 env(safe-area-inset-bottom,20px)">
-      <!-- image + titre + contenu / iframe -->
+
+    <!-- Corps scrollable -->
+    <div id="artModalBody" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;position:relative">
+
+      <!-- Image hero -->
+      <div id="artModalHeroWrap" style="width:100%;aspect-ratio:16/9;background:#111;overflow:hidden;display:none">
+        <img id="artModalHeroImg" src="" alt="" decoding="async" style="width:100%;height:100%;object-fit:cover" onerror="document.getElementById('artModalHeroWrap').style.display='none'">
+      </div>
+
+      <!-- Corps article -->
+      <div id="artModalContent" style="padding:20px 20px 0;position:relative">
+        <!-- Watermark date en arrière-plan -->
+        <div class="art-modal-date-watermark" id="artModalDateWM"></div>
+
+        <!-- Date -->
+        <div class="art-modal-date" id="artModalDate"></div>
+
+        <!-- Titre -->
+        <h2 class="art-modal-title" id="artModalTitle"></h2>
+
+        <!-- Source row -->
+        <div class="art-modal-source-row">
+          <div class="art-modal-source-pill">
+            <div class="art-modal-source-fav"><img id="artModalFav" src="" alt="" onerror="this.style.opacity='.3'"></div>
+            <span class="art-modal-source-name" id="artModalSourceName"></span>
+          </div>
+        </div>
+
+        <!-- Reader content -->
+        <div class="art-reader-section" id="artReaderSection"></div>
+      </div>
+
+      <!-- Toolbar sticky bas -->
+      <div class="art-modal-toolbar">
+        <div class="art-toolbar-pill">
+          <button class="art-toolbar-btn active" id="artBtnReader" title="Lecteur" onclick="artSwitchView('reader')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </button>
+          <button class="art-toolbar-btn" id="artBtnWeb" title="Ouvrir dans le navigateur" onclick="artModalOpenExternal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </button>
+        </div>
+      </div>
+
     </div>
   </div>
   <!-- ═══════════════ PAGE DOSSIER ═══════════════ -->
