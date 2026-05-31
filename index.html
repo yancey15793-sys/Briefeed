@@ -1637,10 +1637,12 @@ body{
 }
 [data-theme="light"] .feed-page-back{ background:rgba(0,0,0,.06); }
 .feed-page-back svg{ width:17px; height:17px; }
-.feed-page-header{ display:flex; align-items:center; gap:10px; flex:1; min-width:0; }
-.feed-page-fav{ width:28px; height:28px; border-radius:50%; overflow:hidden; flex-shrink:0; background:#1c1c1e; display:flex; align-items:center; justify-content:center; font-family:var(--font-inter); font-size:12px; font-weight:700; color:#fff; }
-.feed-page-fav img{ width:100%; height:100%; object-fit:contain; }
-.feed-page-title{ font-family:var(--font-inter); font-size:17px; font-weight:800; letter-spacing:-.02em; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.feed-page-header{ display:flex; flex-direction:column; align-items:center; padding:28px 24px 24px; text-align:center; flex-shrink:0; }
+.feed-page-fav{ width:52px; height:52px; border-radius:50%; overflow:hidden; flex-shrink:0; background:#1c1c1e; display:flex; align-items:center; justify-content:center; font-family:var(--font-inter); font-size:20px; font-weight:700; color:#fff; margin-bottom:14px; }
+.feed-page-fav img{ width:100%; height:100%; object-fit:contain; padding:6px; box-sizing:border-box; }
+.feed-page-title{ font-family:var(--font-inter); font-size:24px; font-weight:800; letter-spacing:-.03em; color:var(--text); text-align:center; }
+.feed-page-desc{ font-family:var(--font-inter); font-size:14px; font-weight:500; color:var(--text-muted); margin-top:8px; line-height:1.55; text-align:center; max-width:280px; }
+.feed-page-sep{ width:40px; height:2px; background:var(--accent); border-radius:2px; margin:16px auto 0; opacity:.7; }
 .feed-page-scroll{ flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
 .feed-page-scroll::-webkit-scrollbar{ display:none; }
 .feed-page-inner{ padding:12px 18px 120px; }
@@ -3234,9 +3236,40 @@ body{
     const itemW = (leftW - 6) / 3;
     if(pill) pill.style.left = (3 + idx * itemW) + 'px';
   }
-  document.getElementById('navHome').addEventListener('click', () => { updateNavPill(0); _showMainViews(); });
-  document.getElementById('navDiscover').addEventListener('click', () => updateNavPill(1));
-  document.getElementById('navFavorites').addEventListener('click', () => { updateNavPill(2); _openFavoris(); });
+  // Tab bar — gestion centralisée (ferme tout, active la bonne vue)
+  function _navTo(idx){
+    updateNavPill(idx);
+    // Fermer toutes les pages flottantes
+    const artModal=document.getElementById('artModal');
+    if(artModal&&artModal.style.display==='flex') closeArtModal();
+    const fp=document.getElementById('feedPage');
+    if(fp&&fp.classList.contains('open')) closeFeedPage();
+    const dp=document.getElementById('folderPage');
+    if(dp&&dp.classList.contains('open')) closeFolderPage();
+    // Fermer discover/prefs si on quitte vers accueil
+    if(idx===0){
+      const disc=document.getElementById('discoverPage');
+      if(disc&&disc.classList.contains('open')) closeDiscover();
+      const prefs=document.getElementById('prefsPage');
+      if(prefs&&prefs.classList.contains('open')) prefs.classList.remove('open');
+      // Afficher la vue courante
+      document.querySelectorAll('.view').forEach(v=>{ v.hidden = v.dataset.view !== _currentView; });
+      if(_currentView==='browse') renderBrowseTimeline();
+      if(_currentView==='grille') _renderGrille();
+      if(_currentView==='sequential') _renderSequential();
+      if(_currentView==='liste') _renderListe();
+    } else if(idx===1){
+      openDiscover();
+    } else if(idx===2){
+      const disc=document.getElementById('discoverPage');
+      if(disc&&disc.classList.contains('open')) closeDiscover();
+      _openFavoris();
+    }
+    document.body.style.overflow = idx===0 ? '' : 'hidden';
+  }
+  document.getElementById('navHome').addEventListener('click', ()=>_navTo(0));
+  document.getElementById('navDiscover').addEventListener('click', ()=>_navTo(1));
+  document.getElementById('navFavorites').addEventListener('click', ()=>_navTo(2));
   updateNavPill(0);
 
   // ---- Pill expansible ••• : vue + thème ----
@@ -3892,7 +3925,6 @@ body{
   }
   document.getElementById('discoverBack').addEventListener('click', closeDiscover);
   document.addEventListener('keydown', e=>{ if(e.key==='Escape' && dcPage.classList.contains('open')) closeDiscover(); });
-  document.getElementById('navDiscover').addEventListener('click', openDiscover, true);
   // ═══════════════════════════════════════════════════════════════
   //  MOTEUR RSS — IDB + 12 proxies + parse + score + render
   //  Carrosserie Briefeed intacte. Pont : folders[].feeds[] → RSS_FEEDS
@@ -4359,57 +4391,56 @@ body{
     container.innerHTML='<div class="art-reader-text">'+div.innerHTML+'</div>';
   }
 
-  // Fetch via proxies — séquentiel rapide puis parallèle
+  // Fetch article complet via proxies
   async function _artFetchViaProxies(url, abortSignal){
     if(!url || url==='#') return null;
     const U = encodeURIComponent(url);
 
-    const parse = async (txt) => {
-      if(!txt || txt.length < 500) return null;
-      // Tenter Readability d'abord
+    const tryParse = (txt) => {
+      if(!txt || txt.length < 300) return null;
       const readable = _parseReadability(txt, url);
       if(readable && readable.length > 200) return readable;
-      // Fallback : extraction manuelle du <body>
+      // Fallback body brut
       const m = txt.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-      if(m && m[1].length > 300) return _cleanRssContent(m[1]);
+      if(m && m[1] && m[1].length > 300){
+        const c = _cleanRssContent(m[1]);
+        if(c && c.length > 100) return c;
+      }
       return null;
     };
 
-    const proxies = [
-      ()=> fetch('https://api.allorigins.win/raw?url='+U, {signal:AbortSignal.timeout(8000)}).then(r=>r.ok?r.text():null).catch(()=>null),
-      ()=> fetch('https://corsproxy.io/?'+U, {signal:AbortSignal.timeout(8000)}).then(r=>r.ok?r.text():null).catch(()=>null),
-      ()=> fetch('https://api.allorigins.win/get?url='+U, {signal:AbortSignal.timeout(8000)}).then(r=>r.json()).then(d=>d.contents||null).catch(()=>null),
-      ()=> fetch('https://thingproxy.freeboard.io/fetch/'+U, {signal:AbortSignal.timeout(7000)}).then(r=>r.ok?r.text():null).catch(()=>null),
-      ()=> fetch('https://corsproxy.org/?'+U, {signal:AbortSignal.timeout(7000)}).then(r=>r.ok?r.text():null).catch(()=>null),
-      ()=> fetch('https://api.codetabs.com/v1/proxy?quest='+U, {signal:AbortSignal.timeout(7000)}).then(r=>r.ok?r.text():null).catch(()=>null),
+    // Tous les proxies en course parallèle totale
+    const proxyCalls = [
+      ()=> fetch('https://corsproxy.io/?'+U,                        {signal:AbortSignal.timeout(9000)}).then(r=>r.ok?r.text():null).catch(()=>null),
+      ()=> fetch('https://api.allorigins.win/raw?url='+U,          {signal:AbortSignal.timeout(9000)}).then(r=>r.ok?r.text():null).catch(()=>null),
+      ()=> fetch('https://api.allorigins.win/get?url='+U,          {signal:AbortSignal.timeout(9000)}).then(r=>r.json()).then(d=>d?.contents||null).catch(()=>null),
+      ()=> fetch('https://corsproxy.org/?'+U,                      {signal:AbortSignal.timeout(8000)}).then(r=>r.ok?r.text():null).catch(()=>null),
+      ()=> fetch('https://api.codetabs.com/v1/proxy?quest='+U,     {signal:AbortSignal.timeout(8000)}).then(r=>r.ok?r.text():null).catch(()=>null),
+      ()=> fetch('https://thingproxy.freeboard.io/fetch/'+U,       {signal:AbortSignal.timeout(8000)}).then(r=>r.ok?r.text():null).catch(()=>null),
     ];
 
-    // Essai séquentiel des 2 premiers (les plus rapides)
-    for(let i=0;i<2;i++){
-      if(abortSignal?.aborted) return null;
-      try{
-        const txt = await proxies[i]();
-        if(abortSignal?.aborted) return null;
-        const result = await parse(txt);
-        if(result) return result;
-      }catch(e){}
-    }
-
-    // Course parallèle des suivants
-    if(abortSignal?.aborted) return null;
     return new Promise(resolve=>{
-      let done=false, pending=proxies.length-2;
-      proxies.slice(2).forEach(fn=>{
-        if(abortSignal?.aborted){done=true;resolve(null);return;}
-        fn().then(async txt=>{
+      if(abortSignal?.aborted){ resolve(null); return; }
+      let done=false, pending=proxyCalls.length;
+      const finish = (v) => { if(!done){ done=true; resolve(v); } };
+
+      proxyCalls.forEach(fn=>{
+        fn().then(txt=>{
           if(done||abortSignal?.aborted) return;
-          const result = await parse(txt);
-          if(result && !done){ done=true; resolve(result); }
-        }).catch(()=>{}).finally(()=>{ pending--; if(pending<=0&&!done) resolve(null); });
+          const parsed = tryParse(txt);
+          if(parsed) finish(parsed);
+        }).catch(()=>{}).finally(()=>{
+          pending--;
+          if(pending===0) finish(null);
+        });
       });
-      if(proxies.length<=2) resolve(null);
-      // Timeout global 15s
-      setTimeout(()=>{ if(!done){done=true;resolve(null);} }, 15000);
+
+      // Abort signal externe
+      if(abortSignal){
+        abortSignal.addEventListener('abort', ()=>finish(null), {once:true});
+      }
+      // Timeout global 18s
+      setTimeout(()=>finish(null), 18000);
     });
   }
 
@@ -4858,8 +4889,37 @@ body{
       : [];
     _feedPageArts = arts;
 
-    if(!content) return;
-    _renderSubpageArts(_feedPageArts, _currentView, content, '_feedPageArt');
+    const feedContent = document.getElementById('feedPageContent');
+    if(feedContent) _renderSubpageArts(_feedPageArts, _currentView, feedContent, '_feedPageArt');
+
+    const descEl = document.getElementById('feedPageDesc');
+    // Description : feedMeta d'abord, puis extraction RSS asynchrone
+    const _rssFeeds_check = typeof _rssFeeds !== 'undefined' ? _rssFeeds : [];
+    const feedObj = _rssFeeds_check.find(f=>f.url===feedUrl);
+    let desc = feedObj?.desc || '';
+    if(!desc){ try{ const m=JSON.parse(localStorage.getItem('reader.feedMeta')||'{}'); desc=m[feedUrl]?.desc||''; }catch(e){} }
+    if(descEl) descEl.textContent = desc || '';
+    // Chercher description dans RSS si manquante
+    if(!desc && descEl){
+      const U = encodeURIComponent(feedUrl);
+      fetch('https://api.allorigins.win/raw?url='+U, {signal:AbortSignal.timeout(6000)})
+        .then(r=>r.ok?r.text():null).catch(()=>null)
+        .then(txt=>{
+          if(!txt) return;
+          const doc = new DOMParser().parseFromString(txt,'application/xml');
+          const d = doc.querySelector('channel > description, feed > subtitle');
+          if(d && d.textContent.trim().length > 5){
+            const clean = d.textContent.replace(/<[^>]+>/g,'').trim().slice(0,160);
+            if(descEl) descEl.textContent = clean;
+            // Sauver en feedMeta
+            try{
+              const m=JSON.parse(localStorage.getItem('reader.feedMeta')||'{}');
+              m[feedUrl]=m[feedUrl]||{}; m[feedUrl].desc=clean;
+              localStorage.setItem('reader.feedMeta',JSON.stringify(m));
+            }catch(e){}
+          }
+        });
+    }
 
 
     // Ouvrir + fermer sidebar
@@ -5376,13 +5436,15 @@ body{
       <button class="feed-page-back" onclick="closeFeedPage()" aria-label="Retour">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-      <div class="feed-page-header">
-        <div class="feed-page-fav" id="feedPageFav">
-          <img id="feedPageFavImg" src="" alt="" onerror="this.style.display='none'">
-          <span id="feedPageFavLetter"></span>
-        </div>
-        <span class="feed-page-title" id="feedPageTitle"></span>
+    </div>
+    <div class="feed-page-header">
+      <div class="feed-page-fav" id="feedPageFav">
+        <img id="feedPageFavImg" src="" alt="" onerror="this.style.display='none'">
+        <span id="feedPageFavLetter"></span>
       </div>
+      <div class="feed-page-title" id="feedPageTitle"></div>
+      <div class="feed-page-desc" id="feedPageDesc"></div>
+      <div class="feed-page-sep"></div>
     </div>
     <div class="feed-page-scroll">
       <div class="feed-page-inner" id="feedPageContent"></div>
