@@ -367,17 +367,22 @@ body{
 /* Dossiers — accordéon fluide */
 .folder{ border-radius:10px; overflow:hidden; }
 .folder-head{
-  display:flex; align-items:center; gap:10px;
-  padding:10px 12px; cursor:pointer; color:var(--text);
-  transition:background .2s ease;
+  display:flex; align-items:center; gap:8px;
+  padding:10px 12px; color:var(--text);
 }
-.folder-head:hover{ background:#141414; }
-.folder-head .chev{
-  width:14px; height:14px; color:var(--text-muted);
-  transition:transform .3s cubic-bezier(.32,.72,0,1);
+.folder-head .chev-btn{
+  background:none; border:none; cursor:pointer; padding:4px; margin:-4px;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--text-muted); flex-shrink:0; -webkit-tap-highlight-color:transparent;
 }
-.folder.open .folder-head .chev{ transform:rotate(90deg); }
-.folder-head .f-name{ flex:1; font-size:14px; font-weight:650; letter-spacing:-0.01em; }
+.folder-head .chev-btn svg{ width:14px; height:14px; transition:transform .3s cubic-bezier(.32,.72,0,1); }
+.folder.open .folder-head .chev-btn svg{ transform:rotate(90deg); }
+.folder-head .f-name{
+  flex:1; font-size:14px; font-weight:650; letter-spacing:-0.01em;
+  cursor:pointer; -webkit-tap-highlight-color:transparent;
+  padding:4px 0; transition:color .15s;
+}
+.folder-head .f-name:hover{ color:#ff3c32; }
 .folder-head .f-count{ font-size:12px; font-weight:700; color:#666; }
 .folder-head .f-edit{
   opacity:0; border:0; background:transparent; color:var(--text-muted); cursor:pointer; padding:2px;
@@ -2904,8 +2909,8 @@ body{
       }).join('');
       el.innerHTML = `
         <div class="folder-head" data-i="${i}">
-          ${ICON_CHEV}
-          <span class="f-name">${escapeHtml(f.name)}</span>
+          <button class="chev-btn" data-toggle="${i}" aria-label="Ouvrir dossier">${ICON_CHEV}</button>
+          <span class="f-name" data-open="${i}">${escapeHtml(f.name)}</span>
           <span class="f-count">${(f.feeds||[]).length}</span>
           <button class="f-edit" data-edit="${i}" aria-label="Renommer">${ICON_EDIT}</button>
         </div>
@@ -2916,9 +2921,16 @@ body{
       list.appendChild(el);
     });
 
-    list.querySelectorAll('.folder-head').forEach(h => h.addEventListener('click', e => {
-      if (e.target.closest('.f-edit')) return;
-      const i = +h.dataset.i; folders[i].open = !folders[i].open; persist(); render();
+    // Chevron : toggle accordéon uniquement
+    list.querySelectorAll('.chev-btn').forEach(btn => btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const i = +btn.dataset.toggle;
+      folders[i].open = !folders[i].open; persist(); render();
+    }));
+    // Nom du dossier : ouvre la page du dossier
+    list.querySelectorAll('.f-name[data-open]').forEach(span => span.addEventListener('click', e => {
+      e.stopPropagation();
+      openFolderPage(+span.dataset.open);
     }));
     list.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', e => {
       e.stopPropagation(); renameFolder(+b.dataset.edit);
@@ -4885,21 +4897,29 @@ body{
   window.openFeedPage = function(feedUrl, feedName){
     // Remplir en-tête
     const title  = document.getElementById('feedPageTitle');
-    const favImg = document.getElementById('feedPageFavImg');
     const favLet = document.getElementById('feedPageFavLetter');
     if(title) title.textContent = feedName || feedUrl;
     const domain = (()=>{ try{ return new URL(feedUrl).hostname.replace(/^www\./,''); }catch(e){ return ''; } })();
-    // Couleur de fond depuis _FEED_DB
     const _dbEntry = (typeof _FEED_DB !== 'undefined') ? _FEED_DB[feedUrl] : null;
     const feedFavEl = document.getElementById('feedPageFav');
-    if(feedFavEl && _dbEntry?.color) feedFavEl.style.background = _dbEntry.color;
-    // Favicon : icon.horse → Google s2 fallback
-    if(favImg && domain){
-      favImg.src = 'https://icon.horse/icon/'+domain;
-      favImg.dataset.fb = 'https://www.google.com/s2/favicons?domain='+domain+'&sz=128';
+    if(feedFavEl){
+      if(_dbEntry?.color) feedFavEl.style.background = _dbEntry.color;
+      // Supprimer l'ancienne img si elle existe
+      feedFavEl.querySelectorAll('img').forEach(el=>el.remove());
+      // Créer l'img en JS (évite le bug src="" → onerror immédiat)
+      if(domain){
+        const img = document.createElement('img');
+        img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:7px;box-sizing:border-box';
+        img.setAttribute('alt','');
+        let tried = false;
+        img.onerror = function(){ if(!tried){ tried=true; img.src='https://www.google.com/s2/favicons?domain='+domain+'&sz=128'; } else { img.remove(); } };
+        img.src = 'https://icon.horse/icon/'+domain;
+        feedFavEl.appendChild(img);
+      }
     }
     if(favLet){ favLet.textContent = (feedName||feedUrl).trim()[0]?.toUpperCase()||'?'; }
 
+    // Articles de ce flux
     // Articles de ce flux
     const content = document.getElementById('feedPageContent');
     const arts = (typeof _allArticles!=='undefined' && _allArticles.length)
@@ -5043,15 +5063,7 @@ body{
 
   // Brancher clic sur les noms de dossiers dans la sidebar
   // (override de la délégation d'événement existante)
-  document.getElementById('folderList').addEventListener('click', e=>{
-    const head = e.target.closest('.folder-head');
-    if(!head || e.target.closest('.f-edit')) return;
-    const i = +head.dataset.i;
-    if(!isNaN(i)){
-      // Petit délai pour laisser l'accordéon se fermer si besoin
-      setTimeout(()=>openFolderPage(i), 50);
-    }
-  }, true); // capture pour priorité sur le listener existant
+  // openFolderPage est géré par data-open sur f-name (voir render)
 
   // ── MENU 3 POINTS ─────────────────────────────────────────────
   function openMenu3(){
@@ -5457,9 +5469,6 @@ body{
       <div class="feed-page-header">
         <div class="feed-page-fav" id="feedPageFav">
           <span id="feedPageFavLetter"></span>
-          <img id="feedPageFavImg" src="" alt=""
-               onerror="if(this.dataset.fb){this.src=this.dataset.fb;delete this.dataset.fb}else{this.remove()}"
-               loading="lazy">
         </div>
         <div class="feed-page-title" id="feedPageTitle"></div>
         <div class="feed-page-desc" id="feedPageDesc"></div>
