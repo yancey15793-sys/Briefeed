@@ -197,7 +197,7 @@ body{
   align-self:stretch;
   display:flex; flex-direction:column; align-items:flex-start;
   padding-top:14.5px;
-  gap:42.5px;
+  gap:72px;
 }
 
 /* Sélecteur de police (option demandée) — discret, hors design */
@@ -1280,7 +1280,7 @@ body{
 [data-theme="light"] .sk-card{ background:rgba(0,0,0,.06); }
 
 /* ── VUE GRILLE 2 colonnes ──────────────────────── */
-.grid2-wrap{ display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:12px 0 80px; }
+.grid2-wrap{ display:grid; grid-template-columns:1fr 1fr; gap:24px; padding:16px 0 80px; }
 .grid2-card{ display:flex; flex-direction:column; cursor:pointer; -webkit-tap-highlight-color:transparent; }
 .grid2-img{ border-radius:12px; overflow:hidden; aspect-ratio:4/3; background:#111; margin-bottom:8px; }
 .grid2-img img{ width:100%; height:100%; object-fit:cover; display:block; }
@@ -1291,7 +1291,7 @@ body{
 
 /* ── VUE SÉQUENTIELLE ────────────────────────────── */
 .seq-list{ display:flex; flex-direction:column; gap:0; padding-bottom:80px; }
-.seq-item{ display:flex; gap:14px; align-items:flex-start; padding:16px 0; border-bottom:1px solid var(--border); cursor:pointer; -webkit-tap-highlight-color:transparent; transition:background .15s; }
+.seq-item{ display:flex; gap:14px; align-items:flex-start; padding:26px 0; border-bottom:1px solid var(--border); cursor:pointer; -webkit-tap-highlight-color:transparent; transition:background .15s; }
 .seq-item:active{ background:rgba(255,255,255,.03); }
 [data-theme="light"] .seq-item{ border-color:rgba(0,0,0,.08); }
 .seq-item:last-child{ border-bottom:none; }
@@ -1609,7 +1609,7 @@ body{
 [data-theme="light"] .subpage-view-btn{ background:rgba(0,0,0,.06); }
 /* Vue liste (défaut des sous-pages) */
 .list-view{ display:flex; flex-direction:column; padding-bottom:80px; }
-.list-item{ display:flex; align-items:center; gap:14px; padding:14px 0; border-bottom:1px solid var(--border); cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.list-item{ display:flex; align-items:center; gap:14px; padding:22px 0; border-bottom:1px solid var(--border); cursor:pointer; -webkit-tap-highlight-color:transparent; }
 .list-item:last-child{ border-bottom:none; }
 .list-item:active{ opacity:.7; }
 [data-theme="light"] .list-item{ border-color:rgba(0,0,0,.08); }
@@ -4243,7 +4243,7 @@ body{
     const imgH = a.imageUrl
       ? `<div class="art-img-wrap" style="border-radius:${r};overflow:hidden;aspect-ratio:16/9;background:#111;margin-bottom:${mb}px"><img src="${escAttr(a.imageUrl)}" alt="" decoding="async" onerror="this.parentNode.style.display='none'" style="width:100%;height:100%;object-fit:cover"></div>`
       : `<div class="art-img-wrap" style="border-radius:${r};aspect-ratio:16/9;background:linear-gradient(135deg,rgba(255,60,50,.12),rgba(0,0,0,.4));margin-bottom:${mb}px"></div>`;
-    return `<div class="art-card" onclick="_openEditionArt(${idx})" style="margin-bottom:${isHero?'24':'0'}px">
+    return `<div class="art-card" onclick="_openEditionArt(${idx})" style="margin-bottom:${isHero?'48':'0'}px">
       ${imgH}
       <div class="art-source-row">
         <div class="art-fav"><img src="${escAttr(fav)}" alt="" onerror="this.style.opacity='.3'"></div>
