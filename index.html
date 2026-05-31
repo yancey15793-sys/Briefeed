@@ -1276,8 +1276,8 @@ body{
 .seq-item:active{ background:rgba(255,255,255,.03); }
 [data-theme="light"] .seq-item{ border-color:rgba(0,0,0,.08); }
 .seq-item:last-child{ border-bottom:none; }
-.seq-num{ font-family:var(--font-inter); font-size:22px; font-weight:800; color:rgba(255,255,255,.1); min-width:32px; text-align:right; flex-shrink:0; line-height:1; padding-top:3px; letter-spacing:-.03em; }
-[data-theme="light"] .seq-num{ color:rgba(0,0,0,.1); }
+.seq-num{ font-family:var(--font-inter); font-size:22px; font-weight:800; color:rgba(255,255,255,.38); min-width:32px; text-align:right; flex-shrink:0; line-height:1; padding-top:3px; letter-spacing:-.03em; }
+[data-theme="light"] .seq-num{ color:rgba(0,0,0,.32); }
 .seq-body{ flex:1; min-width:0; }
 .seq-source{ font-family:var(--font-inter); font-size:10.5px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.04em; margin-bottom:5px; display:flex; align-items:center; gap:4px; }
 .seq-fav{ width:12px; height:12px; border-radius:2px; overflow:hidden; }
@@ -3507,64 +3507,19 @@ body{
     cosmos:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="cg" cx="50%" cy="42%" r="55%"><stop offset="0%" stop-color="#1a0550"/><stop offset="100%" stop-color="#020009"/></radialGradient><radialGradient id="pg" cx="38%" cy="38%" r="60%"><stop offset="0%" stop-color="#ffe060"/><stop offset="55%" stop-color="#c88a00"/><stop offset="100%" stop-color="#6a4000"/></radialGradient></defs><rect width="341" height="365" fill="url(#cg)"/><g fill="#fff"><circle cx="28" cy="18" r="1.2"/><circle cx="78" cy="42" r="1.5"/><circle cx="290" cy="28" r="1.2"/><circle cx="312" cy="72" r="1.5"/><circle cx="198" cy="14" r="1.2"/><circle cx="238" cy="38" r="1.5"/></g><circle cx="170" cy="112" r="55" fill="url(#pg)"/><ellipse cx="170" cy="112" rx="95" ry="20" fill="none" stroke="#e8c060" stroke-width="6" opacity=".45"/><ellipse cx="170" cy="112" rx="115" ry="25" fill="none" stroke="#c8a040" stroke-width="3" opacity=".25"/></svg>`,
     film:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#060606"/><rect x="0" y="18" width="341" height="210" fill="#0e0e0e"/><g fill="#050505"><rect x="8" y="26" width="22" height="28" rx="3"/><rect x="8" y="66" width="22" height="28" rx="3"/><rect x="8" y="106" width="22" height="28" rx="3"/><rect x="8" y="146" width="22" height="28" rx="3"/><rect x="8" y="186" width="22" height="28" rx="3"/><rect x="311" y="26" width="22" height="28" rx="3"/><rect x="311" y="66" width="22" height="28" rx="3"/><rect x="311" y="106" width="22" height="28" rx="3"/><rect x="311" y="146" width="22" height="28" rx="3"/><rect x="311" y="186" width="22" height="28" rx="3"/></g><g stroke="#222" stroke-width="1"><rect x="36" y="28" width="84" height="64" rx="2" fill="#141414"/><rect x="130" y="28" width="80" height="64" rx="2" fill="#141414"/><rect x="220" y="28" width="84" height="64" rx="2" fill="#141414"/><rect x="36" y="100" width="84" height="64" rx="2" fill="#141414"/><rect x="130" y="100" width="80" height="64" rx="2" fill="#141414"/><rect x="220" y="100" width="84" height="64" rx="2" fill="#141414"/></g><rect x="52" y="42" width="52" height="36" rx="2" fill="#ff3b30" opacity=".25"/><rect x="146" y="42" width="48" height="36" rx="2" fill="#007aff" opacity=".25"/><rect x="236" y="42" width="52" height="36" rx="2" fill="#34c759" opacity=".25"/></svg>`,
     podium:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0a0a18"/><stop offset="100%" stop-color="#18182e"/></linearGradient></defs><rect width="341" height="365" fill="url(#pg)"/><circle cx="170" cy="100" r="130" fill="#ffd700" opacity=".07"/><rect x="116" y="105" width="110" height="130" rx="5" fill="#ffd700"/><rect x="46" y="140" width="80" height="95" rx="5" fill="#c0c0c0" opacity=".95"/><rect x="216" y="158" width="80" height="77" rx="5" fill="#cd7f32" opacity=".95"/><text x="170" y="83" text-anchor="middle" font-size="34" fill="#ffd700">&#9733;</text><text x="86" y="125" text-anchor="middle" font-size="26" fill="#c0c0c0">&#9733;</text><text x="256" y="143" text-anchor="middle" font-size="22" fill="#cd7f32">&#9733;</text><text x="170" y="158" text-anchor="middle" font-size="30" font-weight="900" fill="#0a0a18" font-family="Georgia">1</text><text x="86" y="196" text-anchor="middle" font-size="26" font-weight="900" fill="#1a1a2e" font-family="Georgia">2</text><text x="256" y="210" text-anchor="middle" font-size="22" font-weight="900" fill="#1a1a2e" font-family="Georgia">3</text></svg>`,
+    // ── Nouvelles illustrations ──────────────────────────────
+    finance:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#0a1428"/><g stroke="#1a2a3a" stroke-width=".8"><line x1="30" y1="45" x2="310" y2="45"/><line x1="30" y1="90" x2="310" y2="90"/><line x1="30" y1="135" x2="310" y2="135"/><line x1="30" y1="180" x2="310" y2="180"/></g><line x1="55" y1="168" x2="55" y2="58" stroke="#ff3c32" stroke-width="1.2"/><rect x="45" y="88" width="18" height="60" rx="2" fill="#ff3c32"/><line x1="95" y1="52" x2="95" y2="155" stroke="#34c759" stroke-width="1.2"/><rect x="85" y="72" width="18" height="55" rx="2" fill="#34c759"/><line x1="135" y1="62" x2="135" y2="158" stroke="#ff3c32" stroke-width="1.2"/><rect x="125" y="88" width="18" height="48" rx="2" fill="#ff3c32"/><line x1="175" y1="42" x2="175" y2="130" stroke="#34c759" stroke-width="1.2"/><rect x="165" y="60" width="18" height="48" rx="2" fill="#34c759"/><line x1="215" y1="38" x2="215" y2="112" stroke="#34c759" stroke-width="1.2"/><rect x="205" y="52" width="18" height="38" rx="2" fill="#34c759"/><line x1="255" y1="50" x2="255" y2="136" stroke="#ff3c32" stroke-width="1.2"/><rect x="245" y="68" width="18" height="42" rx="2" fill="#ff3c32"/><line x1="295" y1="36" x2="295" y2="105" stroke="#34c759" stroke-width="1.2"/><rect x="285" y="50" width="18" height="35" rx="2" fill="#34c759"/><polyline points="54,118 94,99 134,112 174,84 214,68 254,89 294,62" fill="none" stroke="#4a9eff" stroke-width="2" opacity=".8"/><g fill="#4a9eff"><circle cx="54" cy="118" r="3"/><circle cx="94" cy="99" r="3"/><circle cx="134" cy="112" r="3"/><circle cx="174" cy="84" r="3"/><circle cx="214" cy="68" r="3"/><circle cx="254" cy="89" r="3"/><circle cx="294" cy="62" r="4"/></g></svg>`,
+    gaming:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#0d0a1a"/><path d="M85,105 Q85,75 112,75 L228,75 Q255,75 255,105 L275,165 Q290,195 265,205 Q240,215 220,192 L197,178 L143,178 L120,192 Q100,215 75,205 Q50,195 65,165 Z" fill="#1a1630" stroke="#3a2a5a" stroke-width="2"/><rect x="112" y="116" width="11" height="34" rx="3" fill="#4a3a6a"/><rect x="101" y="127" width="33" height="11" rx="3" fill="#4a3a6a"/><circle cx="214" cy="122" r="8" fill="#ff3c32" opacity=".9"/><circle cx="230" cy="136" r="8" fill="#f5c800" opacity=".9"/><circle cx="198" cy="136" r="8" fill="#4a9eff" opacity=".9"/><circle cx="214" cy="150" r="8" fill="#34c759" opacity=".9"/><circle cx="152" cy="152" r="13" fill="#2a2040" stroke="#4a3a6a" stroke-width="1.8"/><circle cx="196" cy="152" r="13" fill="#2a2040" stroke="#4a3a6a" stroke-width="1.8"/><rect x="166" y="116" width="9" height="6" rx="3" fill="#4a3a6a"/><rect x="182" y="116" width="9" height="6" rx="3" fill="#4a3a6a"/></svg>`,
+    climat:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="eg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1a4a28"/><stop offset="100%" stop-color="#051208"/></radialGradient></defs><rect width="341" height="365" fill="#040c08"/><circle cx="170" cy="115" r="80" fill="url(#eg)" stroke="#2a6a38" stroke-width="1.5"/><ellipse cx="148" cy="100" rx="24" ry="33" fill="#2a8040" opacity=".8"/><ellipse cx="192" cy="118" rx="19" ry="26" fill="#2a8040" opacity=".7"/><ellipse cx="166" cy="148" rx="14" ry="9" fill="#2a8040" opacity=".65"/><ellipse cx="135" cy="128" rx="10" ry="7" fill="#1e6030" opacity=".6"/><circle cx="170" cy="115" r="82" fill="none" stroke="#4aaa58" stroke-width="1" opacity=".35"/><circle cx="170" cy="115" r="90" fill="none" stroke="#4aaa58" stroke-width=".6" opacity=".15"/><circle cx="282" cy="42" r="18" fill="#f5c800" opacity=".85"/><g stroke="#f5c800" stroke-width="1.8" opacity=".5" stroke-linecap="round"><line x1="282" y1="15" x2="282" y2="8"/><line x1="282" y1="69" x2="282" y2="76"/><line x1="255" y1="42" x2="248" y2="42"/><line x1="309" y1="42" x2="316" y2="42"/><line x1="262" y1="22" x2="257" y2="17"/><line x1="302" y1="62" x2="307" y2="67"/></g></svg>`,
+    sante:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#0a0510"/><g stroke="#150a18" stroke-width=".5"><line x1="0" y1="60" x2="341" y2="60"/><line x1="0" y1="120" x2="341" y2="120"/><line x1="0" y1="180" x2="341" y2="180"/><line x1="60" y1="0" x2="60" y2="220"/><line x1="120" y1="0" x2="120" y2="220"/><line x1="180" y1="0" x2="180" y2="220"/><line x1="240" y1="0" x2="240" y2="220"/><line x1="300" y1="0" x2="300" y2="220"/></g><polyline points="0,120 42,120 57,120 67,42 77,192 87,120 130,120 147,120 157,42 167,192 177,120 222,120 239,120 249,42 259,192 269,120 341,120" fill="none" stroke="#ff2d55" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/><polyline points="0,120 42,120 57,120 67,42 77,192 87,120 130,120 147,120 157,42 167,192 177,120 222,120 239,120 249,42 259,192 269,120 341,120" fill="none" stroke="#ff2d55" stroke-width="8" stroke-linejoin="round" stroke-linecap="round" opacity=".12"/></svg>`,
+    crypto:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="cryg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1a1200"/><stop offset="100%" stop-color="#06040a"/></radialGradient></defs><rect width="341" height="365" fill="url(#cryg)"/><text x="170" y="185" text-anchor="middle" font-size="180" font-weight="900" fill="#f7931a" opacity=".12" font-family="Arial">₿</text><text x="170" y="158" text-anchor="middle" font-size="95" font-weight="900" fill="#f7931a" opacity=".88" font-family="Arial">₿</text><g fill="#f7931a" opacity=".5"><circle cx="50" cy="62" r="6"/><circle cx="105" cy="36" r="5"/><circle cx="32" cy="142" r="5"/><circle cx="292" cy="56" r="6"/><circle cx="318" cy="135" r="5"/><circle cx="272" cy="162" r="4"/></g><g stroke="#f7931a" stroke-width=".9" opacity=".25"><line x1="50" y1="62" x2="105" y2="36"/><line x1="50" y1="62" x2="32" y2="142"/><line x1="105" y1="36" x2="32" y2="142"/><line x1="292" y1="56" x2="318" y2="135"/><line x1="292" y1="56" x2="272" y2="162"/><line x1="318" y1="135" x2="272" y2="162"/></g></svg>`,
+    voyage:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="vgr" cx="50%" cy="45%" r="55%"><stop offset="0%" stop-color="#0a1830"/><stop offset="100%" stop-color="#020408"/></radialGradient></defs><rect width="341" height="365" fill="url(#vgr)"/><circle cx="170" cy="115" r="92" fill="none" stroke="#2a3a5a" stroke-width="2"/><circle cx="170" cy="115" r="86" fill="none" stroke="#1a2a4a" stroke-width="1"/><g stroke="#3a4a6a" stroke-width="2" stroke-linecap="round"><line x1="170" y1="22" x2="170" y2="34"/><line x1="170" y1="196" x2="170" y2="208"/><line x1="78" y1="115" x2="90" y2="115"/><line x1="250" y1="115" x2="262" y2="115"/></g><text x="170" y="48" text-anchor="middle" font-size="13" font-weight="800" fill="#fff" font-family="Georgia">N</text><text x="170" y="206" text-anchor="middle" font-size="11" font-weight="600" fill="#556" font-family="Georgia">S</text><text x="265" y="120" text-anchor="middle" font-size="11" font-weight="600" fill="#556" font-family="Georgia">E</text><text x="74" y="120" text-anchor="middle" font-size="11" font-weight="600" fill="#556" font-family="Georgia">O</text><polygon points="170,56 163,115 170,126 177,115" fill="#ff3c32"/><polygon points="170,174 163,115 170,126 177,115" fill="#888"/><circle cx="170" cy="115" r="9" fill="#1a2a4a" stroke="#4a6a8a" stroke-width="2"/><circle cx="170" cy="115" r="4" fill="#4a9eff"/></svg>`,
+    gastronomie:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#0e0800"/><circle cx="170" cy="120" r="82" fill="#141008" stroke="#2a1e08" stroke-width="2"/><circle cx="170" cy="120" r="67" fill="none" stroke="#221808" stroke-width="1.2"/><g fill="none" stroke="#f5c800" stroke-width="2" stroke-linecap="round" opacity=".45"><path d="M150,38 Q154,28 150,18"/><path d="M165,40 Q171,25 165,14"/><path d="M180,38 Q186,26 180,16"/></g><g stroke="#c8a020" stroke-width="2.2" stroke-linecap="round"><line x1="82" y1="58" x2="82" y2="185"/><line x1="72" y1="58" x2="72" y2="93"/><line x1="77" y1="58" x2="77" y2="95"/><line x1="82" y1="58" x2="82" y2="95"/><line x1="87" y1="58" x2="87" y2="93"/><line x1="92" y1="58" x2="92" y2="95"/><path d="M72,92 Q82,100 92,92" fill="none"/></g><rect x="258" y="58" width="5" height="127" rx="2.5" fill="#c8a020"/><path d="M258,58 Q242,82 258,102" fill="#b89018"/><ellipse cx="170" cy="120" rx="44" ry="28" fill="#1a1206" stroke="#201804" stroke-width="1"/><ellipse cx="158" cy="115" rx="17" ry="11" fill="#c05020" opacity=".75" transform="rotate(-15 158 115)"/><ellipse cx="184" cy="126" rx="14" ry="9" fill="#208038" opacity=".65" transform="rotate(10 184 126)"/><circle cx="170" cy="118" r="6" fill="#f5c800" opacity=".5"/></svg>`,
+    entrepreneuriat:`<svg viewBox="0 0 341 365" xmlns="http://www.w3.org/2000/svg"><rect width="341" height="365" fill="#080c14"/><g stroke="#1a2030" stroke-width=".8"><line x1="170" y1="0" x2="170" y2="220"/><line x1="0" y1="110" x2="341" y2="110"/></g><circle cx="170" cy="110" r="4" fill="#4a9eff"/><g fill="none" stroke="#4a9eff" stroke-width="1.5" opacity=".6"><circle cx="170" cy="110" r="30"/><circle cx="170" cy="110" r="55"/><circle cx="170" cy="110" r="80"/></g><g fill="#ff3c32" opacity=".9"><circle cx="140" cy="82" r="6"/><circle cx="210" cy="95" r="5"/><circle cx="125" cy="138" r="5"/><circle cx="200" cy="148" r="6"/><circle cx="240" cy="72" r="4"/><circle cx="108" cy="105" r="4"/></g><g stroke="#ff3c32" stroke-width=".8" opacity=".3"><line x1="170" y1="110" x2="140" y2="82"/><line x1="170" y1="110" x2="210" y2="95"/><line x1="170" y1="110" x2="125" y2="138"/><line x1="170" y1="110" x2="200" y2="148"/><line x1="170" y1="110" x2="240" y2="72"/><line x1="170" y1="110" x2="108" y2="105"/></g><path d="M155,70 L170,40 L185,70 L218,70 L194,88 L203,120 L170,100 L137,120 L146,88 L122,70 Z" fill="#f5c800" opacity=".15"/><path d="M163,75 L170,55 L177,75 L194,75 L181,84 L185,100 L170,91 L155,100 L159,84 L146,75 Z" fill="#f5c800" opacity=".55"/></svg>`,
   };
 
   // Catalogue : 8 thèmes — flux ordonnés pour qu'aucune couleur identique ne se suive
   const DC_THEMES = [
-    { id:'nba', name:'NBA', illus:'basketball',
-      desc:'Basketball américain, analyses et coulisses de la ligue',
-      feeds:[
-        // rouge → orange → bleu → rouge → vert → bleu
-        { name:'The Athletic NBA',  domain:'theathletic.com',      color:'#c8102e', url:'https://theathletic.com/nba/feed/',                  desc:'Analyses approfondies et coulisses NBA' },
-        { name:'Bleacher Report',   domain:'bleacherreport.com',    color:'#f5a623', url:'https://bleacherreport.com/articles/feed',           desc:'Breaking news et highlights' },
-        { name:'BasketSession',     domain:'basketsession.com',     color:'#003fa3', url:'https://www.basketsession.com/feed/',                desc:'La NBA en français' },
-        { name:'ESPN NBA',          domain:'espn.com',              color:'#cc0000', url:'https://www.espn.com/espn/rss/nba/news',             desc:'Actus, scores et statistiques' },
-        { name:'HoopsHype',         domain:'hoopshype.com',         color:'#1a5a1a', url:'https://hoopshype.com/feed/',                        desc:'Rumeurs, trades et contrats' },
-        { name:'RealGM Basketball', domain:'realgm.com', color:'#0055a5', url:'https://basketball.realgm.com/rss/',                 desc:'Stats, transactions et draft' },
-      ]},
-    { id:'football', name:'Football', illus:'soccer',
-      desc:'Championnats européens, Ligue des Champions et transferts',
-      feeds:[
-        // bleu → rouge → vert → bleu → rouge → sombre
-        { name:"L'Équipe",          domain:'lequipe.fr',            color:'#003f8e', url:'https://www.lequipe.fr/rss/actu_rss_Football.xml',   desc:'Le quotidien sportif de référence' },
-        { name:'RMC Sport',         domain:'rmcsport.com',    color:'#e2001a', url:'https://rmcsport.bfmtv.com/rss/football/',           desc:'Direct, analyses et mercato' },
-        { name:'SoFoot',            domain:'sofoot.com',            color:'#1a7a1a', url:'https://www.sofoot.com/feed',                        desc:'Football et culture foot' },
-        { name:'The Guardian Sport',domain:'theguardian.com',       color:'#0066cc', url:'https://www.theguardian.com/football/rss',           desc:'Football mondial et analyses' },
-        { name:'ESPN FC',           domain:'espn.com',              color:'#cc0000', url:'https://www.espn.com/espn/rss/soccer/news',          desc:'Football international et LDC' },
-        { name:'BBC Sport Football',domain:'bbc.com',               color:'#111111', url:'https://feeds.bbci.co.uk/sport/football/rss.xml',    desc:'Premier League et couverture mondiale' },
-      ]},
-    { id:'sport-mondial', name:'Sport Mondial', illus:'podium',
-      desc:'Athlétisme, tennis, F1 et multisports internationaux',
-      feeds:[
-        // bleu → rouge → orange → sombre → bleu clair
-        { name:"L'Équipe Sport",    domain:'lequipe.fr',            color:'#003f8e', url:'https://www.lequipe.fr/rss/actu_rss.xml',            desc:"Toute l'actu sportive française" },
-        { name:'Marca',             domain:'marca.com',             color:'#e8000d', url:'https://e00-marca.uecdn.es/rss/portada.xml',          desc:'Sport espagnol et international' },
-        { name:'Eurosport',         domain:'eurosport.fr',          color:'#f46000', url:'https://www.eurosport.fr/rss/story.xml',             desc:'Couverture multisports européenne' },
-        { name:'The Athletic',      domain:'theathletic.com',       color:'#1a1a2e', url:'https://theathletic.com/feed/',                      desc:'Journalisme sportif premium' },
-        { name:'Sky Sports',        domain:'skysports.com',         color:'#00a0dc', url:'https://www.skysports.com/rss/12040',                desc:'Sports britanniques et mondiaux' },
-      ]},
-    { id:'tech-ia', name:'Tech & IA', illus:'neural',
-      desc:'Intelligence artificielle, hardware et culture du code',
-      feeds:[
-        // rose → vert → orange → violet → sombre → rouge sombre
-        { name:'The Verge',         domain:'theverge.com',          color:'#e5007e', url:'https://www.theverge.com/rss/index.xml',             desc:'Tech, gadgets et culture numérique' },
-        { name:'TechCrunch',        domain:'techcrunch.com',        color:'#0a7d3e', url:'https://techcrunch.com/feed/',                       desc:'Startups, financement et disruption' },
-        { name:'Ars Technica',      domain:'arstechnica.com',       color:'#f46000', url:'https://feeds.arstechnica.com/arstechnica/index',    desc:'Science, technologie et culture geek' },
-        { name:'Numerama',          domain:'numerama.com',          color:'#6c63ff', url:'https://www.numerama.com/feed/',                     desc:'Tech et numérique en français' },
-        { name:'Wired',             domain:'wired.com',             color:'#1a1a1a', url:'https://www.wired.com/feed/rss',                     desc:"L'avenir de la technologie" },
-        { name:'MIT Tech Review',   domain:'technologyreview.com',  color:'#a00000', url:'https://www.technologyreview.com/topnews.rss',        desc:'Recherche et innovations en IA' },
-      ]},
-    { id:'design', name:'Design & Créa', illus:'bauhaus',
-      desc:'UX, typographie, culture visuelle et outils créatifs',
-      feeds:[
-        // orange → rouge → bleu → sombre → bleu clair → sarcelle
-        { name:'Smashing Magazine', domain:'smashingmagazine.com',  color:'#e85c33', url:'https://www.smashingmagazine.com/feed/',             desc:'Design web, UX et front-end' },
-        { name:"It's Nice That",    domain:'itsnicethat.com',        color:'#ff2600', url:'https://www.itsnicethat.com/rss',                    desc:'Culture créative et art contemporain' },
-        { name:'CSS-Tricks',        domain:'css-tricks.com',        color:'#2965f1', url:'https://css-tricks.com/feed/',                       desc:'CSS, front-end et animations' },
-        { name:'Sidebar.io',        domain:'sidebar.io',            color:'#222222', url:'https://sidebar.io/feed.xml',                        desc:'Les 5 meilleurs liens design' },
-        { name:'A List Apart',      domain:'alistapart.com',        color:'#367eb6', url:'https://alistapart.com/main/feed/',                  desc:'Web design et bonnes pratiques' },
-        { name:'Abduzeedo',         domain:'abduzeedo.com',         color:'#1a7a6a', url:'https://abduzeedo.com/rss.xml',                      desc:'Inspiration design et motion' },
-      ]},
     { id:'actu', name:'Actualités', illus:'globe',
       desc:'Information internationale, politique et société',
       feeds:[
@@ -3575,6 +3530,17 @@ body{
         { name:'Reuters',           domain:'reuters.com',           color:'#f36f21', url:'https://feeds.reuters.com/reuters/topNews',           desc:'Agence de presse mondiale' },
         { name:'Mediapart',         domain:'mediapart.fr',          color:'#00a651', url:'https://www.mediapart.fr/articles/feed',              desc:'Investigation indépendante' },
         { name:'Libération',        domain:'liberation.fr',         color:'#e8000d', url:'https://www.liberation.fr/arc/outboundfeeds/rss/',   desc:'Actu politique et société' },
+      ]},
+    { id:'finance', name:'Finance', illus:'finance',
+      desc:'Marchés, économie mondiale et finance personnelle',
+      feeds:[
+        // bleu → sombre → rouge → orange → vert → bleu clair
+        { name:'Les Échos',         domain:'lesechos.fr',           color:'#003fa3', url:'https://www.lesechos.fr/rss/rss_monde.xml',          desc:'La référence économique française' },
+        { name:'Bloomberg',         domain:'bloomberg.com',         color:'#1a1a1a', url:'https://feeds.bloomberg.com/markets/news.rss',        desc:'Finance mondiale et marchés' },
+        { name:'Challenges',        domain:'challenges.fr',         color:'#c8000a', url:'https://www.challenges.fr/rss.xml',                  desc:'Économie, business et entrepreneuriat' },
+        { name:'Capital',           domain:'capital.fr',            color:'#e06000', url:'https://www.capital.fr/flux-rss/actualite.xml',      desc:'Argent, carrière et économie' },
+        { name:'The Economist',     domain:'economist.com',         color:'#cc0000', url:'https://www.economist.com/rss/the_world_this_week.xml', desc:'Analyse économique mondiale' },
+        { name:'Boursorama',        domain:'boursorama.com',        color:'#005f9e', url:'https://www.boursorama.com/bourse/actualites/rss/',   desc:'Bourse, marchés et patrimoine' },
       ]},
     { id:'science', name:'Science', illus:'cosmos',
       desc:'Espace, physique, biologie et grandes découvertes',
@@ -3587,6 +3553,93 @@ body{
         { name:'Nature',            domain:'nature.com',            color:'#005f77', url:'https://www.nature.com/nature.rss',                   desc:'La revue scientifique de référence' },
         { name:'CNRS',              domain:'cnrs.fr',               color:'#1c1c3a', url:'https://www.cnrs.fr/fr/rss.xml',                     desc:'Recherche française de pointe' },
       ]},
+    { id:'sante', name:'Santé', illus:'sante',
+      desc:'Médecine, recherche et bien-être',
+      feeds:[
+        // rose → bleu → rouge → vert → sombre → violet
+        { name:'Futura Santé',      domain:'futura-sciences.com',   color:'#cc0055', url:'https://www.futura-sciences.com/rss/sante-medecine-actualites.xml', desc:'Santé et médecine vulgarisées' },
+        { name:'Science Daily',     domain:'sciencedaily.com',      color:'#004a8f', url:'https://www.sciencedaily.com/rss/health_medicine.xml', desc:'Recherche médicale internationale' },
+        { name:'STAT News',         domain:'statnews.com',          color:'#c8001a', url:'https://www.statnews.com/feed/',                     desc:'Santé, pharma et biotechs' },
+        { name:'Medical Xpress',    domain:'medicalxpress.com',     color:'#1a6a38', url:'https://medicalxpress.com/rss-feed/',                desc:'Actualité médicale quotidienne' },
+        { name:'Quo. du Médecin',   domain:'lequotidiendumedecin.fr',color:'#1a1a2e',url:'https://www.lequotidiendumedecin.fr/rss.xml',        desc:'Information médicale pro' },
+        { name:'WHO News',          domain:'who.int',               color:'#00568a', url:'https://www.who.int/rss-feeds/news-english.xml',     desc:'Organisation mondiale de la santé' },
+      ]},
+    { id:'tech-ia', name:'Tech & IA', illus:'neural',
+      desc:'Intelligence artificielle, hardware et culture du code',
+      feeds:[
+        // rose → vert → orange → violet → sombre → rouge sombre
+        { name:'The Verge',         domain:'theverge.com',          color:'#e5007e', url:'https://www.theverge.com/rss/index.xml',             desc:'Tech, gadgets et culture numérique' },
+        { name:'TechCrunch',        domain:'techcrunch.com',        color:'#0a7d3e', url:'https://techcrunch.com/feed/',                       desc:'Startups, financement et disruption' },
+        { name:'Ars Technica',      domain:'arstechnica.com',       color:'#f46000', url:'https://feeds.arstechnica.com/arstechnica/index',    desc:'Science, technologie et culture geek' },
+        { name:'Numerama',          domain:'numerama.com',          color:'#6c63ff', url:'https://www.numerama.com/feed/',                     desc:'Tech et numérique en français' },
+        { name:'Wired',             domain:'wired.com',             color:'#1a1a1a', url:'https://www.wired.com/feed/rss',                     desc:"L'avenir de la technologie" },
+        { name:'MIT Tech Review',   domain:'technologyreview.com',  color:'#a00000', url:'https://www.technologyreview.com/topnews.rss',        desc:'Recherche et innovations en IA' },
+      ]},
+    { id:'climat', name:'Climat & Éco', illus:'climat',
+      desc:'Environnement, énergie verte et transition écologique',
+      feeds:[
+        // vert → sombre → bleu → vert foncé → rouge → gris-vert
+        { name:'Reporterre',        domain:'reporterre.net',        color:'#2a7a28', url:'https://reporterre.net/spip.php?page=backend',        desc:'Le quotidien de l\'écologie' },
+        { name:'Le Monde Planète',  domain:'lemonde.fr',            color:'#0a3c6e', url:'https://www.lemonde.fr/planete/rss_full.xml',         desc:'Environnement et biodiversité' },
+        { name:'Vert.eco',          domain:'vert.eco',              color:'#1a5a1a', url:'https://vert.eco/feed',                              desc:'Média de l\'écologie positive' },
+        { name:'Novethic',          domain:'novethic.fr',           color:'#005f3a', url:'https://www.novethic.fr/rss.xml',                    desc:'Finance durable et ESG' },
+        { name:'Climate Home',      domain:'climatechangenews.com', color:'#c00020', url:'https://www.climatechangenews.com/feed/',             desc:'Actualité climatique mondiale' },
+        { name:'GoodPlanet',        domain:'goodplanet.info',       color:'#3a6a3a', url:'https://www.goodplanet.info/feed/',                  desc:'Planète et solutions durables' },
+      ]},
+    { id:'startup', name:'Entrepreneuriat', illus:'entrepreneuriat',
+      desc:'Startups, innovation et culture du business',
+      feeds:[
+        // orange → bleu → sombre → rouge → vert → gris
+        { name:'Hacker News',       domain:'news.ycombinator.com',  color:'#ff6600', url:'https://news.ycombinator.com/rss',                  desc:'Tech, startups et innovation' },
+        { name:'TechCrunch Start.', domain:'techcrunch.com',        color:'#005f9e', url:'https://techcrunch.com/category/startups/feed/',     desc:'Financement et disruption' },
+        { name:'Fast Company',      domain:'fastcompany.com',       color:'#111111', url:'https://www.fastcompany.com/rss.xml',                desc:'Innovation et leadership' },
+        { name:'Entrepreneur',      domain:'entrepreneur.com',      color:'#c8000a', url:'https://www.entrepreneur.com/latest.rss',            desc:'Conseils pour entrepreneurs' },
+        { name:'HBR',               domain:'hbr.org',               color:'#1a6a28', url:'http://feeds.hbr.org/harvardbusiness',              desc:'Harvard Business Review' },
+        { name:'L\'ADN',            domain:'ladn.eu',               color:'#444444', url:'https://www.ladn.eu/feed/',                          desc:'Innovation et futurs possibles' },
+      ]},
+    { id:'crypto', name:'Crypto & Web3', illus:'crypto',
+      desc:'Bitcoin, DeFi, blockchain et économie numérique',
+      feeds:[
+        // orange → sombre → rouge → gris → orange-vert → bleu
+        { name:'CoinDesk',          domain:'coindesk.com',          color:'#f7931a', url:'https://www.coindesk.com/arc/outboundfeeds/rss/',    desc:'Le média crypto de référence' },
+        { name:'Cointelegraph',     domain:'cointelegraph.com',     color:'#1a1a1a', url:'https://cointelegraph.com/rss',                      desc:'News blockchain et DeFi' },
+        { name:'Decrypt',           domain:'decrypt.co',            color:'#e20028', url:'https://decrypt.co/feed',                            desc:'Web3, NFTs et cryptomonnaies' },
+        { name:'The Block',         domain:'theblock.co',           color:'#555555', url:'https://www.theblock.co/rss.xml',                   desc:'Analyse et données crypto' },
+        { name:'Bitcoin Magazine',  domain:'bitcoinmagazine.com',   color:'#f09600', url:'https://bitcoinmagazine.com/feed',                   desc:'Tout sur le Bitcoin' },
+        { name:'CoinTelegraph FR',  domain:'fr.cointelegraph.com',  color:'#004a8f', url:'https://fr.cointelegraph.com/rss',                  desc:'Crypto en français' },
+      ]},
+    { id:'nba', name:'NBA', illus:'basketball',
+      desc:'Basketball américain, analyses et coulisses de la ligue',
+      feeds:[
+        // rouge → orange → bleu → rouge → vert → bleu
+        { name:'The Athletic NBA',  domain:'theathletic.com',      color:'#c8102e', url:'https://www.nytimes.com/athletic/rss/nba/',                  desc:'Analyses approfondies et coulisses NBA' },
+        { name:'Bleacher Report',   domain:'bleacherreport.com',    color:'#f5a623', url:'https://bleacherreport.com/articles/feed',           desc:'Breaking news et highlights' },
+        { name:'BasketSession',     domain:'basketsession.com',     color:'#003fa3', url:'https://www.basketsession.com/feed/',                desc:'La NBA en français' },
+        { name:'ESPN NBA',          domain:'espn.com',              color:'#cc0000', url:'http://sports.espn.go.com/espn/rss/nba/news',             desc:'Actus, scores et statistiques' },
+        { name:'HoopsHype',         domain:'hoopshype.com',         color:'#1a5a1a', url:'https://hoopshype.com/feed/',                        desc:'Rumeurs, trades et contrats' },
+        { name:'RealGM Basketball', domain:'realgm.com', color:'#0055a5', url:'https://basketball.realgm.com/rss/',                 desc:'Stats, transactions et draft' },
+      ]},
+    { id:'football', name:'Football', illus:'soccer',
+      desc:'Championnats européens, Ligue des Champions et transferts',
+      feeds:[
+        // bleu → rouge → vert → bleu → rouge → sombre
+        { name:"L'Équipe",          domain:'lequipe.fr',            color:'#003f8e', url:'https://dwh.lequipe.fr/api/edito/rss?path=/Tous-sports/',   desc:'Le quotidien sportif de référence' },
+        { name:'RMC Sport',         domain:'rmcsport.com',    color:'#e2001a', url:'https://rmcsport.bfmtv.com/rss/football/',           desc:'Direct, analyses et mercato' },
+        { name:'SoFoot',            domain:'sofoot.com',            color:'#1a7a1a', url:'https://www.sofoot.com/feed',                        desc:'Football et culture foot' },
+        { name:'The Guardian Sport',domain:'theguardian.com',       color:'#0066cc', url:'https://www.theguardian.com/football/rss',           desc:'Football mondial et analyses' },
+        { name:'ESPN FC',           domain:'espn.com',              color:'#cc0000', url:'https://www.espn.com/espn/rss/soccer/news',          desc:'Football international et LDC' },
+        { name:'BBC Sport Football',domain:'bbc.com',               color:'#111111', url:'https://feeds.bbci.co.uk/sport/football/rss.xml',    desc:'Premier League et couverture mondiale' },
+      ]},
+    { id:'sport-mondial', name:'Sport Mondial', illus:'podium',
+      desc:'Athlétisme, tennis, F1 et multisports internationaux',
+      feeds:[
+        // bleu → rouge → orange → sombre → bleu clair
+        { name:"L'Équipe Sport",    domain:'lequipe.fr',            color:'#003f8e', url:'https://dwh.lequipe.fr/api/edito/rss?path=/Tous-sports/',            desc:"Toute l'actu sportive française" },
+        { name:'Marca',             domain:'marca.com',             color:'#e8000d', url:'https://e00-marca.uecdn.es/rss/portada.xml',          desc:'Sport espagnol et international' },
+        { name:'Eurosport',         domain:'eurosport.fr',          color:'#f46000', url:'https://www.eurosport.fr/rss/story.xml',             desc:'Couverture multisports européenne' },
+        { name:'The Athletic',      domain:'theathletic.com',       color:'#1a1a2e', url:'https://theathletic.com/feed/',                      desc:'Journalisme sportif premium' },
+        { name:'Sky Sports',        domain:'skysports.com',         color:'#00a0dc', url:'https://www.skysports.com/rss/12040',                desc:'Sports britanniques et mondiaux' },
+      ]},
     { id:'culture', name:'Culture', illus:'film',
       desc:'Cinéma, musique, littérature et art de vivre',
       feeds:[
@@ -3597,6 +3650,50 @@ body{
         { name:'Variety',           domain:'variety.com',           color:'#7d0000', url:'https://variety.com/feed/',                          desc:'Industrie du divertissement' },
         { name:'Première',          domain:'premiere.fr',           color:'#1a3a6e', url:'https://www.premiere.fr/rss/actu-cinema',            desc:'Le magazine du cinéma français' },
         { name:'Kottke',            domain:'kottke.org',            color:'#4a4a4a', url:'https://feeds.kottke.org/main',                      desc:'Curiosités culturelles du web' },
+      ]},
+    { id:'design', name:'Design & Créa', illus:'bauhaus',
+      desc:'UX, typographie, culture visuelle et outils créatifs',
+      feeds:[
+        // orange → rouge → bleu → sombre → bleu clair → sarcelle
+        { name:'Smashing Magazine', domain:'smashingmagazine.com',  color:'#e85c33', url:'https://www.smashingmagazine.com/feed/',             desc:'Design web, UX et front-end' },
+        { name:"It's Nice That",    domain:'itsnicethat.com',        color:'#ff2600', url:'https://www.itsnicethat.com/rss',                    desc:'Culture créative et art contemporain' },
+        { name:'CSS-Tricks',        domain:'css-tricks.com',        color:'#2965f1', url:'https://css-tricks.com/feed/',                       desc:'CSS, front-end et animations' },
+        { name:'Sidebar.io',        domain:'sidebar.io',            color:'#222222', url:'https://sidebar.io/feed.xml',                        desc:'Les 5 meilleurs liens design' },
+        { name:'A List Apart',      domain:'alistapart.com',        color:'#367eb6', url:'https://alistapart.com/main/feed/',                  desc:'Web design et bonnes pratiques' },
+        { name:'Abduzeedo',         domain:'abduzeedo.com',         color:'#1a7a6a', url:'https://abduzeedo.com/rss.xml',                      desc:'Inspiration design et motion' },
+      ]},
+    { id:'gastro', name:'Gastronomie', illus:'gastronomie',
+      desc:'Cuisine, recettes et culture culinaire',
+      feeds:[
+        // sombre → rouge → orange → vert → jaune → bleu
+        { name:'Serious Eats',      domain:'seriouseats.com',       color:'#1a1a1a', url:'https://www.seriouseats.com/feeds/all',              desc:'La science et l\'art de cuisiner' },
+        { name:'Epicurious',        domain:'epicurious.com',        color:'#c83a00', url:'https://www.epicurious.com/services/rss/feeds/allrecipes.xml', desc:'Recettes et tendances culinaires' },
+        { name:'Food52',            domain:'food52.com',            color:'#d46800', url:'https://food52.com/posts.rss',                       desc:'Cuisine créative et communauté' },
+        { name:'Le Fooding',        domain:'lefooding.com',         color:'#1a6a28', url:'https://lefooding.com/fr/feed',                      desc:'La gastronomie française avant-garde' },
+        { name:'Fine Dining Lovers',domain:'finedininglovers.com',  color:'#c8a800', url:'https://www.finedininglovers.com/rss.xml',           desc:'Haute gastronomie mondiale' },
+        { name:'Saveur',            domain:'saveur.com',            color:'#1a3a6e', url:'https://www.saveur.com/feed/rss/',                   desc:'Voyages culinaires et recettes' },
+      ]},
+    { id:'voyage', name:'Voyage', illus:'voyage',
+      desc:'Destinations, aventure et art de voyager',
+      feeds:[
+        // sombre → bleu → orange → vert → rouge → gris-bleu
+        { name:'Le Routard',        domain:'routard.com',           color:'#1a1a2e', url:'https://www.routard.com/rss/mag.xml',                desc:'Le guide du voyageur depuis 1973' },
+        { name:'Lonely Planet',     domain:'lonelyplanet.com',      color:'#005288', url:'https://www.lonelyplanet.com/articles/feed',         desc:'Inspiration et conseils voyage' },
+        { name:'GEO',               domain:'geo.fr',                color:'#e06000', url:'https://www.geo.fr/rss',                             desc:'Voyages, nature et découvertes' },
+        { name:'National Geo',      domain:'nationalgeographic.com',color:'#228022', url:'https://www.nationalgeographic.com/travel/rss',      desc:'Explorer le monde autrement' },
+        { name:'Atlas Obscura',     domain:'atlasobscura.com',      color:'#8a1a1a', url:'https://www.atlasobscura.com/feeds/latest',          desc:'Les lieux les plus insolites du monde' },
+        { name:'Condé Nast',        domain:'cntraveler.com',        color:'#3a4a5a', url:'https://www.cntraveler.com/feed/rss',                desc:'Voyages de luxe et lifestyle' },
+      ]},
+    { id:'gaming', name:'Gaming', illus:'gaming',
+      desc:'Jeux vidéo, esport et culture geek',
+      feeds:[
+        // violet → rouge → gris → vert → bleu → orange
+        { name:'Gamekult',          domain:'gamekult.com',          color:'#5a2a8a', url:'https://www.gamekult.com/feed.xml',                  desc:'Actu jeux vidéo en français' },
+        { name:'IGN France',        domain:'ign.com',               color:'#cc0000', url:'http://feeds.ign.com/ign/all',                       desc:'News, tests et previews' },
+        { name:'Eurogamer',         domain:'eurogamer.net',         color:'#333333', url:'https://www.eurogamer.net/feed',                     desc:'Jeux PC et consoles' },
+        { name:'Rock Paper Shotgun',domain:'rockpapershotgun.com',  color:'#1a6a28', url:'https://www.rockpapershotgun.com/feed',              desc:'PC gaming de référence' },
+        { name:'Kotaku',            domain:'kotaku.com',            color:'#0055a5', url:'https://kotaku.com/rss',                             desc:'Culture jeux vidéo et geek' },
+        { name:'JeuxVideo.com',     domain:'jeuxvideo.com',         color:'#e06a00', url:'https://www.jeuxvideo.com/rss/rss-news.xml',         desc:'Le site jeux vidéo français' },
       ]},
   ];
 
