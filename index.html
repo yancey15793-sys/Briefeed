@@ -1289,7 +1289,11 @@ body{
 /* ── PAGE DOSSIER ────────────────────────────────── */
 .folder-page{ position:fixed; inset:0; z-index:450; background:var(--bg); display:flex; flex-direction:column; transform:translateX(100%); transition:transform .38s cubic-bezier(.32,.72,0,1); }
 .folder-page.open{ transform:none; }
-.folder-page-bar{ display:flex; align-items:center; gap:12px; padding:14px 18px; border-bottom:1px solid var(--border); flex-shrink:0; }
+.folder-page-bar{ position:relative; display:flex; align-items:center; padding:14px 18px 0; flex-shrink:0; border-bottom:none; }
+.folder-page-header{ display:flex; flex-direction:column; align-items:center; padding:32px 24px 28px; flex-shrink:0; text-align:center; }
+.folder-page-title{ font-family:var(--font-inter); font-size:30px; font-weight:800; letter-spacing:-.03em; color:var(--text); text-align:center; }
+.folder-page-welcome{ font-family:var(--font-inter); font-size:14px; font-weight:500; color:var(--text-muted); margin-top:8px; line-height:1.55; text-align:center; max-width:280px; }
+.folder-page-sep{ width:40px; height:2px; background:var(--accent); border-radius:2px; margin:18px auto 0; opacity:.7; }
 [data-theme="light"] .folder-page-bar{ border-color:rgba(0,0,0,.08); }
 .folder-page-back{ width:36px; height:36px; border:none; background:rgba(255,255,255,.08); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text); transition:background .15s; flex-shrink:0; }
 [data-theme="light"] .folder-page-back{ background:rgba(0,0,0,.06); }
@@ -4615,10 +4619,58 @@ body{
   });
 
   // ── PAGE DOSSIER ──────────────────────────────────────────────
+  // Messages de bienvenue par dossier (clé = nom normalisé)
+  const _FOLDER_WELCOME = {
+    // Sport
+    'nba':           "Votre espace basketball. Suivez les matchs, les stats et les coulisses de la meilleure ligue du monde.",
+    'basketball':    "Votre espace basketball. Suivez les matchs, les stats et les coulisses de la meilleure ligue du monde.",
+    'football':      "Votre espace football. Champions League, Ligue 1, transferts et analyses tactiques en temps réel.",
+    'sport':         "Votre espace sport. Résultats, analyses et coulisses du sport mondial réunis pour vous.",
+    'sport mondial': "Votre espace sport mondial. Athlétisme, tennis, F1 et bien plus, à portée de lecture.",
+    // Info
+    'actualités':    "Votre édition personnelle. Les faits essentiels, rigoureusement sélectionnés, pour comprendre le monde.",
+    'actu':          "Votre édition personnelle. Les faits essentiels, rigoureusement sélectionnés, pour comprendre le monde.",
+    'news':          "Votre édition personnelle. Les faits essentiels, rigoureusement sélectionnés, pour comprendre le monde.",
+    // Économie
+    'finance':       "Votre espace marchés. Cours, analyses et tendances économiques pour des décisions éclairées.",
+    'économie':      "Votre espace économie. Décryptages et analyses pour mieux lire les marchés et le monde du business.",
+    'business':      "Votre espace business. Stratégies, innovations et tendances qui font bouger l'économie.",
+    // Tech
+    'tech & ia':     "Votre veille technologique. Intelligence artificielle, hardware et innovation au cœur de l'actualité.",
+    'tech':          "Votre veille technologique. Intelligence artificielle, hardware et innovation au cœur de l'actualité.",
+    'ia':            "Votre veille IA. Modèles, recherches et impacts de l'intelligence artificielle, chaque jour.",
+    'crypto':        "Votre espace crypto. Bitcoin, DeFi et Web3 : l'économie numérique décryptée pour vous.",
+    'crypto & web3': "Votre espace crypto. Bitcoin, DeFi et Web3 : l'économie numérique décryptée pour vous.",
+    'startup':       "Votre espace entrepreneuriat. Idées, financements et parcours qui inspirent les bâtisseurs.",
+    'entrepreneuriat':"Votre espace entrepreneuriat. Idées, financements et parcours qui inspirent les bâtisseurs.",
+    // Science & Santé
+    'science':       "Votre espace découvertes. Astrophysique, biologie, physique : la science avance, suivez-la.",
+    'santé':         "Votre espace santé. Recherches médicales, prévention et bien-être pour prendre soin de vous.",
+    'sante':         "Votre espace santé. Recherches médicales, prévention et bien-être pour prendre soin de vous.",
+    'climat':        "Votre espace planète. Transition écologique, données climatiques et solutions pour demain.",
+    'climat & éco':  "Votre espace planète. Transition écologique, données climatiques et solutions pour demain.",
+    // Culture & Lifestyle
+    'culture':       "Votre espace culture. Cinéma, musique et littérature — tout ce qui nourrit l'esprit et les sens.",
+    'design':        "Votre espace créatif. UX, typographie et culture visuelle pour les esprits curieux du beau.",
+    'design & créa': "Votre espace créatif. UX, typographie et culture visuelle pour les esprits curieux du beau.",
+    'gaming':        "Votre espace gaming. Sorties, analyses et culture du jeu vidéo, pour les joueurs exigeants.",
+    'gastronomie':   "Votre espace table. Recettes, restaurants et culture culinaire pour les amoureux du goût.",
+    'voyage':        "Votre espace explorations. Destinations, conseils et récits pour partir l'esprit en éveil.",
+    // Défaut
+    'default':       "Bienvenue dans cet espace. Retrouvez ici les articles de vos sources favorites, réunis pour vous.",
+  };
+
+  function _getFolderWelcome(name){
+    const key = (name||'').toLowerCase().trim();
+    return _FOLDER_WELCOME[key] || _FOLDER_WELCOME['default'];
+  }
+
   function openFolderPage(folderIdx){
     const folder = folders[folderIdx];
     if(!folder) return;
     document.getElementById('folderPageTitle').textContent = folder.name;
+    const welcomeEl = document.getElementById('folderPageWelcome');
+    if(welcomeEl) welcomeEl.textContent = _getFolderWelcome(folder.name);
     const feedUrls = new Set(folder.feeds||[]);
     const arts = typeof _allArticles !== 'undefined'
       ? _dedup([..._allArticles].filter(a=>feedUrls.has(a.feedUrl||'')).sort((a,b)=>b.pubDate-a.pubDate))
@@ -4844,9 +4896,13 @@ body{
       <button class="folder-page-back" onclick="closeFolderPage()" aria-label="Retour">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-      <span class="folder-page-title" id="folderPageTitle"></span>
     </div>
     <div class="folder-page-scroll">
+      <div class="folder-page-header">
+        <div class="folder-page-title" id="folderPageTitle"></div>
+        <div class="folder-page-welcome" id="folderPageWelcome"></div>
+        <div class="folder-page-sep"></div>
+      </div>
       <div class="folder-page-inner" id="folderPageContent"></div>
     </div>
   </div>
